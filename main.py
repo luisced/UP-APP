@@ -14,8 +14,5 @@ r = requests.get(url)
 # parse the html
 soup = bs(r.content, 'html.parser')
 
-# get the text to type
-text = soup.find('div', attrs={'id': 'row1'}).text
-
-# print the text
-print(text)
+# beautify the html
+print(soup.prettify())
