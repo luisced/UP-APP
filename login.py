@@ -20,8 +20,8 @@ webdriver_service = Service(f"{homedir}/chromedriver/stable/chromedriver")
 # Choose Chrome Browser
 browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
-# Get page
+# Get page UP4U
 browser.get("https://up4u.up.edu.mx/user/auth/login")
 
 # Extract description from page and print
-description = browser.find_element(By.XPATH, "//p[contains(text(), 'UP4U')]")
+print(f"title: {browser.title}")
