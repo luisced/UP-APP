@@ -79,44 +79,45 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
 
 def splitScheduleSubjects(scheduleRows: list[list[str]]) -> list[Subject]:
     '''Splits the schedule subjects into a list of subjects'''
-    cell = [row for row in scheduleRows]
-    # Extract the data from the row
+
+    return loadScheduleData(scheduleRows, current_day='')
+
+
+def cleanScheduleData(data: list[str]) -> dict[str, str]:
+    '''Cleans the schedule data'''
+    day = data[1].strip()
+    start_time = data[2].strip()
+    end_time = data[3].strip()
+    subject = data[4].strip()
+    teacher = data[6].strip()
+    start_date = data[7].strip()
+    end_date = data[8].strip()
+    group = data[9].strip()
+    classroom = re.compile(
+        r'([^/]*)$').search(re.sub(r'\n', '', data[5].strip())).group(1).replace('Ver', '').lstrip()
+
+    return {
+        'day': day,
+        'start_time': start_time,
+        'end_time': end_time,
+        'subject': subject,
+        'teacher': teacher,
+        'start_date': start_date,
+        'end_date': end_date,
+        'group': group,
+        'classroom': classroom
+    }
+
+
+def loadScheduleData(scheduleRows: list[list[str]]) -> list[Subject]:
+    '''Loads the schedule data into a Subject object'''
     objects: list[Subject] = []
-    for data in cell:
-        day = data[1].strip()
-        start_time = data[2].strip()
-        end_time = data[3].strip()
-        subject = data[4].strip()
-        teacher = data[6].strip()
-        start_date = data[7].strip()
-        end_date = data[8].strip()
-        group = data[9].strip()
-        classroom = data[5].strip()
-
-        # Use regex to remove the newline characters from the data
-        # day = re.sub(r'\n', '', day)
-        # start_time = re.sub(r'\n', '', start_time)
-        # end_time = re.sub(r'\n', '', end_time)
-        # subject = re.sub(r'\n', '', subject)
-        # teacher = re.sub(r'\n', '', teacher)
-        # start_date = re.sub(r'\n', '', start_date)
-        # end_date = re.sub(r'\n', '', end_date)
-        # group = re.sub(r'\n', '', group)
-        classroom = re.compile(
-            r'([^/]*)$').search(re.sub(r'\n', '', classroom)).group(1).replace('Ver', '').lstrip()
-
-        subjects = createSubject(day, start_time, end_time, subject,
-                                 teacher, start_date, end_date, group, classroom)
-        objects.append(subjects)
-
-        current_day = ''
-        for subject in objects:
-            if subject.day:
-                current_day = subject.day
-            else:
-                subject.day = current_day
-
-        objects = [subject for subject in objects if subject.day]
+    current_day = ''
+    for data in scheduleRows:
+        subject_data = cleanScheduleData(data)
+        subject_data['day'] = subject_data['day'] or current_day
+        objects.append(createSubject(**subject_data))
+        current_day = subject_data['day'] if subject_data['day'] else current_day
 
     return objects
 
@@ -132,10 +133,4 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 
 def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
     '''Extracts the schedule content from the schedule page'''
-    scheduleContent = findScheduleTable(browser)
-
-    scheduleSubjects = findScheduleSubjects(scheduleContent)
-
-    splited_subject = splitScheduleSubjects(scheduleSubjects)
-
-    return splited_subject
+    return loadScheduleData(findScheduleSubjects(findScheduleTable(browser)))
