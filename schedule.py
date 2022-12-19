@@ -46,16 +46,17 @@ class Subject:
         return '\n'.join(rows)
 
 
-def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
-    '''Extracts the schedule content from the schedule page'''
-    scheduleContent = findScheduleTable(browser)
-
-    scheduleSubjects = findScheduleSubjects(scheduleContent)
-
-    return scheduleSubjects
+def findScheduleTable(browser):
+    try:
+        scheduleContent = browser.find_element(By.ID, "contenido-tabla")
+        print("Schedule content found ✅")
+    except NoSuchElementException:
+        print("Schedule content not found ❌")
+    return scheduleContent
 
 
 def findScheduleSubjects(scheduleContent: str) -> list[str]:
+    '''Extracts the schedule subjects from the schedule content'''
     try:
         rows = scheduleContent.find_elements(By.CSS_SELECTOR, "div.row")
         print(f"Schedule content has {len(rows)} rows🔎")
@@ -76,10 +77,37 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     return data
 
 
-def findScheduleTable(browser):
-    try:
-        scheduleContent = browser.find_element(By.ID, "contenido-tabla")
-        print("Schedule content found ✅")
-    except NoSuchElementException:
-        print("Schedule content not found ❌")
-    return scheduleContent
+def splitScheduleSubjects(scheduleSubjects: list[list[str]]) -> list[Subject]:
+    '''Splits the schedule subjects into a list of subjects'''
+    subjects = []
+    for subject in scheduleSubjects:
+        # Create a Subject object
+        subject = Subject(
+            name=subject[0],
+            teacher=subject[1],
+            classroom=subject[2],
+            day=subject[3],
+            startTime=subject[4],
+            endTime=subject[5],
+            startdate=subject[6],
+            enddate=subject[7],
+            group=subject[8],
+            modality=subject[9]
+        )
+
+        # Add the subject to the list
+        subjects.append(subject)
+
+    return subjects
+
+
+def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
+    '''Extracts the schedule content from the schedule page'''
+    scheduleContent = findScheduleTable(browser)
+
+    scheduleSubjects = findScheduleSubjects(scheduleContent)
+
+    for subject in scheduleSubjects:
+        splited_subject = splitScheduleSubjects(subject)
+
+    return splited_subject
