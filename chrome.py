@@ -11,7 +11,7 @@ class ChromeBrowser:
     """Class to create a Chrome browser instance"""
 
     def __init__(self):
-        """Constructor method"""
+        """Constructor method to initialize the Chrome browser instance"""
         self.chromeOptions = Options()
         self.chromeOptions.add_argument("--headless")  # Ensure GUI is off
         self.chromeOptions.add_argument("--no-sandbox")
