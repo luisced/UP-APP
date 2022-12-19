@@ -1,935 +1,1189 @@
-<html lang="en">
-	<head>
-		<title>Login - UP4U</title>
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, maximum-scale=1"
-		/>
-		<meta name="theme-color" content="#183467" />
-		<meta name="application-name" content="UP4U" />
-		<meta name="apple-mobile-web-app-title" content="UP4U" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="#183467" />
-		<meta name="csrf-param" content="_csrf" />
-		<meta
-			name="csrf-token"
-			content="Fa2pdJMcQ7EKJdKnXC5Ti7sDPC3pFK6G3If31a87EGVs1JE43lgk1ltRnfM7TAvp4TUMQdkh4Nast6-52g8mEQ=="
-		/>
+<html lang="es"><head>
+        <title>Inicio - UP4U</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="theme-color" content="#183467">
+<meta name="application-name" content="UP4U">
+<meta name="apple-mobile-web-app-title" content="UP4U">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#183467">
+<meta name="csrf-param" content="_csrf">
+<meta name="csrf-token" content="xsdgWnMH46Vbd4mUvDBDZ7Ro9sdZsNVhdLeHntvenBuRrC8jHz-79RAvvN3QeBQemRysvQOJgiUuz7LP6o7YVA==">
 
-		<link
-			href="/assets/74da96bb/css/theme.css?v=1645630682"
-			rel="preload"
-			as="style"
-		/>
-		<link
-			href="/static/js/humhub-app.js?v=1589993303"
-			rel="preload"
-			as="script"
-		/>
-		<link
-			href="/static/css/humhub-app.css?v=1589993303"
-			rel="preload"
-			as="style"
-		/>
-		<link
-			href="/assets/siteicons/152x152.png?v=1597621843"
-			rel="apple-touch-icon"
-			sizes="152x152"
-		/>
-		<link
-			href="/assets/siteicons/180x180.png?v=1597621843"
-			rel="apple-touch-icon"
-			sizes="180x180"
-		/>
-		<link
-			href="/assets/siteicons/167x167.png?v=1597621843"
-			rel="apple-touch-icon"
-			sizes="167x167"
-		/>
-		<link
-			href="/assets/siteicons/192x192.png?v=1597621843"
-			rel="icon"
-			sizes="192x192"
-		/>
-		<link
-			href="/assets/siteicons/96x96.png?v=1597621843"
-			rel="icon"
-			sizes="96x96"
-		/>
-		<link
-			href="/assets/siteicons/32x32.png?v=1597621843"
-			rel="icon"
-			sizes="32x32"
-		/>
-		<link href="/manifest.json" rel="manifest" />
-		<link href="/static/css/humhub-app.css?v=1589993303" rel="stylesheet" />
-		<link href="/assets/74da96bb/css/theme.css?v=1645630682" rel="stylesheet" />
-		<style>
-			img {
-				image-orientation: from-image;
-			}
-		</style>
-		<script src="/static/js/humhub-app.js?v=1589993303"></script>
-		<script
-			src="/static/js/humhub-bundle.js?v=1589993303"
-			defer="defer"
-		></script>
-		<script
-			src="/static/js/humhub/legacy/jquery.loader.js?v=1589993303"
-			defer="defer"
-		></script>
-		<!-- start: Favicon and Touch Icons -->
-		<link
-			rel="apple-touch-icon"
-			sizes="60x60"
-			href="/assets/74da96bb/ico/apple-touch-icon-60x60-precomposed.png"
-		/>
-		<link
-			rel="apple-touch-icon"
-			sizes="76x76"
-			href="/assets/74da96bb/ico/apple-touch-icon-76x76-precomposed.png"
-		/>
-		<link
-			rel="apple-touch-icon"
-			sizes="120x120"
-			href="/assets/74da96bb/ico/apple-touch-icon-120x120-precomposed.png"
-		/>
-		<link
-			rel="apple-touch-icon"
-			sizes="152x152"
-			href="/assets/74da96bb/ico/apple-touch-icon-152x152-precomposed.png"
-		/>
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="/assets/74da96bb/ico/apple-touch-icon-180x180-precomposed.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="192x192"
-			href="/assets/74da96bb/ico/android-chrome-192x192.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="/assets/74da96bb/ico/favicon-32x32.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="96x96"
-			href="/assets/74da96bb/ico/favicon-96x96.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="/assets/74da96bb/ico/favicon-16x16.png"
-		/>
-		<link rel="manifest" href="/assets/74da96bb/ico/manifest.json" />
-		<meta name="msapplication-TileColor" content="#ffffff" />
-		<meta
-			name="msapplication-TileImage"
-			content="/assets/74da96bb/ico/mstile-150x150.png"
-		/>
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-		<meta name="theme-color" content="#ffffff" />
-		<!-- end: Favicon and Touch Icons -->
-		<meta charset="UTF-8" />
-	</head>
+<link href="/assets/74da96bb/css/theme.css?v=1645630682" rel="preload" as="style">
+<link href="/static/js/humhub-app.js?v=1589993303" rel="preload" as="script">
+<link href="/static/css/humhub-app.css?v=1589993303" rel="preload" as="style">
+<link href="/assets/siteicons/152x152.png?v=1597621843" rel="apple-touch-icon" sizes="152x152">
+<link href="/assets/siteicons/180x180.png?v=1597621843" rel="apple-touch-icon" sizes="180x180">
+<link href="/assets/siteicons/167x167.png?v=1597621843" rel="apple-touch-icon" sizes="167x167">
+<link href="/assets/siteicons/192x192.png?v=1597621843" rel="icon" sizes="192x192">
+<link href="/assets/siteicons/96x96.png?v=1597621843" rel="icon" sizes="96x96">
+<link href="/assets/siteicons/32x32.png?v=1597621843" rel="icon" sizes="32x32">
+<link href="/manifest.json" rel="manifest">
+<link href="/static/css/humhub-app.css?v=1589993303" rel="stylesheet">
+<link href="/assets/74da96bb/css/theme.css?v=1645630682" rel="stylesheet">
+<link href="/assets/980acb4c/css/humhub.mail.css?v=1617799860" rel="stylesheet">
+<style>img { image-orientation: from-image; }</style>
+<script src="/static/js/humhub-app.js?v=1589993303"></script>
+<script src="/static/js/humhub-bundle.js?v=1589993303" defer="defer"></script>
+<script src="/static/js/humhub/legacy/jquery.loader.js?v=1589993303" defer="defer"></script>        <!-- start: Favicon and Touch Icons -->
+<link rel="apple-touch-icon" sizes="60x60" href="/assets/74da96bb/ico/apple-touch-icon-60x60-precomposed.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/74da96bb/ico/apple-touch-icon-76x76-precomposed.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/assets/74da96bb/ico/apple-touch-icon-120x120-precomposed.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/assets/74da96bb/ico/apple-touch-icon-152x152-precomposed.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/74da96bb/ico/apple-touch-icon-180x180-precomposed.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/74da96bb/ico/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/74da96bb/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/74da96bb/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/74da96bb/ico/favicon-16x16.png">
+<link rel="manifest" href="/assets/74da96bb/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/assets/74da96bb/ico/mstile-150x150.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+<!-- end: Favicon and Touch Icons -->    </head>
+    <body>
+        <script>humhub.modules.ui.view.setState("custom_pages", "view", "index");
+humhub.config.set({"content.container":{"guid":null},"notification":{"icon":"\/assets\/74da96bb\/ico\/notification-o.png","loadEntriesUrl":"\/notification\/list","sendDesktopNotifications":true,"text":{"placeholder":"No hay notificaciones a\u00fan."}},"mail":{"url":{"count":"\/mail\/mail\/get-new-message-count-json","list":"\/mail\/mail\/notification-list"}},"mail.wall":{"url":{"seen":"\/mail\/mail\/seen"}},"space.chooser":{"noSpace":"<div class=\"no-space\"><i class=\"fa fa-dot-circle-o\"><\/i><br>Mis espacios<b class=\"caret\"><\/b><\/div>","remoteSearchUrl":"\/space\/browse\/search-json","text":{"info.remoteAtLeastInput":"Para buscar otros espacios, teclee al menos 2 caracteres.","info.emptyOwnResult":"No se han encontrado miembros o espacios que est\u00e9 siguiendo.","info.emptyResult":"No se han encontrado resultados para ese filtro."}}});
+humhub.config.set({"user":{"id":22644,"guid":"20751afd-2e87-4e10-a17a-7f6f7b62ebf5","disabled":false,"disabledText":null,"text":"Luis Cedillo Maldonado","image":"\/static\/img\/default_user.jpg","priority":0,"link":"\/u\/0250009\/","isGuest":false,"email":"0250009@up.edu.mx","locale":"es"},"live":{"client":{"type":"humhub.modules.live.poll.PollClient","options":{"url":"\/live\/poll","initTime":1671426695,"minInterval":15,"maxInterval":45,"idleFactor":0.1,"idleInterval":20}}},"client":{"baseUrl":"https:\/\/up4u.up.edu.mx","reloadableScripts":["https:\/\/platform.twitter.com\/widgets.js"],"text":{"warn.onBeforeLoad":"Hay cambios sin guardar, &iquest;realmente quieres salir de esta p\u00e1gina?"}},"file":{"upload":{"url":"\/file\/file\/upload","deleteUrl":"\/file\/file\/delete"},"url":{"download":"https:\/\/up4u.up.edu.mx\/file\/file\/download?download=1&guid=-guid-","load":"https:\/\/up4u.up.edu.mx\/file\/file\/download?guid=-guid-"},"text":{"error.upload":"Algunos archivos no se pueden cargar:","error.unknown":"Se ha producido un error desconocido al cargar.","success.delete":"Este archivo ha sido borrado."}},"action":{"text":{"actionHandlerNotFound":"Se ha producido un error al manejar la \u00faltima acci\u00f3n. (No se encuentra el manejador)."}},"topic":{"icon":"<i class=\"fa fa-star\"><\/i>"},"ui.modal":{"defaultConfirmHeader":"<strong>Confirmar<\/strong> Acci\u00f3n","defaultConfirmBody":"\u00bfRealmente desea ejecutar esta acci\u00f3n?","defaultConfirmText":"Confirmar","defaultCancelText":"Cancelar"},"ui.widget":{"text":{"error.unknown":"No se dio informaci\u00f3n.","info.title":"Info:","error.title":"Error:"}},"ui.view":{"useDefaultSwipe":false},"ui.richtext":{"emoji.url":"\/static\/img\/emoji\/","text":{"info.minInput":"Por favor escriba al menos 3 caracteres","info.loading":"Cargando..."}},"ui.richtext.prosemirror":{"emoji":{"twemoji":{"base":"\/static\/img\/twemoji\/","size":"72x72"}},"oembed":{"max":5},"mention":{"minInput":2,"minInputText":"Por favor, teclee al menos 2 caracteres"},"text":{"Wrap in block quote":"Convertir en un bloque de cita","Wrap in bullet list":"Convertir en una lista","Toggle code font":"Cambiar la fuente del c\u00f3digo","Change to code block":"Cambiar a bloque de c\u00f3digo","Code":"C\u00f3digo","Toggle emphasis":"Cambiar cursiva","Change to heading":"Cambiar a cabecera","Insert horizontal rule":"Insertar l\u00ednea horizontal","Horizontal rule":"L\u00ednea horizontal","Insert image":"Insertar imagen","Image":"Imagen","Location":"Ubicaci\u00f3n","Title":"T\u00edtulo","Width":"Ancho","Height":"Alto","Add or remove link":"A\u00f1adir o eliminar enlace","Create a link":"Crear un enlace","Link target":"Destino del enlace","Wrap in ordered list":"Convertir en una lista ordenada","Change to paragraph":"Cambiar a p\u00e1rrafo","Paragraph":"P\u00e1rrafo","Toggle strikethrough":"Cambiar tachado","Toggle strong style":"Cambiar negritas","Create table":"Crear una tabla","Delete table":"Borrar tabla","Insert table":"Insertar tabla","Rows":"Filas","Columns":"Columnas","Insert column before":"Insertar columna antes","Insert column after":"Insertar columna detr\u00e1s","Delete column":"Borrar columna","Insert row before":"Insertar fila antes","Insert row after":"Insertar fila detr\u00e1s","Delete row":"Borrar fila","Upload and include a File":"Subir fichero e incluirlo","Upload File":"Subir fichero","Insert":"Insertar","Type":"Tipo","people":"Gente","animals_and_nature":"Animales y naturaleza","food_and_drink":"Comida y bebida","activity":"Actividad","travel_and_places":"Viajes y lugares","objects":"Objetos","symbols":"S\u00edmbolos","flags":"Banderas","Heading":"T\u00edtulo"}},"oembed":{"loadUrl":"\/oembed"},"0":"ui.markdown","1":{"text":{"Bold":"Negrita","Italic":"Cursiva","Heading":"T\u00edtulo","URL\/Link":"URL\/Enlace","Image\/File":"Imagen\/Archivo","Image":"Imagen","List":"Lista","Preview":"Previsualizar","strong text":"Texto en negrita","emphasized text":"Texto subrayado","heading text":"Texto de cabecera","enter link description here":"Escribe la descripci\u00f3n del enlace aqu\u00ed","Insert Hyperlink":"Insertar hiperv\u00ednculo","enter image description here":"Escribe la descripci\u00f3n de la imagen aqu\u00ed","Insert Image Hyperlink":"Insertar imagen","enter image title here":"Escribe el t\u00edtulo de la imagen aqu\u00ed","list text here":"Lista de texto aqu\u00ed","Quote":"Cita","quote here":"Citar aqu\u00ed","Code":"C\u00f3digo","code text here":"Texto con c\u00f3digo aqu\u00ed","Unordered List":"Lista sin orden","Ordered List":"Lista ordenada"}},"log":{"traceLevel":"INFO","text":{"error.default":"Ocurri\u00f3 un error inesperado. Si esto sigue sucediendo, p\u00f3ngase en contacto con un administrador del sitio.","success.saved":"Guardado","saved":"Guardado","success.edit":"Guardado","0":"Ocurri\u00f3 un error inesperado. Si esto sigue sucediendo, p\u00f3ngase en contacto con un administrador del sitio.","403":"No est\u00e1s autorizado para realizar esta acci\u00f3n.","404":"El recurso solicitado no pudo ser encontrado.","405":"Error al ejecutar la \u00faltima acci\u00f3n (m\u00e9todo de solicitud no v\u00e1lido).","500":"Se ha producido un error inesperado en el servidor. Si esto sigue sucediendo, p\u00f3ngase en contacto con un administrador del sitio."}},"ui.additions":{"text":{"success.clipboard":"El texto se ha copiado al portapapeles","error.clipboard":"El texto no se ha podido copiar al portapapeles"}},"ui.status":{"showMore":false,"text":{"showMore":"Mostrar m\u00e1s","showLess":"Mostrar menos"}},"ui.picker":{"addImage":"\/assets\/74da96bb\/img\/picker_add.png","text":{"error.loadingResult":"Se ha producido un error inesperado al cargar el resultado de la b\u00fasqueda.","showMore":"Mostrar m\u00e1s","addOption":"A\u00f1adir:"}},"ui.showMore":{"text":{"readMore":"Leer m\u00e1s...","readLess":"Cerrar"}},"ui.panel":{"text":{"expand":"Ampliar","collapse":"Cerrar"},"icon":{"up":"<i class=\"fa fa-minus-square\"><\/i>","down":"<i class=\"fa fa-plus-square\"><\/i>"}},"content":{"modal":{"permalink":{"head":"<strong>Permalink<\/strong> a esta entrada","info":"Copiar a la Papelera","buttonOpen":"Abrir","buttonClose":"Cerrar"},"deleteConfirm":{"header":"<strong>Confirma<\/strong> el borrado de la entrada","body":"\u00bfRealmente deseas borrar esta entrada? \u00a1Todos los \"Me gusta\" y los comentarios se perder\u00e1n!","confirmText":"Borrar","cancelText":"Cancelar"}},"reloadUrl":"\/content\/content\/reload","deleteUrl":"\/content\/content\/delete-id"},"stream":{"horizontalImageScrollOnMobile":"1","defaultSort":"c","text":{"success.archive":"Este contenido ha sido activado.","success.unarchive":"Este contenido ha sido desarchivado.","success.delete":"Este contenido ha sido borrado.","info.editCancel":"Este contenido ha sido grabado."}},"comment":{"modal":{"delteConfirm":{"header":"<strong>Confirmar<\/strong> la eliminaci\u00f3n del comentario","body":"\u00bfSeguro que quieres borrar este comentario?","confirmText":"Eliminar","cancelText":"Cancelar"}},"text":{"success.delete":"El comentario ha sido borrado"}},"space":{"text":{"success.archived":"Este espacio ha sido archivado.","success.unarchived":"Este espacio ha sido desarchivado."}},"client.pjax":{"active":true,"options":{"pushRedirect":true,"replaceRedirect":true,"cache":false,"timeout":5000}}});</script>
+        <!-- start: first top navigation bar -->
+        <div id="topbar-first" class="topbar">
+            <div class="container">
+                <div class="topbar-brand mobile">                    
+                                <a class="navbar-brand navbar-brand-text" href="/p/home" id="text-logo">
+            UP4U        </a>
+    
+					<script>
+						var lATit = $('#text-logo');
+						if (lATit) {
+							lATit.attr("href", '/p/home'); // ;
+						}
+					</script>
+                </div>
 
-	<body class="login-container">
-		<script>
-			humhub.modules.ui.view.setState("user", "auth", "login");
-			humhub.config.set({
-				user: { isGuest: true, locale: "en-US" },
-				live: {
-					client: {
-						type: "humhub.modules.live.poll.PollClient",
-						options: {
-							url: "\/live\/poll",
-							initTime: 1671422793,
-							minInterval: 15,
-							maxInterval: 45,
-							idleFactor: 0.1,
-							idleInterval: 20,
-						},
-					},
-				},
-				client: {
-					baseUrl: "https:\/\/up4u.up.edu.mx",
-					reloadableScripts: ["https:\/\/platform.twitter.com\/widgets.js"],
-					text: {
-						"warn.onBeforeLoad":
-							"There are unsaved changes, do you really want to leave this page?",
-					},
-				},
-				file: {
-					upload: {
-						url: "\/file\/file\/upload",
-						deleteUrl: "\/file\/file\/delete",
-					},
-					url: {
-						download:
-							"https:\/\/up4u.up.edu.mx\/file\/file\/download?download=1&guid=-guid-",
-						load: "https:\/\/up4u.up.edu.mx\/file\/file\/download?guid=-guid-",
-					},
-					text: {
-						"error.upload": "Some files could not be uploaded:",
-						"error.unknown": "An unknown error occurred while uploading.",
-						"success.delete": "The file has been deleted.",
-					},
-				},
-				action: {
-					text: {
-						actionHandlerNotFound:
-							"An error occurred while handling your last action. (Handler not found).",
-					},
-				},
-				topic: { icon: '<i class="fa fa-star"><\/i>' },
-				"ui.modal": {
-					defaultConfirmHeader: "<strong>Confirm<\/strong> Action",
-					defaultConfirmBody: "Do you really want to perform this action?",
-					defaultConfirmText: "Confirm",
-					defaultCancelText: "Cancel",
-				},
-				"ui.widget": {
-					text: {
-						"error.unknown": "No error information given.",
-						"info.title": "Info:",
-						"error.title": "Error:",
-					},
-				},
-				"ui.view": { useDefaultSwipe: false },
-				"ui.richtext": {
-					"emoji.url": "\/static\/img\/emoji\/",
-					text: {
-						"info.minInput": "Please type at least 3 characters",
-						"info.loading": "Loading...",
-					},
-				},
-				"ui.richtext.prosemirror": {
-					emoji: {
-						twemoji: { base: "\/static\/img\/twemoji\/", size: "72x72" },
-					},
-					oembed: { max: 5 },
-					mention: {
-						minInput: 2,
-						minInputText: "Please type at least 2 characters",
-					},
-					text: {
-						"Wrap in block quote": "Wrap in block quote",
-						"Wrap in bullet list": "Wrap in bullet list",
-						"Toggle code font": "Toggle code font",
-						"Change to code block": "Change to code block",
-						Code: "Code",
-						"Toggle emphasis": "Toggle emphasis",
-						"Change to heading": "Change to heading",
-						"Insert horizontal rule": "Insert horizontal rule",
-						"Horizontal rule": "Horizontal rule",
-						"Insert image": "Insert image",
-						Image: "Image",
-						Location: "Location",
-						Title: "Title",
-						Width: "Width",
-						Height: "Height",
-						"Add or remove link": "Add or remove link",
-						"Create a link": "Create a link",
-						"Link target": "Link target",
-						"Wrap in ordered list": "Wrap in ordered list",
-						"Change to paragraph": "Change to paragraph",
-						Paragraph: "Paragraph",
-						"Toggle strikethrough": "Toggle strikethrough",
-						"Toggle strong style": "Toggle strong style",
-						"Create table": "Create table",
-						"Delete table": "Delete table",
-						"Insert table": "Insert table",
-						Rows: "Rows",
-						Columns: "Columns",
-						"Insert column before": "Insert column before",
-						"Insert column after": "Insert column after",
-						"Delete column": "Delete column",
-						"Insert row before": "Insert row before",
-						"Insert row after": "Insert row after",
-						"Delete row": "Delete row",
-						"Upload and include a File": "Upload and include a File",
-						"Upload File": "Upload File",
-						Insert: "Insert",
-						Type: "Type",
-						people: "People",
-						animals_and_nature: "Animals & Nature",
-						food_and_drink: "Food & Drink",
-						activity: "Activity",
-						travel_and_places: "Travel & Places",
-						objects: "Objects",
-						symbols: "Symbols",
-						flags: "Flags",
-						Heading: "Heading",
-					},
-				},
-				oembed: { loadUrl: "\/oembed" },
-				0: "ui.markdown",
-				1: {
-					text: {
-						Bold: "Bold",
-						Italic: "Italic",
-						Heading: "Heading",
-						"URL\/Link": "URL\/Link",
-						"Image\/File": "Image\/File",
-						Image: "Image",
-						List: "List",
-						Preview: "Preview",
-						"strong text": "strong text",
-						"emphasized text": "emphasized text",
-						"heading text": "heading text",
-						"enter link description here": "enter link description here",
-						"Insert Hyperlink": "Insert Hyperlink",
-						"enter image description here": "enter image description here",
-						"Insert Image Hyperlink": "Insert Image Hyperlink",
-						"enter image title here": "enter image title here",
-						"list text here": "list text here",
-						Quote: "Quote",
-						"quote here": "quote here",
-						Code: "Code",
-						"code text here": "code text here",
-						"Unordered List": "Unordered List",
-						"Ordered List": "Ordered List",
-					},
-				},
-				log: {
-					traceLevel: "INFO",
-					text: {
-						"error.default":
-							"An unexpected error occurred. If this keeps happening, please contact a site administrator.",
-						"success.saved": "Saved",
-						saved: "Saved",
-						"success.edit": "Saved",
-						0: "An unexpected error occurred. If this keeps happening, please contact a site administrator.",
-						403: "You are not allowed to run this action.",
-						404: "The requested resource could not be found.",
-						405: "Error while running your last action (Invalid request method).",
-						500: "An unexpected server error occurred. If this keeps happening, please contact a site administrator.",
-					},
-				},
-				"ui.additions": {
-					text: {
-						"success.clipboard": "Text has been copied to clipboard",
-						"error.clipboard": "Text could not be copied to clipboard",
-					},
-				},
-				"ui.status": {
-					showMore: false,
-					text: { showMore: "Show more", showLess: "Show less" },
-				},
-				"ui.picker": {
-					addImage: "\/assets\/74da96bb\/img\/picker_add.png",
-					text: {
-						"error.loadingResult":
-							"An unexpected error occurred while loading the search result.",
-						showMore: "Show more",
-						addOption: "Add:",
-					},
-				},
-				"ui.showMore": {
-					text: { readMore: "Read full post...", readLess: "Collapse" },
-				},
-				"ui.panel": {
-					text: { expand: "Expand", collapse: "Collapse" },
-					icon: {
-						up: '<i class="fa fa-minus-square"><\/i>',
-						down: '<i class="fa fa-plus-square"><\/i>',
-					},
-				},
-				content: {
-					modal: {
-						permalink: {
-							head: "<strong>Permalink<\/strong> to this post",
-							info: "Copy to clipboard",
-							buttonOpen: "Open",
-							buttonClose: "Close",
-						},
-						deleteConfirm: {
-							header: "<strong>Confirm<\/strong> post deletion",
-							body: "Do you really want to delete this post? All likes and comments will be lost!",
-							confirmText: "Delete",
-							cancelText: "Cancel",
-						},
-					},
-					reloadUrl: "\/content\/content\/reload",
-					deleteUrl: "\/content\/content\/delete-id",
-				},
-				stream: {
-					horizontalImageScrollOnMobile: "1",
-					defaultSort: "c",
-					text: {
-						"success.archive": "The content has been archived.",
-						"success.unarchive": "The content has been unarchived.",
-						"success.delete": "The content has been deleted.",
-						"info.editCancel": "Your last edit state has been saved!",
-					},
-				},
-				comment: {
-					modal: {
-						delteConfirm: {
-							header: "<strong>Confirm<\/strong> comment deleting",
-							body: "Do you really want to delete this comment?",
-							confirmText: "Delete",
-							cancelText: "Cancel",
-						},
-					},
-					text: { "success.delete": "Comment has been deleted" },
-				},
-				space: {
-					text: {
-						"success.archived": "The space has been archived.",
-						"success.unarchived": "The space has been unarchived.",
-					},
-				},
-				"client.pjax": {
-					active: true,
-					options: {
-						pushRedirect: true,
-						replaceRedirect: true,
-						cache: false,
-						timeout: 5000,
-					},
-				},
-			});
-		</script>
-		<div id="layout-content">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12">
-						<span style="color: black">
-							<center>
-								<b>alumno.up.edu.mx</b> ahora es <b><big>UP4U</big></b
-								><br />
-								Ingresa para obtener los mismos servicios.
-							</center>
-						</span>
-						<br />
+                <div class="topbar-actions pull-right">
+                    
+    <ul id="account-top-menu" class="nav" data-menu-id="account-top-menu">        <li class="dropdown account">
+            <a href="#" id="account-dropdown-link" class="dropdown-toggle" data-toggle="dropdown" aria-label="Perfil desplegable">
 
-						<div class="alert" style="background-color: #f7f2ec">
+                                    <div class="user-title pull-left hidden-xs">
+                        <strong>Luis Cedillo Maldonado</strong><br><!--span class="truncate">Generación 22</span-->
+                    </div>
+                
+                <span id="user-account-image"><img class="img-rounded" src="/static/img/default_user.jpg" alt="Imagen de perfil de Luis Cedillo Maldonado" style="width: 32px; height: 32px" data-contentcontainer-id="22711"></span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                                    <li>                        <a id="h449013w0" href="/u/0250009/user/profile/home"><i class="fa fa-user"></i> Mi perfil</a>                    </li>                                    <li>                        <a id="h449013w1" href="/user/account/edit"><i class="fa fa-edit"></i> Configuración de la cuenta</a>                    </li>                                                            <li class="divider"></li>                                                        <li>                        <a id="h449013w2" href="/user/auth/logout" data-pjax-prevent="1" data-menu-id="account-logout"><i class="fa fa-sign-out"></i> Salir</a>                    </li>                                            </ul>
+        </li>
+    </ul>                </div>
+
+                <div class="notifications pull-right">
+                    <div id="notification_widget" class="btn-group" data-ui-init="{&quot;newNotifications&quot;:&quot;0&quot;,&quot;notifications&quot;:[]}" data-ui-widget="notification.NotificationDropDown">   <a href="#" id="icon-notifications" data-action-click="toggle" aria-label="Abrir el menú desplegable de notificaciones" data-toggle="dropdown">
+        <i class="fa fa-bell"></i>
+    </a>
+    
+    <span id="badge-notifications" style="display:none;" class="label label-danger label-notifications">0</span>
+
+    <!-- container for ajax response -->
+    <ul id="dropdown-notifications" class="dropdown-menu">
+        <li class="dropdown-header">
+            <div class="arrow"></div>Notificaciones            <div class="dropdown-header-link">
+                <a id="mark-seen-link" data-action-click="markAsSeen" data-action-url="/notification/list/mark-as-seen" style="display: none;">
+                    Marcar todas como vistas                </a>
+            </div>
+        </li>
+        <ul class="media-list"><li class="placeholder">No hay notificaciones aún.</li></ul>
+            <li id="loader_notifications">
+                <div class="loader humhub-ui-loader ">
+    <div class="sk-spinner sk-spinner-three-bounce">
+        <div class="sk-bounce1"></div>
+        <div class="sk-bounce2"></div>
+        <div class="sk-bounce3"></div>
+    </div>
+</div>            </li>
+        <li>
+            <div class="dropdown-footer">
+                <a class="btn btn-default col-md-12" href="/notification/overview">
+                    Mostrar todas las notificaciones                </a>
+            </div>
+        </li>
+    </ul>
+</div><div class="btn-group">
+    <a href="#" id="icon-messages" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i></a>
+    <span id="badge-messages" style="display:none;" class="label label-danger label-notification"></span>
+    <ul id="dropdown-messages" class="dropdown-menu">
+        <li class="dropdown-header">
+            <div class="arrow"></div>Mensajes <a id="create-message-button" class="btn btn-info btn-xs" href="/mail/mail/create?ajax=1" data-target="#globalModal">Nuevo mensaje</a>        </li>
+        <ul class="media-list">
+            <li id="loader_messages">
+
+            </li>
+        </ul>
+        <li>
+            <div class="dropdown-footer">
+                <a class="btn btn-default col-md-12" href="/mail/mail/index">
+                    Mostrar todos los mensajes                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end: first top navigation bar -->
+
+        <!-- start: second top navigation bar -->
+        <div id="topbar-second" class="topbar" style="">
+            <div class="container">
+                <ul class="nav" id="top-menu-nav">
+                    <!-- load space chooser widget -->
+                    
+<li class="dropdown">
+    <a href="#" id="space-menu" class="dropdown-toggle" data-toggle="dropdown">
+        <!-- start: Show space image and name if chosen -->
+        
+                    <div class="no-space"><i class="fa fa-dot-circle-o"></i><br>Mis espacios<b class="caret"></b></div>                <!-- end: Show space image and name if chosen -->
+    </a>
+
+    <ul class="dropdown-menu" id="space-menu-dropdown">
+        <li>
+            <form action="" class="dropdown-controls">
+                <div>
+                    <input type="text" id="space-menu-search" class="form-control" autocomplete="off" placeholder="Buscar" title="Buscar espacios">
+                                        <div class="search-reset" id="space-search-reset"><i class="fa fa-times-circle"></i></div>
+                </div>
+            </form>
+        </li>
+
+        <li class="divider"></li>
+        <li>
+            <ul class="media-list notLoaded" id="space-menu-spaces">
+                                            </ul>
+        </li>
+        <li class="remoteSearch">
+            <ul id="space-menu-remote-search" class="media-list notLoaded"></ul>
+        </li>
+
+        </ul>
+</li>
+
+                    <!-- load navigation from widget -->
+                    <li class="top-menu-item active"><a class="active" href="/p/home" target=""><i class="fa fa-asterisk"></i><br>Inicio</a></li><li class="top-menu-item "><a href="/dashboard" data-menu-id="dashboard"><i class="fa fa-tachometer"></i><br>Actividad</a></li><li class="top-menu-item "><a href="/calendar/global/index"><i class="fa fa-calendar"></i><br>Calendario</a></li><li class="top-menu-item "><a href="/tasks/global" data-menu-id="tasks-global"><i class="fa fa-tasks"></i><br>Tareas</a></li>
+<script>function fnGetMyCampus() { return 'UPANA'; }</script>
+
+<script>function fnGetMan() { return false; }</script>
+
+<li id="top-menu-sub" class="dropdown" style="display:none;">
+    <a href="#" id="top-dropdown-menu" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-align-justify"></i><br>
+        Menú        <b class="caret"></b>
+    </a>
+    <ul id="top-menu-sub-dropdown" class="dropdown-menu">
+
+    </ul>
+</li>
+                </ul>
+
+                <ul class="nav pull-right" id="search-menu-nav">
+                    
+<li class="dropdown search-menu">
+    <a href="/search" id="search-menu" class="dropdown-toggle" aria-label="Buscar por usuario, espacio y contenido">
+        <i class="fa fa-search"></i>
+    </a>
+</li>
+
+<script>
+    /**
+     * Open search menu
+     */
+    $('#search-menu-nav').click(function () {
+
+        // use setIntervall to setting the focus
+        var searchFocus = setInterval(setFocus, 10);
+
+        function setFocus() {
+
+            // set focus
+            $('#search-menu-search').focus();
+            // stop interval
+            clearInterval(searchFocus);
+        }
+
+    })
+</script>
+                </ul>
+            </div>
+        </div>
+        <!-- end: second top navigation bar -->
+
+        <div id="layout-content">
+<div class="container custom-pages-page">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <!-- PAGE BEGIN -->
+
+	<!-- INICIO -->
+
+	<style>
+		.div-category-up {
+			padding-top:	5px;
+			min-height:		130px;
+		}
+		
+		.homeCardHdr {
+			overflow:		hidden;
+			display:		flex;
+			flex-direction:	column;
+			position:		relative;
+		}
+		
+		.homeCardCont {
+			position:		absolute;
+			padding-top:	110px;
+			background:		linear-gradient(to right, rgba(255, 255, 255, 1), transparent);
+          	height:			100%;
+		}
+		
+		.homeCardText {
+			margin-top:		-65px;
+			padding-left:	20px;
+			line-height:	1em;
+			text-align:		left;
+			width:			350px;
+			color:			#861A3C;
+			font-size:		28px;
+			font-weight:	bold;
+			font-family:	'Leitura Roman';
+		}
+	</style>
+			
+	<div class="row" style="font-family:montserratlight,sans-serif;background-color:#f5f2ec;margin-top:-30px;">
+		<div class="col-md-12">
+		
+			<div class="row hidden-sm hidden-md hidden-lg" style="background-image: url('/themes/UPTheme/img/fondo_cab_home_xs.png');margin-top: 5px;margin-bottom: 10px;">
+				<div class="col-md-12" style="padding: 0px;">
+					<img src="/themes/UPTheme/img/logo_cabecera_home_xs.png" style="margin-top: 15px;margin-bottom: 4px;">
+				</div>
+				<div class="col-md-12" style="padding: 0px;">
+					<p class="text-center" style="font-size: 14px;color: #002d73;padding-left: 20px;padding-right: 20px;">
+						Nos comprometemos con la verdad, desde un humanismo cristiano para la construcción de un mundo mejor.
+					</p>
+				</div>
+			</div>
+			<div class="row hidden-xs" style="margin-top: 0px;margin-bottom: 20px;background-image: url('/themes/UPTheme/img/fondo_cabecera_home.jpg');padding: 5px;border-top-left-radius: 3px;">
+				<div class="col-md-3 col-sm-3 text-center">
+					<img src="/themes/UPTheme/img/lo_vert_color_home.png" style="margin-top: 12px;">
+				</div>
+				<div class="col-md-5 col-sm-5" style="padding-left: 0px;">
+					<img class="img-responsive" src="/themes/UPTheme/img/ubi_spiritus.png" style="width: 300px;margin-top: 0;margin-bottom: 5px;">
+				</div>
+				<div class="col-md-4 col-sm-4" style="margin-top: 0px;">
+					<p class="text-left" style="font-size: 14px;margin-top: 0px;color: #002d73;padding-left: 0px;padding-right: auto;">
+						<br><strong>Nos comprometemos con la verdad, desde un humanismo cristiano para la construcción de un mundo mejor.&nbsp;&nbsp;</strong>
+					</p>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="row" style="background-image:url('/themes/UPTheme/img/ban_covid_bck.jpg');max-height:75px;">
+		<div class="col-md-12">
+			<center>
+				<a href="https://www.universidadpanamericanacovid19.com/" target="_new">
+					<img class="img img-responsive" style="max-height:75px;" src="/themes/UPTheme/img/ban_covid.jpg">
+				</a>
+			</center>
+		</div>
+	</div>
+	
+	<div class="row" style="background-color:#f5f2ec;font-family:montserratlight,sans-serif;">
+		<div class="col-md-12">
+		
+			<div class="row">
+			
+				<!-- Mi espacio -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center" style="padding:0px;">
+							<img class="img img-thumbnail img-responsive" style="filter: sepia(0%);" src="/themes/UPTheme/img/cb_mi-espacio.jpg">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<p class="text-left">
+								<strong>Bienvenida, bienvenido a casa, pantera. </strong>Aquí encontrarás todo lo necesario para tu estancia en la Universidad.
+							</p>
+							<a class="btn btn-link" href="/p/espacio_up">
+								<i class="faw faw-university" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Mis registros académicos -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Mis registros <br>académicos</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_registrosacad.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
 							<div class="row">
-								<div
-									class="col-md-9 col-xs-12 col-img"
-									style="background-color: #f7f2ec; padding: 0px"
-								>
-									<img
-										class="img-responsive rounded hidden-xs hidden-sm"
-										src="/themes/UPTheme/img/fondo_login.jpg"
-									/>
-									<img
-										class="visible-xs-block visible-sm-block hidden-sm"
-										src="/themes/UPTheme/img/logo_up_color_hor_xs.png"
-										style="
-											margin-left: auto;
-											margin-right: auto;
-											margin-top: 10px;
-										"
-									/>
-									<img
-										class="img-responsive rounded visible-xs-block visible-sm-block hidden-sm"
-										src="/themes/UPTheme/img/cabecera_xs_login.png"
-										style="
-											margin-left: auto;
-											margin-right: auto;
-											margin-top: 10px;
-										"
-									/>
-									<img
-										class="img-responsive rounded hidden-xs hidden-md hidden-lg"
-										src="/themes/UPTheme/img/fondo_login_tablet.jpg"
-										style="
-											margin-left: auto;
-											margin-right: auto;
-											margin-top: 10px;
-										"
-									/>
+								<div class="col-md-5">
+									<a class="btn btn-link" href="/Calificaciones/index">
+										<i class="faw faw-user-graduate" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Calificaciones
+									</a>
+									<br>
+									<a class="btn btn-link" href="/Asistencias/index">
+										<i class="faw faw-user-check" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Asistencias
+									</a>
+									<br>
+									<a class="btn btn-link" href="/Horarios/index">
+										<i class="faw faw-clock" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Horarios
+									</a>
 								</div>
-								<div class="col-xs-12 col-md-3">
-									<div
-										class="panel animated bounceIn"
-										id="login-form"
-										style="max-width: auto; text-align: left"
-									>
-										<div
-											class="panel-heading panel-headinglogin"
-											style="
-												color: white;
-												text-align: left;
-												background-color: #881739;
-											"
-										>
-											<strong>Please</strong> sign in
-										</div>
-
-										<div class="panel-body" style="border: 2px solid #881739">
-											<p>Please login with your username/email and password.</p>
-
-											<form
-												id="account-login-form"
-												action="/user/auth/login"
-												method="post"
-											>
-												<input
-													type="hidden"
-													name="_csrf"
-													value="Fa2pdJMcQ7EKJdKnXC5Ti7sDPC3pFK6G3If31a87EGVs1JE43lgk1ltRnfM7TAvp4TUMQdkh4Nast6-52g8mEQ=="
-												/>
-												<div class="form-group field-login_username required">
-													<input
-														type="text"
-														id="login_username"
-														class="form-control"
-														name="Login[username]"
-														placeholder="username or email"
-														aria-label="username or email"
-														aria-required="true"
-													/>
-
-													<div class="help-block"></div>
-												</div>
-												<div class="form-group field-login_password required">
-													<input
-														type="password"
-														id="login_password"
-														class="form-control"
-														name="Login[password]"
-														placeholder="password"
-														aria-label="password"
-														aria-required="true"
-													/>
-
-													<div class="help-block"></div>
-												</div>
-												<div class="form-group field-login-rememberme">
-													<input
-														type="hidden"
-														name="Login[rememberMe]"
-														value="0"
-													/><label
-														><input
-															type="checkbox"
-															id="login-rememberme"
-															name="Login[rememberMe]"
-															value="1"
-															checked=""
-															class="regular-checkbox" />
-														Remember me
-														<div class="regular-checkbox-box"></div
-													></label>
-
-													<div class="help-block"></div>
-												</div>
-												<hr />
-												<div class="row">
-													<div class="col-md-12 text-right">
-														<button
-															type="submit"
-															id="login-button"
-															class="btn btn-large btn-infa disabled"
-															data-ui-loader=""
-															style="overflow: hidden; min-width: 84.7684px"
-														>
-															Sign in
-														</button>
-													</div>
-												</div>
-											</form>
-											<br />
-											<div
-												class="alert"
-												style="background-color: rgba(213, 190, 136, 255)"
-											>
-												<!--div class="row"-->
-												<div class="text text-center animated fadeIn">
-													Choose language: &nbsp;
-													<div class="langSwitcher inline-block">
-														<form
-															id="choose-language-form"
-															action="/user/auth/login"
-															method="post"
-														>
-															<input
-																type="hidden"
-																name="_csrf"
-																value="Fa2pdJMcQ7EKJdKnXC5Ti7sDPC3pFK6G3If31a87EGVs1JE43lgk1ltRnfM7TAvp4TUMQdkh4Nast6-52g8mEQ=="
-															/>
-															<select
-																id="chooselanguage-language"
-																name="ChooseLanguage[language]"
-																data-action-change="ui.form.submit"
-																aria-label="Choose language:"
-															>
-																<option value="en-US" selected="">
-																	English (US)
-																</option>
-																<option value="en-GB">English (UK)</option>
-																<option value="de">Deutsch</option>
-																<option value="fr">Français</option>
-																<option value="nl">Nederlands</option>
-																<option value="pl">Polski</option>
-																<option value="pt">Português</option>
-																<option value="pt-BR">
-																	Português do Brasil
-																</option>
-																<option value="es">Español</option>
-																<option value="ca">Català</option>
-																<option value="it">Italiano</option>
-																<option value="th">ไทย</option>
-																<option value="tr">Türkçe</option>
-																<option value="ru">Русский</option>
-																<option value="uk">українська</option>
-																<option value="el">Ελληνικά</option>
-																<option value="ja">日本語</option>
-																<option value="hu">Magyar</option>
-																<option value="nb-NO">Norsk bokmål</option>
-																<option value="nn-NO">Nynorsk</option>
-																<option value="zh-CN">中文(简体)</option>
-																<option value="zh-TW">中文(台灣)</option>
-																<option value="an">Aragonés</option>
-																<option value="vi">Tiếng Việt</option>
-																<option value="sv">Svenska</option>
-																<option value="cs">čeština</option>
-																<option value="da">dansk</option>
-																<option value="uz">Ўзбек</option>
-																<option value="fa-IR">فارسی</option>
-																<option value="bg">български</option>
-																<option value="sk">slovenčina</option>
-																<option value="ro">română</option>
-																<option value="ar">العربية/عربي‎‎</option>
-																<option value="ko">한국어</option>
-																<option value="id">Bahasa Indonesia</option>
-																<option value="lt">lietuvių kalba</option>
-																<option value="ht">Kreyòl ayisyen</option>
-																<option value="lv">Latvijas</option>
-																<option value="sl">Slovenščina</option>
-																<option value="hr">Hrvatski</option>
-																<option value="am">አማርኛ</option>
-																<option value="fi">suomalainen</option>
-																<option value="he">עברית</option>
-															</select>
-														</form>
-													</div>
-												</div>
-												<!--/div-->
-											</div>
-										</div>
+								<div class="col-md-7">
+									<a class="btn btn-link" href="/Indicadores/index">
+										<i class="faw faw-chart-bar" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Indicadores
+									</a>
+									<br>
+									<a class="btn btn-link" href="/Labor_social/index">
+										<i class="faw faw-people-carry" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Labor Social
+									</a>
+									<br>
+									<a class="btn btn-link" href="https://evaluaciones.up.edu.mx" target="_new">
+										<i class="faw faw-check" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;<span style="font-size: 12px;">Evalúa a tus profesores</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Mis registros financieros -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Mis registros <br>financieros</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_regisfinanc.png">
+						</div>
+						
+						<div class="panel-body div-category-up text-center">
+							<table width="100%" cellpadding="0">
+								<tbody><tr>
+									<td colspan="2">
+										<button id="b_ecta" class="btn btn-link">
+											<i class="faw faw-file-invoice-dollar" style="font-size: 12px;padding-right: 2px;"></i>
+											<span style="font-size:12px;">
+												&nbsp;Estado de cuenta <!--br>en el Centro del Alumnado-->
+											</span>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button id="b_teso" class="btn btn-link">
+											<i class="faw faw-money-check-alt" style="font-size: 12px;padding-right: 2px;"></i>
+											<span style="font-size:12px;">
+												&nbsp;APP de Tesorería
+											</span>
+										</button>
+										<!-- <br> -->
+										<button id="b_pdp" class="btn btn-link">
+											<i class="faw faw-coins" style="font-size: 12px;padding-right: 2px;"></i>
+											<span style="font-size:12px;">
+												&nbsp;Portal de pagos
+											</span>
+										</button>
+									</td>
+									<td>
+										<button id="b_fmt" class="btn btn-link">
+											<i class="faw faw-file-alt" style="font-size: 12px;padding-right: 2px;"></i>
+											<span style="font-size:12px;">
+												&nbsp;Formatos
+											</span>
+										</button>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+			
+				<!-- Biblioteca -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Biblioteca</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_biblio.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<div id="d_bibmex" style="">
+								<div class="row">
+									<div class="col-md-7">
+										<a class="btn btn-link" href="http://biblio.upmx.mx/" target="_new">
+											<i class="faw faw-book-open" style="font-size: 14px;padding-right: 2px;"></i>
+											&nbsp;Catálogo
+										</a>
+										<br>
+										<a class="btn btn-link" href="https://biblio.upmx.mx/Servicios/electronicos.asp" target="_new">
+											<i class="faw faw-database" style="font-size: 14px;padding-right: 2px;"></i>
+											&nbsp;Rec. Digitales
+										</a>
+										<br>
+										<a class="btn btn-link" href="https://sites.google.com/up.edu.mx/bibliotecacontigo/recursos-abiertos?authuser=0" target="_new">
+											<i class="faw faw-globe" style="font-size: 14px;padding-right: 2px;"></i>
+											&nbsp;Rec. Abiertos
+										</a>
+									</div>
+									<div class="col-md-5">
+										<a class="btn btn-link" href="/p/biblioteca">
+											<i class="faw faw-plus-circle" style="font-size: 14px;padding-right: 2px;"></i>
+											&nbsp;Más ...
+										</a>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<br />
-
-			<script type="text/javascript">
-				$(function () {
-					// set cursor to login field
-					$("#login_username").focus();
-				});
-
-				// Shake panel after wrong validation
-
-				// Shake panel after wrong validation
-			</script>
-		</div>
-		<br />
-
-		<div class="text text-center powered"></div>
-		<div
-			id="globalModal"
-			class="modal"
-			tabindex="-1"
-			role="dialog"
-			aria-hidden="true"
-			data-backdrop="static"
-			data-ui-widget="ui.modal.Modal"
-		>
-			<!-- Dialog -->
-
-			<div
-				id="h511486w0"
-				class="modal-dialog"
-				data-backdrop="static"
-				data-keyboard="false"
-				data-ui-widget="ui.modal.Modal"
-			>
-				<!-- Content -->
-				<div class="modal-content">
-					<!-- Header -->
-
-					<!-- Body -->
-					<div class="modal-body">
-						<div class="loader humhub-ui-loader">
-							<div class="sk-spinner sk-spinner-three-bounce">
-								<div class="sk-bounce1"></div>
-								<div class="sk-bounce2"></div>
-								<div class="sk-bounce3"></div>
+							<div id="d_biball" style="display: none;">
+								<a class="btn btn-link" href="/p/biblioteca">
+									<i class="faw faw-book-open" style="font-size: 15px;padding-right: 2px;"></i>
+									&nbsp;Catálogo y más
+								</a>
 							</div>
 						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
 					</div>
-
-					<!-- Footer -->
 				</div>
+				
+				<!-- Vida Universitaria -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Vida <br>universitaria</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_vidauniversitaria.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<button id="b_vida" class="btn btn-link">
+								<i class="faw faw-users" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</button>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- International Affairs -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">International <br>Affairs</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_internat.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/inter_affairs">
+								<i class="faw faw-globe" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;¿Deseas estudiar en <br>el extranjero?
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
 			</div>
-		</div>
-		<div
-			id="globalModalConfirm"
-			class="modal"
-			tabindex="-1"
-			role="dialog"
-			aria-hidden="true"
-			data-backdrop="static"
-			data-keyboard="false"
-			data-ui-widget="ui.modal.ConfirmModal"
-		>
-			<!-- Dialog -->
 
-			<div
-				id="h511486w1"
-				class="modal-dialog modal-dialog-extra-small animated pulse"
-				data-backdrop="static"
-				data-keyboard="false"
-				data-ui-widget="ui.modal.Modal"
-			>
-				<!-- Content -->
-				<div class="modal-content">
-					<!-- Header -->
-
-					<!-- Body -->
-					<div class="modal-body text-center">
-						<div class="loader humhub-ui-loader">
-							<div class="sk-spinner sk-spinner-three-bounce">
-								<div class="sk-bounce1"></div>
-								<div class="sk-bounce2"></div>
-								<div class="sk-bounce3"></div>
+			<div class="row">
+			
+				<!-- Humanidades -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Humanidades</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_humanidades.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<button id="b_chumanidaes" class="btn btn-link">
+								<i class="faw faw-comments" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</button>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Centro de Lenguas -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Centro de <br>lenguas</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_lenguas.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<button id="b_clenguas" class="btn btn-link">
+								<i class="faw faw-comments" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</button>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Te quieres titular -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">¿Te quieres <br>titular?</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_titular.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/titulacion">
+								<i class="faw faw-user-graduate" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Requisitos y Guía
+							</a> 
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+			
+				<!-- Servicios escolares -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Servicios <br>escolares</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_seresc.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/serv_esc">
+								<i class="faw faw-laptop" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Trámites en línea
+							</a>
+							<br>
+							<button id="b_seinfo" class="btn btn-link">
+								<i class="faw faw-calendar-alt" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Calendarios, Reglamentos y más
+							</button>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Planes de estudio -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Planes de <br>estudio</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_planes.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/planes_est">
+								<i class="faw faw-book-open" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Investigación -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Investigación</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_invest.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="https://investigacion.up.edu.mx/" target="_new">
+								<i class="faw faw-microscope" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Investigadores, recursos, <br>estadísticas y más
+							</a> 
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+			
+			</div>
+			
+			<div class="row">
+			
+				<!-- Sistemas UP -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Sistemas UP</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_sistem.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/sistemas_up">
+								<i class="faw faw-link" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row" id="d_just_mex_gdl">
+				
+				<!-- Sistemas Virtuales -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Servicios <br>virtuales</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_servvirtuales.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/microsoft_365">
+								<i class="faw faw-th-large" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Microsoft 365
+							</a>
+							<br>
+							<a class="btn btn-link" href="/p/apps_gratuitas">
+								<i class="faw faw-toolbox" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Aplicaciones gratuitas para<br> apoyarte en tus clases 
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+				<!-- Alumni -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Alumni</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_alumni.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<div class="row">
+								<div id="d_alumni_mex">
+									<a class="btn btn-link" href="https://historico.up.edu.mx/es/alumni/mex/historias-alumni" target="_new">
+										Historias de Alumni
+									</a>
+									<br>
+									<a class="btn btn-link" href="https://historico.up.edu.mx/es/alumni/mex" target="_new">
+										Sitio
+									</a>
+									<br>
+									<a class="btn btn-link" href="/s/mex-alumni/" target="_new">
+										Eventos
+									</a>
+								</div>
+								<div id="d_alumni_gdl" style="display: none;">
+									<a class="btn btn-link" href="/p/alumni">
+										&nbsp;Ver 
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-
-					<!-- Footer -->
-					<div class="modal-footer">
-						<button
-							data-modal-cancel=""
-							data-modal-close=""
-							class="btn btn-default"
-						></button
-						><button
-							data-modal-confirm=""
-							data-modal-close=""
-							class="btn btn-primary"
-						></button>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div
-			id="humhub-ui-loader-default"
-			class="loader humhub-ui-loader"
-			style="display: none"
-		>
-			<div class="sk-spinner sk-spinner-three-bounce">
-				<div class="sk-bounce1"></div>
-				<div class="sk-bounce2"></div>
-				<div class="sk-bounce3"></div>
-			</div>
-		</div>
-		<div id="status-bar" class="clearfix" style="display: none">
-			<div class="status-bar-body">
-				<div class="status-bar-content"></div>
-			</div>
-		</div>
-		<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-			<div class="slides"></div>
-			<h3 class="title">Hidden Gallery</h3>
-			<a class="prev">‹</a>
-			<a class="next">›</a>
-			<a class="close">×</a>
-			<a class="play-pause"></a>
-			<ol class="indicator"></ol>
-		</div>
-		<div
-			class="modal modal-top"
-			id="markdown-modal-file-upload"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="addImageModalLabel"
-			style="z-index: 99999"
-			aria-hidden="true"
-		>
-			<!-- Dialog -->
-
-			<div
-				id="h511486w3"
-				class="modal-dialog"
-				data-backdrop="static"
-				data-keyboard="false"
-				data-ui-widget="ui.modal.Modal"
-			>
-				<!-- Content -->
-				<div class="modal-content">
-					<!-- Header -->
-					<div class="modal-header">
-						<button
-							aria-hidden="true"
-							data-dismiss="modal"
-							class="close"
-							type="button"
-						>
-							×
-						</button>
-						<h4 class="modal-title">Add image/file</h4>
-					</div>
-
-					<div class="modal-body">
-						<div class="uploadForm">
-							<span
-								class="btn btn-default btn-sm fileinput-button"
-								data-placement="bottom"
-								data-action-click="file.upload"
-								data-action-target="#markdown-file-upload"
-							>
-								<i class="fa fa-cloud-upload" aria-hidden="true"></i>
-								&nbsp;Upload
-								<input
-									type="file"
-									id="markdown-file-upload"
-									name="files[]"
-									multiple="multiple"
-									title="Upload file"
-									data-upload-progress="#markdown-modal-upload-progress"
-									data-upload-submit-name="fileList[]"
-									data-upload-hide-in-stream="1"
-									data-upload-drop-zone="#markdown-modal-file-upload"
-									data-php-max-file-uploads="20"
-									data-php-max-file-uploads-message="Sorry, you can only upload up to 20 files at once."
-									data-ui-widget="file.Upload"
-									data-ui-init=""
-									style="display: none"
-							/></span>
+				
+				<!-- Bolsa de Trabajo -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Bolsa <br>de trabajo</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_bolsatrabajo.png">
 						</div>
-
-						<br />
-
-						<div
-							id="markdown-modal-upload-progress"
-							style="display: none"
-							class="progress"
-						>
-							<div
-								class="progress-bar progress-bar-info"
-								role="progressbar"
-								aria-valuenow="0"
-								aria-valuemin="0"
-								aria-valuemax="100"
-								style="width: 0%"
-							></div>
+						
+						<div class="panel-body div-category-up">
+							<a class="btn btn-link" href="/p/bolsadetrabajo">
+								<i class="faw faw-building" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver 
+							</a>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button
-							type="button"
-							id="h511486w2"
-							class="btn btn-default"
-							data-modal-close=""
-						>
-							Close
-						</button>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
 					</div>
 				</div>
+				
 			</div>
-		</div>
-
-		<div
-			class="modal modal-top"
-			id="markdown-modal-add-link"
-			tabindex="-1"
-			role="dialog"
-			style="z-index: 99999"
-			aria-labelledby="addLinkModalLabel"
-			aria-hidden="true"
-		>
-			<!-- Dialog -->
-
-			<div
-				id="h511486w6"
-				class="modal-dialog"
-				data-backdrop="static"
-				data-keyboard="false"
-				data-ui-widget="ui.modal.Modal"
-			>
-				<!-- Content -->
-				<div class="modal-content">
-					<!-- Header -->
-					<div class="modal-header">
-						<button
-							aria-hidden="true"
-							data-dismiss="modal"
-							class="close"
-							type="button"
-						>
-							×
-						</button>
-						<h4 class="modal-title">Add link</h4>
-					</div>
-
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="addLinkTitle">Title</label>
-							<input
-								type="text"
-								class="form-control linkTitle"
-								placeholder="Title of your link"
-							/>
+				
+			<div class="row" id="d_just_mex">
+				
+				<!-- Compromiso Social -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Compromiso <br>social</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_compsoc.png">
 						</div>
-						<div class="form-group">
-							<label for="addLinkTarget">Target</label>
-							<input
-								type="text"
-								class="form-control linkTarget"
-								placeholder="Enter a url (e.g. http://example.com)"
-							/>
+						
+						<div class="panel-body div-category-up">
+							<div class="row">
+								<div class="col-md-6">
+									<a class="btn btn-link" target="_new" href="https://compromisosocial.up.edu.mx/plataforma/">
+										<i class="faw faw-users" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Inicia Sesión
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a class="btn btn-link" target="_new" href="https://compromisosocial.up.edu.mx/">
+										<i class="faw faw-eye" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Conoce más
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-4">
+											<a class="btn btn-link" target="_new" href="https://www.facebook.com/compromisosocialupmx/">
+												<i class="fa fa-facebook-f" style="font-size: 15px;padding-right: 2px;"></i>
+											</a>
+										</div>
+										<div class="col-md-4">
+											<a class="btn btn-link" target="_new" href="https://www.instagram.com/compromisosocialupmx/">
+												<i class="fa fa-instagram" style="font-size: 15px;padding-right: 2px;"></i>
+											</a>
+										</div>
+										<div class="col-md-4">
+											<a class="btn btn-link" target="_new" href="https://twitter.com/CompromisoUP">
+												<i class="fa fa-twitter" style="font-size: 15px;padding-right: 2px;"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<a class="btn btn-link" target="_new" href="https://compromisosocial.up.edu.mx/blog/">
+										<i class="faw faw-comments" style="font-size: 15px;padding-right: 2px;"></i>
+										&nbsp;Entérate
+									</a>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button
-							type="button"
-							id="h511486w4"
-							class="btn btn-default"
-							data-modal-close=""
-						>
-							Close
-						</button>
-						<button
-							type="button"
-							id="h511486w5"
-							class="addLinkButton btn btn-primary"
-						>
-							Add link
-						</button>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
 					</div>
 				</div>
+				
+				<!-- Transporte UP -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Transporte UP</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_transporteup.png">
+						</div>
+						
+						<div class="panel-body div-category-up">
+							<button id="b_transporteup" class="btn btn-link">
+								<i class="faw faw-car" style="font-size: 15px;padding-right: 2px;"></i>
+								&nbsp;Ver
+							</button>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
 			</div>
+			
+			<div class="row" id="d_just_gdl" style="display: none;">
+				
+				<!-- Spark UP -->
+				<div class="col-md-4" style="padding: 15px;">
+					<div class="panel" style="filter:blur(0px);margin-bottom:5px;">
+						
+						<div class="panel-heading text-center homeCardHdr" style="padding:0px;">
+							<div class="homeCardCont"><div class="homeCardText">Spark UP</div></div>
+							<img class="img img-thumbnail img-responsive" src="/themes/UPTheme/img/ncb_sparkup.png">
+						</div>
+						
+						<div class="panel-body text-center">
+							¿ Quieres abrir tu nueva empresa ?<br>
+							Nosotros te apoyamos.<br>
+							<br>
+							<a class="btn btn-link" href="http://www.sparkup.mx/" target="_new">
+								Ver 
+							</a>
+						</div>
+						<div class="panel-footer text-center" style="background-color: #c8a977;padding: 4px;"></div>
+					</div>
+				</div>
+				
+			</div>
+			
 		</div>
-		<script>
-			jQuery(function ($) {
-				jQuery("#account-login-form").yiiActiveForm([], []);
-				jQuery("#choose-language-form").yiiActiveForm([], []);
-				if ("serviceWorker" in navigator) {
-					navigator.serviceWorker
-						.register("/sw.js?v=1649337096", { scope: "/" })
-						.then(function (registration) {
-							if (typeof afterServiceWorkerRegistration === "function") {
-								afterServiceWorkerRegistration(registration);
-							}
-						});
-				}
+	</div>
+	
+	<script>
+		$(document).ready(function() {
+
+			//-- Checar campus
+			
+			var lCampus = fnGetMyCampus();
+			console.log(lCampus);
+			
+			//-- Mis registros financieros
+			
+			$('#b_ecta').click(function() {
+				window.open("/Estado_de_cuenta/index");
+				// window.open("https://upsite.upmx.mx/psp/Campus/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL?PORTALPARAM_PTCNAV=HC_SSS_STUDENT_CENTER&EOPP.SCNode=HRMS&EOPP.SCPortal=EMPLOYEE&EOPP.SCName=CO_EMPLOYEE_SELF_SERVICE&EOPP.SCLabel=Autoservicio&EOPP.SCPTfname=CO_EMPLOYEE_SELF_SERVICE&FolderPath=PORTAL_ROOT_OBJECT.CO_EMPLOYEE_SELF_SERVICE.HC_SSS_STUDENT_CENTER&IsFolder=false", "EdoCta");
 			});
-		</script>
-	</body>
-</html>
+		
+			$('#b_pdp').click(function() {
+				let lURL = "https://portaldepagos.up.edu.mx/";
+				/*if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				let lURL = "https://www.upmx.mx/pagos/index.jsp?campi=UPANA";
+				if (lCampus == 'UPANA')
+					lURL = "https://www.upmx.mx/pagos/index.jsp?campi=UPANA";
+				else
+				if (lCampus == 'UPGDL')
+					lURL = "https://www.upmx.mx/pagos/index.jsp?campi=UPGDL";
+				else
+				if (lCampus == 'UPAGS')
+					lURL = "https://www.upmx.mx/pagos/index.jsp?campi=UPAGS";*/
+				window.open(lURL, "PdP");
+			});
+			
+			$('#b_fmt').click(function() {
+				if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				let lURL = "https://servicios.up.edu.mx/formatos/index.html?campus=MEX";
+				if (lCampus == 'UPANA')
+					lURL = "https://servicios.up.edu.mx/formatos/index.html?campus=MEX";
+				else
+				if (lCampus == 'UPGDL')
+					lURL = "https://servicios.up.edu.mx/formatos/index.html?campus=GDL";
+				else
+				if (lCampus == 'UPAGS')
+					lURL = "https://servicios.up.edu.mx/formatos/index.html?campus=AGS";
+				window.open(lURL, "Formatos");
+			});
+			
+			$('#b_teso').click(function() {
+				if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				let lURL = "https://movil.gdl.up.mx/tesoreria/seccion/inicio/mexico";
+				if (lCampus == 'UPANA')
+					lURL = "https://movil.gdl.up.mx/tesoreria/seccion/inicio/mexico";
+				else
+				if (lCampus == 'UPGDL')
+					lURL = "https://movil.gdl.up.mx/tesoreria/seccion/inicio/guadalajara";
+				else
+				if (lCampus == 'UPAGS')
+					lURL = "https://movil.gdl.up.mx/tesoreria/seccion/inicio/aguascalientes";
+				window.open(lURL, "Tesorería");
+			});
+			
+			//-- Biblioteca
+			
+			if (lCampus == 'UPANA') {
+				$('#d_bibmex').show();
+				$('#d_biball').hide();
+			}
+			
+			//-- Centro de Lenguas
+			
+			$('#b_clenguas').click(function() {
+				if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				if (lCampus == 'UPANA')
+					window.open("https://historico.up.edu.mx/es/clenguas/mex", "Centro de Lenguas");
+				else
+				if (lCampus == 'UPGDL')
+					window.open("https://clupgdl.wixsite.com/clupgdl", "Centro de Lenguas");
+				else
+				if (lCampus == 'UPAGS')
+					document.location.href = "/p/clenguas";
+			});
+			
+			//-- Vida universitaria
+
+			$('#b_vida').click(function() {
+				if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				if (lCampus == 'UPANA')
+					window.open("https://viveupathome.up.edu.mx/", "ViveUP@Home");
+				else
+				if (lCampus == 'UPAGS')
+					window.open("http://vidaup.ags.up.mx/", "VidaUP");
+				else
+					document.location.href = "/p/vida_universitaria";
+			});
+			
+			//-- Servicios Escolares
+
+			$('#b_seinfo').click(function() {
+				if ( fnGetMan() ) {
+					lCampus = prompt("¿Campus? (UPANA, UPGDL, UPAGS)");
+				}
+				let lURL = "https://historico.up.edu.mx/es/usuarios/mex/servicios-escolares";
+				if (lCampus == 'UPANA')
+					lURL = "https://historico.up.edu.mx/es/usuarios/mex/servicios-escolares";
+				else
+				if (lCampus == 'UPGDL')
+					lURL = "https://historico.up.edu.mx/es/usuarios/gdl/servicios-escolares";
+				else
+				if (lCampus == 'UPAGS')
+					lURL = "https://historico.up.edu.mx/es/usuarios/ags/servicios-escolares";
+				window.open(lURL, "Servicios Escolares");
+			});
+			
+			//-- Humanidades
+			
+			$('#b_chumanidaes').click(function() {
+				document.location.href = "/p/humanidades";
+			});
+			
+			//-- Transporte UP
+			
+			$('#b_transporteup').click(function() {
+				document.location.href = "/p/transporte_up";
+			});
+
+			//-- Just MEX || GDL
+			
+			if ( (lCampus == 'UPANA') || (lCampus == 'UPGDL') )
+				$('#d_just_mex_gdl').show();
+			else
+				$('#d_just_mex_gdl').hide();
+				
+			//-- Just MEX
+			
+			if (lCampus == 'UPANA')
+				$('#d_just_mex').show();
+			else
+				$('#d_just_mex').hide();
+			
+			//-- Just GDL
+			
+			if (lCampus == 'UPGDL')
+				$('#d_just_gdl').show();
+			else
+				$('#d_just_gdl').hide();
+				
+			//-- Alumni
+
+			if (lCampus == 'UPANA') {
+				$('#d_alumni_mex').show();
+				$('#d_alumni_gdl').hide();
+			} else
+			if (lCampus == 'UPGDL') {
+				$('#d_alumni_mex').hide();
+				$('#d_alumni_gdl').show();
+			}
+			
+		});
+	</script>
+
+<!-- PAGE END -->
+
+        </div>
+    </div>
+</div>
+</div>  
+        
+            <div class="container" id="footer">
+        <span style="float:left">
+			<div class="row hidden-md hidden-lg hidden-xl">
+				&nbsp;&nbsp;&nbsp;
+				<i class="fa fa-copyright" aria-hidden="true"></i> 2022 
+				<a href="https://www.up.edu.mx" target="_new">
+					<b>UP</b>
+				</a>
+			</div>
+			<div class="row hidden-xs hidden-sm">
+				&nbsp;&nbsp;&nbsp;
+				<i class="fa fa-copyright" aria-hidden="true"></i> 2022 
+				<a href="https://www.up.edu.mx" target="_new">
+					<b>Universidad Panamericana</b>
+				</a>
+			</div>
+        </span>        
+        <span style="float:right">
+			YOUR CAMPUS IN A CLICK
+        </span>   
+    </div>
+	<br>
+        
+        <div id="globalModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-ui-widget="ui.modal.Modal">
+    <!-- Dialog -->
+
+<div id="h449013w3" class="modal-dialog " data-backdrop="static" data-keyboard="false" data-ui-widget="ui.modal.Modal">    <!-- Content -->
+    <div class="modal-content">
+        <!-- Header -->
+        
+                    <!-- Body -->
+            <div class="modal-body">
+                                                    <div class="loader humhub-ui-loader ">
+    <div class="sk-spinner sk-spinner-three-bounce">
+        <div class="sk-bounce1"></div>
+        <div class="sk-bounce2"></div>
+        <div class="sk-bounce3"></div>
+    </div>
+</div>                            </div>
+
+            <!-- Footer -->
+                        </div>
+</div>   
+
+</div><div id="globalModalConfirm" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-ui-widget="ui.modal.ConfirmModal">
+    <!-- Dialog -->
+
+<div id="h449013w4" class="modal-dialog modal-dialog-extra-small animated pulse " data-backdrop="static" data-keyboard="false" data-ui-widget="ui.modal.Modal">    <!-- Content -->
+    <div class="modal-content">
+        <!-- Header -->
+        
+                    <!-- Body -->
+            <div class="modal-body text-center">
+                                                    <div class="loader humhub-ui-loader ">
+    <div class="sk-spinner sk-spinner-three-bounce">
+        <div class="sk-bounce1"></div>
+        <div class="sk-bounce2"></div>
+        <div class="sk-bounce3"></div>
+    </div>
+</div>                            </div>
+
+            <!-- Footer -->
+                            <div class="modal-footer">
+                    <button data-modal-cancel="" data-modal-close="" class="btn btn-default"></button><button data-modal-confirm="" data-modal-close="" class="btn btn-primary"></button> 
+                </div>
+                        </div>
+</div>   
+
+</div><div id="humhub-ui-loader-default" class="loader humhub-ui-loader " style="display:none;">
+    <div class="sk-spinner sk-spinner-three-bounce">
+        <div class="sk-bounce1"></div>
+        <div class="sk-bounce2"></div>
+        <div class="sk-bounce3"></div>
+    </div>
+</div><div id="status-bar" class="clearfix" style="display:none;">
+    <div class="status-bar-body">
+        <div class="status-bar-content"></div>
+    </div>
+</div><div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title">Hidden Gallery</h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<div class="modal modal-top" id="markdown-modal-file-upload" tabindex="-1" role="dialog" aria-labelledby="addImageModalLabel" style="z-index:99999" aria-hidden="true">
+    <!-- Dialog -->
+
+<div id="h449013w6" class="modal-dialog " data-backdrop="static" data-keyboard="false" data-ui-widget="ui.modal.Modal">    <!-- Content -->
+    <div class="modal-content">
+        <!-- Header -->
+                    <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                    <h4 class="modal-title">Añadir imagen/archivo</h4>
+                            </div>
+        
+                            <div class="modal-body">
+
+            <div class="uploadForm">
+                
+<span class="btn btn-default btn-sm  fileinput-button" data-placement="bottom" data-action-click="file.upload" data-action-target="#markdown-file-upload">    <i class="fa fa-cloud-upload" aria-hidden="true"></i> &nbsp;Subir    <input type="file" id="markdown-file-upload" name="files[]" multiple="multiple" title="Cargar archivo" data-upload-progress="#markdown-modal-upload-progress" data-upload-submit-name="fileList[]" data-upload-hide-in-stream="1" data-upload-drop-zone="#markdown-modal-file-upload" data-php-max-file-uploads="20" data-php-max-file-uploads-message="Lo sentimos, pero sólo puedes subir 20 ficheros de una vez." data-ui-widget="file.Upload" data-ui-init="" style="display:none"></span>            </div>
+
+            <br>
+
+            <div id="markdown-modal-upload-progress" style="display:none" class="progress"><div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="h449013w5" class="btn btn-default" data-modal-close="">Cerrar</button>        </div>
+                </div>
+</div></div>
+
+<div class="modal modal-top" id="markdown-modal-add-link" tabindex="-1" role="dialog" style="z-index:99999" aria-labelledby="addLinkModalLabel" aria-hidden="true">
+    <!-- Dialog -->
+
+<div id="h449013w9" class="modal-dialog " data-backdrop="static" data-keyboard="false" data-ui-widget="ui.modal.Modal">    <!-- Content -->
+    <div class="modal-content">
+        <!-- Header -->
+                    <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                    <h4 class="modal-title">Añadir enlace</h4>
+                            </div>
+        
+                            <div class="modal-body">
+            <div class="form-group">
+                <label for="addLinkTitle">Título</label>
+                <input type="text" class="form-control linkTitle" placeholder="Título de tu enlace">
+            </div>
+            <div class="form-group">
+                <label for="addLinkTarget">Target</label>
+                <input type="text" class="form-control linkTarget" placeholder="Añade un enlace (ej. http://ejemplo.com)">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="h449013w7" class="btn btn-default" data-modal-close="">Cerrar</button>            <button type="button" id="h449013w8" class="addLinkButton btn btn-primary">Añadir enlace</button>        </div>
+                </div>
+</div></div><script src="/assets/26d63a7/locales\jquery.timeago.es.js?v=1617799790"></script>
+<script src="/assets/980acb4c/js/humhub.mail.wall.js?v=1617799860"></script>
+<script src="/assets/980acb4c/js/humhub.mail.js?v=1617799860"></script>
+<script src="/static/js/humhub/humhub.ui.topNavigation.js?v=1589993303"></script>
+<script>jQuery(function ($) {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js?v=1649337096', { scope: '/' })
+                    .then(function (registration) {
+                        if (typeof afterServiceWorkerRegistration === "function") { 
+                            afterServiceWorkerRegistration(registration);
+                        }
+                    })
+            }
+});</script>       
+    
+
+</body></html>

@@ -4,9 +4,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 import os.path
 import os
 import dotenv
+import time
 
 # Setup chrome options
 chromeOptions = Options()
@@ -23,34 +26,47 @@ browser = webdriver.Chrome(service=webdriverService, options=chromeOptions)
 # Get page UP4U
 browser.get("https://up4u.up.edu.mx/user/auth/login")
 
-# Extract inputs for username and password
-inputUsername = browser.find_element(
-    By.XPATH, "//input[@name='Login[username]']")
-inputPassword = browser.find_element(
-    By.XPATH, "//input[@name='Login[password]']")
-# if both inputs where found print success
-print("Username and password fields found ✅") if inputUsername and inputPassword else print(
-    "Username and password fields not found ❌")
+# Extract inputs for username and password and id
+try:
+    inputUsername = browser.find_element(
+        By.XPATH, "//input[@name='Login[username]' and @id='login_username']")
+except NoSuchElementException:
+    print("Username field not found ❌")
+try:
+    inputPassword = browser.find_element(
+        By.XPATH, "//input[@name='Login[password]'and @id='login_password'] ")
+except NoSuchElementException:
+    print("Password field not found ❌")
 
 
 # define username and password
 dotenv.load_dotenv()
 username = os.getenv("UP4U_USERNAME", )
 password = os.getenv("UP4U_PASSWORD", )
-# print username and password
-print(f"Username: {username}, Password: {password}")
 
 # Fill inputs with username and password
 inputUsername.send_keys(username)
 inputPassword.send_keys(password)
+# inputPassword.send_keys(Keys.RETURN)
 
 # Click on login button
-loginButton = browser.find_element(By.XPATH, "//button[@id='login-button']")
+try:
+    loginButton = browser.find_element(By.ID, "login-button")
+except NoSuchElementException:
+    print("Login button not found ❌")
 loginButton.click()
+
+if "User or Password incorrect." in browser.page_source or "contraseña no puede estar vacío." in browser.page_source:
+    print("Error message found, login failed ❌")
+else:
+    print("Login successful ✅")
+
+# Wait for the page to load
+print("Waiting for the page to load... 🕒\nLet me sleep for 3 seconds\nZZzzzz...")
+time.sleep(3)
+print("Page loaded ✅")
+print(browser.current_url)
 
 # copy the page source to horario.html
 with open("horario.html", "w") as f:
     f.write(browser.page_source)
-
-# close the browser
-browser.close()
