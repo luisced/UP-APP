@@ -4,6 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from dataclasses import dataclass
 from datetime import datetime
 import re
+import pandas as pd
 
 
 @dataclass
@@ -141,3 +142,9 @@ def formatSubject(subjects: list[Subject]) -> str:
     # Print the rows
     for subject in subjects:
         print(f"{subject.name:<{name_length}}  {subject.teacher:<{teacher_length}}  {subject.classroom:<{classroom_length}}  {subject.day:<{day_length}}  {subject.startTime:<{start_time_length}}  {subject.endTime:<{end_time_length}}  {subject.startdate:<{start_date_length}}  {subject.enddate:<{end_date_length}}  {subject.group:<{group_length}}")
+
+
+def scheduleExcel(subjects: list[Subject]):
+    '''Exports the schedule to an excel file'''
+    df = pd.DataFrame(subjects)
+    df.to_excel('schedule.xlsx', index=False)

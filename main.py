@@ -1,7 +1,7 @@
 from chrome import ChromeBrowser
 from login import login
 from menu import findScheduleLink
-from schedule import getScheduleContent, formatSubject
+from schedule import *
 
 
 if __name__ == "__main__":
@@ -11,8 +11,7 @@ if __name__ == "__main__":
     scheduleLink = findScheduleLink(browser)
     scheduleContent = getScheduleContent(browser)
 
-# list to dict
-    print([s.__dict__ for s in scheduleContent])
+    scheduleExcel(scheduleContent)
     with open("horario.html", "w") as f:
         f.write(browser.page_source)
     browser.quit()
