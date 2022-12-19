@@ -83,25 +83,25 @@ def splitScheduleSubjects(scheduleRows: list[list[str]]) -> list[Subject]:
     # Extract the data from the row
     objects: list[Subject] = []
     for data in cell:
-        day = data[1]
-        start_time = data[2]
-        end_time = data[3]
-        subject = data[4]
-        teacher = data[6]
-        start_date = data[7]
-        end_date = data[8]
-        group = data[9]
-        classroom = data[5]
+        day = data[1].strip()
+        start_time = data[2].strip()
+        end_time = data[3].strip()
+        subject = data[4].strip()
+        teacher = data[6].strip()
+        start_date = data[7].strip()
+        end_date = data[8].strip()
+        group = data[9].strip()
+        classroom = data[5].strip()
 
         # Use regex to remove the newline characters from the data
-        day = re.sub(r'\n', '', day)
-        start_time = re.sub(r'\n', '', start_time)
-        end_time = re.sub(r'\n', '', end_time)
-        subject = re.sub(r'\n', '', subject)
-        teacher = re.sub(r'\n', '', teacher)
-        start_date = re.sub(r'\n', '', start_date)
-        end_date = re.sub(r'\n', '', end_date)
-        group = re.sub(r'\n', '', group)
+        # day = re.sub(r'\n', '', day)
+        # start_time = re.sub(r'\n', '', start_time)
+        # end_time = re.sub(r'\n', '', end_time)
+        # subject = re.sub(r'\n', '', subject)
+        # teacher = re.sub(r'\n', '', teacher)
+        # start_date = re.sub(r'\n', '', start_date)
+        # end_date = re.sub(r'\n', '', end_date)
+        # group = re.sub(r'\n', '', group)
         classroom = re.compile(
             r'([^/]*)$').search(re.sub(r'\n', '', classroom)).group(1).replace('Ver', '').lstrip()
 
