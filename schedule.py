@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from dataclasses import dataclass
 from datetime import datetime
+import re
 
 
 @dataclass
@@ -17,7 +18,6 @@ class Subject:
     startdate: datetime
     enddate: datetime
     group: str
-    modality: str
 
     def __str__(self) -> str:
         return f'Subject:{" - ".join([f"{column.name}:{getattr(self, column.name)}" for column in self.__table__.columns])})'
@@ -77,28 +77,43 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     return data
 
 
-def splitScheduleSubjects(scheduleSubjects: list[list[str]]) -> list[Subject]:
+def splitScheduleSubjects(scheduleRows: list[list[str]]) -> list[Subject]:
     '''Splits the schedule subjects into a list of subjects'''
-    subjects = []
-    for subject in scheduleSubjects:
-        # Create a Subject object
-        subject = Subject(
-            name=subject[0],
-            teacher=subject[1],
-            classroom=subject[2],
-            day=subject[3],
-            startTime=subject[4],
-            endTime=subject[5],
-            startdate=subject[6],
-            enddate=subject[7],
-            group=subject[8],
-            modality=subject[9]
-        )
+    cell = [row for row in scheduleRows]
+    # Extract the data from the row
+    for data in cell:
+        day = data[1]
+        start_time = data[2]
+        end_time = data[3]
+        subject = data[4]
+        teacher = data[6]
+        start_date = data[7]
+        end_date = data[8]
+        group = data[9]
 
-        # Add the subject to the list
-        subjects.append(subject)
+        # Use regex to remove the newline characters from the data
+        day = re.sub(r'\n', '', day)
+        start_time = re.sub(r'\n', '', start_time)
+        end_time = re.sub(r'\n', '', end_time)
+        subject = re.sub(r'\n', '', subject)
+        teacher = re.sub(r'\n', '', teacher)
+        start_date = re.sub(r'\n', '', start_date)
+        end_date = re.sub(r'\n', '', end_date)
+        group = re.sub(r'\n', '', group)
 
-    return subjects
+        # Use regex to split the data
+        day = re.split(r'\n', day)[0]
+        teacher = re.split(r'\n', teacher)[0]
+        start_date = re.split(r'\n', start_date)[0]
+        end_date = re.split(r'\n', end_date)[0]
+        group = re.split(r'\n', group)[0]
+
+        data_list = [day, start_time, end_time, subject,
+                     teacher, start_date, end_date, group]
+
+        cell.append(data_list)
+
+    return cell
 
 
 def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
@@ -107,7 +122,6 @@ def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
 
     scheduleSubjects = findScheduleSubjects(scheduleContent)
 
-    for subject in scheduleSubjects:
-        splited_subject = splitScheduleSubjects(subject)
+    splited_subject = splitScheduleSubjects(scheduleSubjects)
 
     return splited_subject
