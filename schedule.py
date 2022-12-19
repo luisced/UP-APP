@@ -119,6 +119,7 @@ def loadScheduleData(scheduleRows: list[list[str]]) -> list[Subject]:
         objects.append(createSubject(**subject_data))
         current_day = subject_data['day'] if subject_data['day'] else current_day
 
+    print(f'Schedule data formatted: {str(objects)}')
     return objects
 
 
@@ -133,4 +134,11 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 
 def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
     '''Extracts the schedule content from the schedule page'''
-    return loadScheduleData(findScheduleSubjects(findScheduleTable(browser)))
+    try:
+        content = loadScheduleData(
+            findScheduleSubjects(findScheduleTable(browser)))
+        print("Schedule content extracted ✅")
+    except Exception as e:
+        print(f"Schedule content not extracted ❌: {e}")
+        content = []
+    return content

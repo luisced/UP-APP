@@ -12,6 +12,6 @@ if __name__ == "__main__":
     scheduleContent = getScheduleContent(browser)
 
     print(login, scheduleLink, scheduleContent, sep="\n\n",)
-    # copy the page source to horario.html
     with open("horario.html", "w") as f:
         f.write(browser.page_source)
+    browser.quit()

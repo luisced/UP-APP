@@ -29,19 +29,23 @@ def findPasswordInput(browser: ChromeBrowser) -> str:
 
 
 # define username and password
-def fillUsernameInput(inputUsername) -> None:
+def fillUsernameInput(inputUsername) -> str:
     '''Fills the username input with the username'''
     dotenv.load_dotenv()
     username = os.getenv("UP4U_USERNAME", )
     inputUsername.send_keys(username)
+    input_value = inputUsername.get_attribute("value")
+    return input_value
 
 
 # Fill inputs with username and password
-def fillPassswordInput(inputPassword) -> None:
+def fillPassswordInput(inputPassword) -> str:
     '''Fills the password input with the password'''
     dotenv.load_dotenv()
     password = os.getenv("UP4U_PASSWORD", )
     inputPassword.send_keys(password)
+    input_value = inputPassword.get_attribute("value")
+    return input_value
 
 # Click on login button
 
@@ -58,10 +62,11 @@ def clickLoginButton(browser: ChromeBrowser) -> None:
 def login(browser: ChromeBrowser) -> str:
     '''Logs in to the UP4U page'''
     try:
-        fillUsernameInput(findUsernameInput(browser))
-        fillPassswordInput(findPasswordInput(browser))
+        username = fillUsernameInput(findUsernameInput(browser))
+        password = fillPassswordInput(findPasswordInput(browser))
+        print(f'Username: {username}\nPassword: {password}')
         clickLoginButton(browser)
-        if "User or Password incorrect." in browser.page_source or "contraseña no puede estar vacío." in browser.page_source:
+        if browser.find_element(By.CLASS_NAME, "help-block").text == "User or Password incorrect.":
             print("Error message found, login failed ❌")
         else:
             print(
