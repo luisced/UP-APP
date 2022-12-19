@@ -105,12 +105,18 @@ def splitScheduleSubjects(scheduleRows: list[list[str]]) -> list[Subject]:
         classroom = re.compile(
             r'([^/]*)$').search(re.sub(r'\n', '', classroom)).group(1).replace('Ver', '').lstrip()
 
-        # Create a Subject object
-        objects.append(createSubject(day, start_time, end_time, subject,
-                                     teacher, start_date, end_date, group, classroom))
+        subjects = createSubject(day, start_time, end_time, subject,
+                                 teacher, start_date, end_date, group, classroom)
+        objects.append(subjects)
 
-    # convert list of objects to list of dictionaries
-    # objects = [subject.to_dict() for subject in objects]
+        current_day = ''
+        for subject in objects:
+            if subject.day:
+                current_day = subject.day
+            else:
+                subject.day = current_day
+
+        objects = [subject for subject in objects if subject.day]
 
     return objects
 
