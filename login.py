@@ -1,30 +1,19 @@
 # selenium 4
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from chrome import ChromeBrowser
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 import os.path
 import os
 import dotenv
 import time
 
-# Setup chrome options
-chromeOptions = Options()
-chromeOptions.add_argument("--headless")  # Ensure GUI is off
-chromeOptions.add_argument("--no-sandbox")
 
-# Set path to chromedriver as per your configuration
-homedir = os.path.expanduser("~")
-webdriverService = Service(f"{homedir}/chromedriver/stable/chromedriver")
-
-# Choose Chrome Browser
-browser = webdriver.Chrome(service=webdriverService, options=chromeOptions)
+browser = ChromeBrowser().buildBrowser()
 
 # Get page UP4U
 browser.get("https://up4u.up.edu.mx/user/auth/login")
+
 
 # Extract inputs for username and password and id
 try:
