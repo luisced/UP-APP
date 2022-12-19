@@ -3,13 +3,11 @@
 from chrome import ChromeBrowser
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import os.path
 import os
 import dotenv
 import time
 
 
-# Extract inputs for username and password and id
 def findUsernameInput(browser: ChromeBrowser) -> str:
     '''Extracts the username input from the login page'''
     try:
@@ -69,13 +67,8 @@ def login(browser: ChromeBrowser) -> str:
             print(
                 f"Login successful ✅\nWaiting for the page to load... 🕒\nLet me sleep for 3 seconds\nZZzzzz...")
             time.sleep(3)
-            print("Page loaded ✅")
-            url = browser.current_url
+            print("Main Menu loaded ✅")
     except Exception as e:
         print(f'Login failed ❌\n{e}')
-    return url
-
-
-# # copy the page source to horario.html
-# with open("horario.html", "w") as f:
-#     f.write(browser.page_source)
+    # color the url blue in the terminal
+    return f'Current URL after login: \033[94m{browser.current_url}\033[0m'
