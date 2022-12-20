@@ -1,4 +1,4 @@
-FROM python:3.11-buster
+FROM python:3.10.7-buster
 WORKDIR /school_manager
 COPY . .
 ENV LANG es_MX.UTF-8 

@@ -1,4 +1,4 @@
-from chrome import ChromeBrowser
+from tools.chrome import ChromeBrowser
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from dataclasses import dataclass
