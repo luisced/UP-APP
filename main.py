@@ -11,6 +11,8 @@ if __name__ == "__main__":
     scheduleLink = findScheduleLink(browser)
     scheduleContent = getScheduleContent(browser)
 
+    print(scheduleContent)
+
     scheduleExcel(scheduleContent)
     with open("horario.html", "w") as f:
         f.write(browser.page_source)
