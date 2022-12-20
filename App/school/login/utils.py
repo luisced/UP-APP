@@ -1,6 +1,4 @@
-# selenium 4
-
-from App.school.tools.chrome import ChromeBrowser
+from school.models import *
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import os

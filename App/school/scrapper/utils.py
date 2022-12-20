@@ -1,7 +1,7 @@
-from App.school.tools.chrome import ChromeBrowser
-from App.school.login.utils import login
-from App.school.dashboard.menu import findScheduleLink
-from App.school.schedule.utils import *
+from school.models import ChromeBrowser
+from school.login.utils import login
+from school.dashboard.utils import findScheduleLink
+from school.schedule.utils import *
 
 
 browser = ChromeBrowser().buildBrowser()
@@ -13,6 +13,6 @@ scheduleContent = getScheduleContent(browser)
 print(scheduleContent)
 
 scheduleExcel(scheduleContent)
-with open("horario.html", "w") as f:
-    f.write(browser.page_source)
+# with open("horario.html", "w") as f:
+#     f.write(browser.page_source)
 browser.quit()

@@ -1,4 +1,4 @@
-from App.school.tools.chrome import ChromeBrowser
+from App.school.tools.utils import ChromeBrowser
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time

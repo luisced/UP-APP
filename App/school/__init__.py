@@ -14,6 +14,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
 
+
 @login_manager.user_loader
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -22,7 +23,7 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
     Session(app)
     CORS(app)
-    
+
     #CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     bcrypt.init_app(app)
@@ -30,7 +31,11 @@ def create_app(config_class=Config):
 
     app.app_context().push()
 
+    from school.scrapper.routes import scrapper
+    from school.tools.routes import tools
 
     app.config.from_object(Config)
+    app.register_blueprint(scrapper)
+    app.register_blueprint(tools)
 
     return app
