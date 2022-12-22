@@ -1,4 +1,4 @@
-from school.models import ChromeBrowser
+from school.models import ChromeBrowser, Subject
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from dataclasses import dataclass
@@ -7,27 +7,7 @@ import pandas as pd
 import os
 import re
 import openpyxl
-
-
-@dataclass
-class Subject:
-    '''Class to represent a subject'''
-    name: str
-    teacher: str
-    classroom: str
-    day: str
-    startTime: datetime
-    endTime: datetime
-    startdate: datetime
-    enddate: datetime
-    group: str
-
-    def __str__(self) -> str:
-        return f'Subject:{" - ".join([f"{column.name}:{getattr(self, column.name)}" for column in self.__table__.columns])})'
-
-    def to_dict(self) -> dict:
-        '''Convert the subject to a dictionary'''
-        return self.__dict__
+import traceback
 
 
 def findScheduleTable(browser):
@@ -115,15 +95,22 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
     return subject
 
 
-def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
+def getSubject(subject: Subject) -> dict[str, str]:
+    '''Returns the subject data as a dictionary'''
+    return Subject.to_dict(subject)
+
+
+def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:
     '''Extracts the schedule content from the schedule page'''
     try:
-        content = loadScheduleData(
-            findScheduleSubjects(findScheduleTable(browser)))
+        data = []
+        for content in loadScheduleData(findScheduleSubjects(findScheduleTable(browser))):
+            data.append(getSubject(content))
         print("Schedule content extracted ✅")
     except Exception as e:
-        print(f"Schedule content not extracted ❌: {e}")
-        content = []
+        print(
+            f"Schedule content not extracted ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        data = []
     return content
 
 
