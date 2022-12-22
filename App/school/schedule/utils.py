@@ -127,26 +127,6 @@ def getScheduleContent(browser: ChromeBrowser) -> list[list[str]]:
     return content
 
 
-def formatSubject(subjects: list[Subject]) -> str:
-    '''Formats the subjects'''
-    name_length = max(len(subject.name) for subject in subjects)
-    teacher_length = max(len(subject.teacher) for subject in subjects)
-    classroom_length = max(len(subject.classroom) for subject in subjects)
-    day_length = max(len(subject.day) for subject in subjects)
-    start_time_length = max(len(subject.startTime) for subject in subjects)
-    end_time_length = max(len(subject.endTime) for subject in subjects)
-    start_date_length = max(len(subject.startdate) for subject in subjects)
-    end_date_length = max(len(subject.enddate) for subject in subjects)
-    group_length = max(len(subject.group) for subject in subjects)
-    # Print the header
-    print(f"{'Name':<{name_length}}  {'Teacher':<{teacher_length}}  {'Classroom':<{classroom_length}}  {'Day':<{day_length}}  {'Start Time':<{start_time_length}}  {'End Time':<{end_time_length}}  {'Start Date':<{start_date_length}}  {'End Date':<{end_date_length}}  {'Group':<{group_length}}")
-    print("-" * (name_length + teacher_length + classroom_length + day_length +
-          start_time_length + end_time_length + start_date_length + end_date_length + group_length + 8))
-    # Print the rows
-    for subject in subjects:
-        print(f"{subject.name:<{name_length}}  {subject.teacher:<{teacher_length}}  {subject.classroom:<{classroom_length}}  {subject.day:<{day_length}}  {subject.startTime:<{start_time_length}}  {subject.endTime:<{end_time_length}}  {subject.startdate:<{start_date_length}}  {subject.enddate:<{end_date_length}}  {subject.group:<{group_length}}")
-
-
 def scheduleExcel(subjects: list[Subject]) -> pd:
     '''Exports the schedule to an excel file'''
     # Create a new Excel workbook

@@ -8,10 +8,7 @@ def extractUP4USchedule() -> list[Subject]:
     browser = ChromeBrowser().buildBrowser()
     browser.get("https://up4u.up.edu.mx/user/auth/login")
     login(browser)
-    # scheduleLink = findScheduleLink(browser)
-    # scheduleContent = getScheduleContent(browser)
+    scheduleLink = findScheduleLink(browser)
+    scheduleContent = getScheduleContent(findScheduleLink(browser))
 
-    def get_schedule(browser): return getScheduleContent(
-        findScheduleLink(browser))
-
-    return get_schedule
+    return scheduleContent
