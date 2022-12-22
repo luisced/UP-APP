@@ -1,7 +1,7 @@
 from school.models import ChromeBrowser
 from school.dashboard.utils import findScheduleLink
 from school.schedule.utils import *
-from school.login.utils import login
+from school.login.utils import *
 
 
 def extractUP4USchedule() -> list[Subject]:

@@ -1,3 +1,4 @@
+from school import db
 from dataclasses import dataclass
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -28,19 +29,31 @@ class ChromeBrowser:
 
 
 @dataclass
-class Subject:
-    '''Class to represent a subject'''
-    name: str
-    teacher: str
-    classroom: str
-    day: str
-    startTime: datetime
-    endTime: datetime
-    startdate: datetime
-    enddate: datetime
-    group: str
+class Subject(db.Model):
+    '''Model to represent a subject for storing subjects in the database'''
 
-    def __str__(self) -> str:
+    __tablename__ = 'Subject'
+
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    name: str = db.Column(db.String(280), nullable=False)
+    teacher: str = db.Column(db.String(280), nullable=False)
+    classroom: str = db.Column(db.String(280), nullable=False)
+    day: str = db.Column(db.String(280), nullable=False)
+    startTime: str = db.Column(db.Time, nullable=False)
+    group: str = db.Column(db.String(280), nullable=False)
+    endTime: str = db.Column(db.Time, nullable=False)
+    startdate: datetime = db.Column(db.Date, nullable=False)
+    enddate: datetime = db.Column(db.Date, nullable=False)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationdate: datetime = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+    lastupdate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+    option = db.Column(db.Integer, nullable=False, default=0)
+
+    def __repr__(self) -> str:
+        '''Convert the subject to a string'''
         return f'Subject:{" - ".join([f"{column.name}:{getattr(self, column.name)}" for column in self.__table__.columns])})'
 
     def to_dict(self) -> dict:

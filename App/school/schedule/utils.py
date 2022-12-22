@@ -1,12 +1,12 @@
 from school.models import ChromeBrowser, Subject
+from school import db
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from dataclasses import dataclass
 from datetime import datetime
+from time import strptime
 import pandas as pd
 import os
 import re
-import openpyxl
 import traceback
 
 
@@ -73,44 +73,56 @@ def cleanScheduleData(data: list[str]) -> dict[str, str]:
     }
 
 
-def loadScheduleData(scheduleRows: list[list[str]]) -> list[Subject]:
+def loadScheduleData(scheduleRows: list[list[str]]) -> Subject:
     '''Loads the schedule data into a Subject object'''
-    objects: list[Subject] = []
     current_day = ''
     for data in scheduleRows:
         subject_data = cleanScheduleData(data)
         subject_data['day'] = subject_data['day'] or current_day
-        objects.append(createSubject(**subject_data))
+        subject = createSubject(**subject_data)
         current_day = subject_data['day'] if subject_data['day'] else current_day
 
-    return objects
+    return subject
 
 
 def createSubject(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str, classroom: str):
     '''Creates a subject object'''
+    try:
 
-    # convert start and end time to datetime
-    subject = Subject(day=day, startTime=datetime.strptime(end_time, '%H:%M'), endTime=datetime.strptime(start_time, '%H:%M'), name=subject, teacher=teacher,
-                      startdate=start_date, enddate=end_date, group=group, classroom=classroom)
+        if not Subject.query.filter_by(group=group, day=day).first():
+            subject = Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
+                              startdate=datetime.strptime(start_date, '%d/%m/%Y'), enddate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
+            db.session.add(subject)
+            db.session.commit()
+        else:
+            raise ValueError("Subject already exists in the database")
+    except Exception as e:
+        print(
+            f"Subject not created ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        subject = None
     return subject
 
 
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
-    return Subject.to_dict(subject)
+    subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
+    # convert datetime to string
+    lambda x: x.strftime('%H:%M') if isinstance(x, datetime) else x
+    lambda x: x.strftime('%d/%m/%Y') if isinstance(x, datetime) else x
+    return subjects
 
 
 def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:
     '''Extracts the schedule content from the schedule page'''
     try:
-        data = []
-        for content in loadScheduleData(findScheduleSubjects(findScheduleTable(browser))):
-            data.append(getSubject(content))
+        loads = loadScheduleData(
+            findScheduleSubjects(findScheduleTable(browser)))
+        print(loads)
+        content = getSubject()
         print("Schedule content extracted ✅")
     except Exception as e:
         print(
             f"Schedule content not extracted ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        data = []
     return content
 
 
