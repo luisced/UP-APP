@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import os.path
 
 
@@ -14,12 +15,12 @@ class ChromeBrowser:
         self.chromeOptions = Options()
         self.chromeOptions.add_argument("--headless")  # Ensure GUI is off
         self.chromeOptions.add_argument("--no-sandbox")
+        self.chromeOptions.add_argument("--disable-dev-shm-usage")
 
     def buildBrowser(self) -> webdriver:
         """Method to build a Chrome browser instance"""
         homedir = os.path.expanduser("~")
-        webdriverService = Service(
-            f"{homedir}/chromedriver/stable/chromedriver")
+        webdriverService = Service(ChromeDriverManager().install())
         browser = webdriver.Chrome(
             service=webdriverService, options=self.chromeOptions)
         return browser
