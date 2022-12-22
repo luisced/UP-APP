@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
+from school.scrapper.utils import *
 
 
 scrapper = Blueprint('scrapper', __name__)
@@ -16,7 +17,7 @@ def scrapp_up4u() -> dict[str, str]:
         error, message, code = False, '', ''
         if json_data and all(json_data.values()):
             if ['id', 'password'] == list(json_data.keys()):
-                data.append()
+                data.append(extractUP4USchedule())
             else:
                 error, code = 'Missing fields', 4
         else:
