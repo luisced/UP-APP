@@ -39,11 +39,4 @@ services:
       - ./App:/school_manager/App
     networks:
       - app-tier
-  google_chrome:
-    image: browserless/chrome
-    container_name: google_chrome_container
-    restart: always
-    ports:
-      - 3000:3000
-    networks:
-      - app-tier
+
