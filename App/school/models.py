@@ -47,14 +47,14 @@ class Subject(db.Model):
     enddate: datetime = db.Column(db.Date, nullable=False)
     status: bool = db.Column(db.Boolean, nullable=False, default=True)
     creationdate: datetime = db.Column(
-        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+        db.Date, nullable=False, default=datetime.now)
     lastupdate: str = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
     option = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self) -> str:
         '''Convert the subject to a string'''
-        return f'Subject:{" - ".join([f"{column.name}:{getattr(self, column.name)}" for column in self.__table__.columns])})'
+        return f'Subject:{" ".join([f"{column.name}={getattr(self, column.name)}" for column in self.__table__.columns])}'
 
     def to_dict(self) -> dict:
         '''Convert the subject to a dictionary'''

@@ -3,7 +3,6 @@ from school import db
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime
-from time import strptime
 import pandas as pd
 import os
 import re
@@ -105,11 +104,11 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
-    subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
-    # convert datetime to string
-    lambda x: x.strftime('%H:%M') if isinstance(x, datetime) else x
-    lambda x: x.strftime('%d/%m/%Y') if isinstance(x, datetime) else x
+    subjects = Subject.query.filter_by(id=subject.id).first()
+    print(subjects)
     return subjects
+    # subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
+    # return {k: (v.strftime('%Y-%m-%d %H:%M:%S') if isinstance(v, datetime.date) else v) for k, v in subjects.items()}
 
 
 def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:
@@ -118,11 +117,14 @@ def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:
         loads = loadScheduleData(
             findScheduleSubjects(findScheduleTable(browser)))
         print(loads)
-        content = getSubject()
+        content = getSubject(loads)
         print("Schedule content extracted ✅")
     except Exception as e:
         print(
             f"Schedule content not extracted ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        content = None
+
+    print(content)
     return content
 
 

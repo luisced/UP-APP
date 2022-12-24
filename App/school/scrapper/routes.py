@@ -18,7 +18,6 @@ def scrapp_up4u() -> dict[str, str]:
         if json_data and all(json_data.values()):
             if ['id', 'password'] == list(json_data.keys()):
                 data.append(extractUP4USchedule())
-                print(data)
                 message, code = 'Data extracted', 1
             else:
                 error, code = 'Missing fields', 2
@@ -27,6 +26,7 @@ def scrapp_up4u() -> dict[str, str]:
     else:
         error, code = 'Invalid method', 4
 
-    response.update({'sucess': True, 'message': message, 'data': data, 'status_code': 200, 'error': None, 'code': f'{code}'} if data and data != {{}} else {
-        'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': f'{code}'})
-    return jsonify(response, response['status_code'])
+    response.update({'sucess': True, 'message': message, 'data': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] else {
+        'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
+    print(response)
+    return jsonify(response), response['status_code']
