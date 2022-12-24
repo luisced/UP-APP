@@ -18,3 +18,30 @@ def server_status() -> str:
     else:
         status = "CRITICAL"
     return status
+
+
+def color(color: int, text: str) -> str:
+    '''
+    1: Red
+    2: Green
+    3: Yellow
+    4: Blue
+    5: Purple
+    6: Cyan
+    '''
+
+    match color:
+        case 1:
+            return f"\033[1;31;40m{text}\033[0m"
+        case 2:
+            return f"\033[1;32;40m{text}\033[0m"
+        case 3:
+            return f"\033[1;33;40m{text}\033[0m"
+        case 4:
+            return f"\033[1;34;40m{text}\033[0m"
+        case 5:
+            return f"\033[1;35;40m{text}\033[0m"
+        case 6:
+            return f"\033[1;36;40m{text}\033[0m"
+        case _:
+            raise ValueError("Invalid color")
