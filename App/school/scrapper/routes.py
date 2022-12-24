@@ -26,7 +26,7 @@ def scrapp_up4u() -> dict[str, str]:
     else:
         error, code = 'Invalid method', 4
 
-    response.update({'sucess': True, 'message': message, 'data': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] else {
+    response.update({'sucess': True, 'message': message, 'data': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] and data != [None] else {
         'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
     print(response)
     return jsonify(response), response['status_code']
