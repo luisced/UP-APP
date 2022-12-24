@@ -44,28 +44,18 @@ def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]
     '''Cleans the schedule data'''
     cleanedSubjects = []
     for subjectData in subjectsList:
-        day = subjectData[1].strip()
-        start_time = subjectData[2].strip()
-        end_time = subjectData[3].strip()
-        subject = subjectData[4].strip()
-        teacher = subjectData[6].strip()
-        start_date = subjectData[7].strip()
-        end_date = subjectData[8].strip()
-        group = subjectData[9].strip()
-        classroom = re.compile(
-            r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
-
         # Create a dictionary with all subject data
         subject_data = {
-            'day': day,
-            'start_time': start_time,
-            'end_time': end_time,
-            'subject': subject,
-            'teacher': teacher,
-            'start_date': start_date,
-            'end_date': end_date,
-            'group': group,
-            'classroom': classroom
+            'day': subjectData[1].strip(),
+            'start_time': subjectData[2].strip(),
+            'end_time': subjectData[3].strip(),
+            'subject': subjectData[4].strip(),
+            'teacher': subjectData[6].strip(),
+            'start_date': subjectData[7].strip(),
+            'end_date': subjectData[8].strip(),
+            'group': subjectData[9].strip(),
+            'classroom': re.compile(
+                r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
         }
 
         # Add the subject data to the list
@@ -74,16 +64,16 @@ def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]
     return cleanedSubjects
 
 
-def loadScheduleData(scheduleSubjects: list[list[str]]) -> Subject:
+def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, str]]:
     '''Loads the schedule data into a Subject object'''
     current_day = ''
     subjects = [subject for subject in scheduleSubjects if subject != []]
-    print(cleanScheduleData(subjects))
-    # subjectList = []
-    # for data in subjects:
-    #     subject_data['day'] = subject_data['day'] or current_day
-    #     subjectList.append(createSubject(**subject_data))
-    #     current_day = subject_data['day'] if subject_data['day'] else current_day
+    subject_data = cleanScheduleData(subjects)
+    for data in subject_data:
+        data['day'] = data['day'] if data['day'] else current_day
+        createSubject(**data)
+        current_day = data['day']
+    return subject_data
 
 
 def createSubject(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str, classroom: str):
@@ -120,20 +110,25 @@ def getSubject(subject: Subject) -> dict[str, str]:
     return subjects
 
 
-def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:
-    '''Extracts the schedule content from the schedule page'''
+def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
+    '''Extracts the schedule content from the schedule page and returns a list of dictionaries with the schedule data'''
     try:
-
         loads = loadScheduleData(
             findScheduleSubjects(findScheduleTable(browser)))
-        content = getSubject(loads)
         print("Schedule content extracted ✅")
+        try:
+            subjects_data = [getSubject(Subject.query.filter_by(
+                group=subject['group'], day=subject['day']).first()) for subject in loads]
+            print("Schedule content loaded ✅")
+        except Exception as e:
+            print(
+                f"Schedule content not loaded ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+            subjects_data = None
     except Exception as e:
         print(
             f"Schedule content not extracted ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        content = None
-
-    return content
+        loads = None
+    return subjects_data
 
 
 # def scheduleExcel(subjects: list[Subject]) -> pd:
