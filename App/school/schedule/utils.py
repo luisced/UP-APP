@@ -104,7 +104,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
-    subjects = Subject.query.filter_by(id=subject.id).first()
+    subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
     print(subjects)
     return subjects
     # subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())

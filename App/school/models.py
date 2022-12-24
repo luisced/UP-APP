@@ -21,7 +21,6 @@ class ChromeBrowser:
 
     def buildBrowser(self) -> webdriver:
         """Method to build a Chrome browser instance"""
-        homedir = os.path.expanduser("~")
         webdriverService = Service(ChromeDriverManager().install())
         browser = webdriver.Chrome(
             service=webdriverService, options=self.chromeOptions)
