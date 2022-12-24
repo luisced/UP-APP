@@ -1,9 +1,9 @@
-from school.models import *
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import os
-import dotenv
+from school.models import *
+from school.tools.utils import color
 import time
+import logging
 
 
 def findUsernameInput(browser: ChromeBrowser) -> str:
@@ -12,7 +12,8 @@ def findUsernameInput(browser: ChromeBrowser) -> str:
         inputUsername = browser.find_element(
             By.XPATH, "//input[@name='Login[username]' and @id='login_username']")
     except NoSuchElementException:
-        print("Username field not found ❌")
+        logging.error(f'{color(1,"Username field not found")} ❌')
+
     return inputUsername
 
 
@@ -22,7 +23,7 @@ def findPasswordInput(browser: ChromeBrowser) -> str:
         inputPassword = browser.find_element(
             By.XPATH, "//input[@name='Login[password]'and @id='login_password'] ")
     except NoSuchElementException:
-        print("Password field not found ❌")
+        logging.error(f'{color(1,"Password field not found")} ❌')
     return inputPassword
 
 
@@ -50,7 +51,7 @@ def clickLoginButton(browser: ChromeBrowser) -> None:
         loginButton = browser.find_element(By.ID, "login-button")
         loginButton.click()
     except NoSuchElementException:
-        print("Login button not found ❌")
+        logging.error(f'{color(1,"Login button not found")} ❌')
 
 
 def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
@@ -59,15 +60,17 @@ def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
         username = fillUsernameInput(findUsernameInput(browser), studentId)
         password = fillPassswordInput(findPasswordInput(browser), password)
         print(f'Username: {username}\nPassword: {password}')
+        logging.info(f'Username: {username}\nPassword: {password}')
         clickLoginButton(browser)
         if browser.find_element(By.CLASS_NAME, "help-block").text:
-            print("Error message found, login failed ❌")
+            logging.error(f"{color(1,'Error message found, login failed')} ❌")
         else:
-            print(
+            logging.info(
                 f"Login successful ✅\nWaiting for the page to load... 🕒\nLet me sleep for 3 seconds\nZZzzzz...")
             time.sleep(3)
-            print("Main Menu loaded ✅")
+            logging.info("I'm awake now 🤓\nMain Menu loaded ✅")
     except Exception as e:
         print(f'Login failed ❌\n{e}')
+        logging.critical(f"{color(5,'Login failed')} ❌\n{e}")
     # color the url blue in the terminal
     return f'Current URL after login: \033[94m{browser.current_url}\033[0m'

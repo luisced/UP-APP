@@ -2,6 +2,7 @@ from school.models import ChromeBrowser
 from school.dashboard.utils import findScheduleLink
 from school.schedule.utils import *
 from school.login.utils import *
+from school.tools.utils import color
 import traceback
 import logging
 
@@ -16,7 +17,7 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         scheduleContent = getScheduleContent(browser)
     except Exception as e:
         logging.error(
-            f'Schedule extraction failed ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+            f'{color(1,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
         scheduleContent = None
 
     return scheduleContent

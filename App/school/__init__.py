@@ -6,13 +6,15 @@ from flask import Flask
 from school.config import Config
 from flask_cors import CORS
 from flask_session import Session
-
+import logging
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
+
+logging.basicConfig(filename='logs.log', level=logging.DEBUG,)
 
 
 @login_manager.user_loader

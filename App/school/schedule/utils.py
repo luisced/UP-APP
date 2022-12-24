@@ -1,7 +1,8 @@
-from school.models import ChromeBrowser, Subject
-from school import db
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from school import db
+from school.tools.utils import color
+from school.models import ChromeBrowser, Subject
 from datetime import datetime
 import re
 import traceback
@@ -11,9 +12,9 @@ import logging
 def findScheduleTable(browser):
     try:
         scheduleContent = browser.find_element(By.ID, "contenido-tabla")
-        print("Schedule content found ✅")
+        logging.info(f'{color(3,"Schedule content found")} ✅')
     except NoSuchElementException:
-        print("Schedule content not found ❌")
+        logging.error(f'{color(1,"Schedule content not found")} ❌')
     return scheduleContent
 
 
@@ -21,9 +22,9 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     '''Extracts the schedule subjects from the schedule content'''
     try:
         rows = scheduleContent.find_elements(By.CSS_SELECTOR, "div.row")
-        print(f"Schedule content has {len(rows)} rows🔎")
+        logging.info(f'{color(4,"Schedule content has rows")}🔎')
     except NoSuchElementException:
-        print("Schedule content has no rows ❌")
+        logging.warning(f'{color(1,"Schedule content has no rows")} ❌')
 
     data = []
     for row in rows:
@@ -67,11 +68,17 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
     '''Loads the schedule data into a Subject object'''
     current_day = ''
     subjects = [subject for subject in scheduleSubjects if subject != []]
-    subject_data = cleanScheduleData(subjects)
-    for data in subject_data:
-        data['day'] = data['day'] if data['day'] else current_day
-        createSubject(**data)
-        current_day = data['day']
+    try:
+        subject_data = cleanScheduleData(subjects)
+        for data in subject_data:
+            data['day'] = data['day'] if data['day'] else current_day
+            createSubject(**data)
+            current_day = data['day']
+        logging.info(f'{color(3,"Schedule data loaded into DB")} ✅')
+    except Exception as e:
+        logging.error(
+            f'{color(1,"Schedule data not loaded into DB")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+        subject_data = None
     return subject_data
 
 
@@ -84,11 +91,13 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
                               startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
             db.session.add(subject)
             db.session.commit()
+            logging.info(f"{color(3,'Subject created:')} ✅")
         else:
-            raise ValueError("Subject already exists in the database")
+            raise ValueError(
+                f"{color(3,'Subject already exists in the database')}")
     except Exception as e:
         logging.error(
-            f"\033[31mSubject not created\033[0m ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+            f"{color(1,'Subject not created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         subject = None
     return subject
 
@@ -96,7 +105,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
     subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
-
+    logging.info(f"{color(3,'Get Subject Complete')} ✅")
     return formatDateObjsSubject(subjects)
 
 
@@ -118,18 +127,11 @@ def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
     try:
         loads = loadScheduleData(
             findScheduleSubjects(findScheduleTable(browser)))
-        print("Schedule content extracted ✅")
-        try:
-            subjects_data = [getSubject(Subject.query.filter_by(
-                group=subject['group'], day=subject['day']).first()) for subject in loads]
-            print("Schedule content loaded ✅")
-        except Exception as e:
-            print(
-                f"Schedule content not loaded ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-            subjects_data = None
+        subjects_data = [getSubject(Subject.query.filter_by(
+            group=subject['group'], day=subject['day']).first()) for subject in loads]
     except Exception as e:
-        print(
-            f"Schedule content not extracted ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        logging.error(
+            f"{color(1,'Schedule content not extracted')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         loads = None
     return subjects_data
 
