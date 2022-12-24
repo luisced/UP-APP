@@ -74,7 +74,7 @@ def loadScheduleData(scheduleRows: list[list[str]]) -> Subject:
         subject_data['day'] = subject_data['day'] or current_day
         subject = createSubject(**subject_data)
         current_day = subject_data['day'] if subject_data['day'] else current_day
-
+    print(scheduleRows)
     return subject
 
 
@@ -84,7 +84,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 
         if not Subject.query.filter_by(group=group, day=day).first():
             subject = Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
-                              startdate=datetime.strptime(start_date, '%d/%m/%Y'), enddate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
+                              startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
             db.session.add(subject)
             db.session.commit()
         else:
