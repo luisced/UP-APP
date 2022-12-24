@@ -1,4 +1,5 @@
 from school import db
+from school.relations import *
 from dataclasses import dataclass
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -51,6 +52,12 @@ class Subject(db.Model):
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
     option: int = db.Column(db.Integer, nullable=False, default=0)
 
+    # Relationships
+
+    # Secondary table
+    studentId = db.relationship('Student', secondary=RelationStudentSubjectTable,
+                                backref='studentId', lazy='dynamic', viewonly=True)
+
     def __repr__(self) -> str:
         '''Convert the subject to a string'''
         return f'Subject:{" ".join([f"{column.name}={getattr(self, column.name)}" for column in self.__table__.columns])}'
@@ -78,6 +85,12 @@ class Student(db.Model):
     lastupDate: str = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
     option: int = db.Column(db.Integer, nullable=False, default=0)
+
+    # Relationships
+
+    # Secondary table
+    subjectID: int = db.relationship('Subject', secondary=RelationStudentSubjectTable,
+                                     backref=db.backref('subjectID', lazy='dynamic'))
 
     def __repr__(self) -> str:
         '''Convert the student to a string'''

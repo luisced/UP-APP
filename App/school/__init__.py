@@ -40,9 +40,11 @@ def create_app(config_class=Config):
 
     from school.scrapper.routes import scrapper
     from school.tools.routes import tools
+    from school.student.routes import student
 
     app.config.from_object(Config)
     app.register_blueprint(scrapper)
     app.register_blueprint(tools)
+    app.register_blueprint(student)
 
     return app
