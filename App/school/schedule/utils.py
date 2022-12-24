@@ -3,10 +3,9 @@ from school import db
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime
-import pandas as pd
-import os
 import re
 import traceback
+import logging
 
 
 def findScheduleTable(browser):
@@ -88,8 +87,8 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
         else:
             raise ValueError("Subject already exists in the database")
     except Exception as e:
-        print(
-            f"Subject not created ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        logging.error(
+            f"\033[31mSubject not created\033[0m ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         subject = None
     return subject
 
@@ -98,6 +97,11 @@ def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
     subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
 
+    return formatDateObjsSubject(subjects)
+
+
+def formatDateObjsSubject(subjects: dict[str, str]) -> dict[str, str]:
+    '''Formats the date objects in the subject dictionary'''
     subjects['startDate'] = subjects['startDate'].strftime('%Y-%m-%d')
     subjects['endDate'] = subjects['endDate'].strftime('%Y-%m-%d')
     subjects['startTime'] = subjects['startTime'].strftime('%H:%M')
@@ -106,7 +110,6 @@ def getSubject(subject: Subject) -> dict[str, str]:
         '%Y-%m-%d %H:%M:%S')
     subjects['lastupDate'] = subjects['lastupDate'].strftime(
         '%Y-%m-%d %H:%M:%S')
-
     return subjects
 
 
