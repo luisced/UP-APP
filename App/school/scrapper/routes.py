@@ -17,7 +17,8 @@ def scrapp_up4u() -> dict[str, str]:
         error, message, code = False, '', ''
         if json_data and all(json_data.values()):
             if ['id', 'password'] == list(json_data.keys()):
-                schedule = extractUP4USchedule()
+                schedule = extractUP4USchedule(
+                    json_data['id'], json_data['password'])
                 for subject in schedule:
                     data.append(subject)
                 message, code = f'Data extracted', 1
