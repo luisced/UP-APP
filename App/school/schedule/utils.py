@@ -40,12 +40,6 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     return data
 
 
-def splitScheduleSubjects(scheduleRows: list[list[str]]) -> list[Subject]:
-    '''Splits the schedule subjects into a list of subjects'''
-
-    return loadScheduleData(scheduleRows, current_day='')
-
-
 def cleanScheduleData(data: list[str]) -> dict[str, str]:
     '''Cleans the schedule data'''
     day = data[1].strip()
@@ -105,10 +99,17 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
     subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
-    print(subjects)
+
+    subjects['startDate'] = subjects['startDate'].strftime('%Y-%m-%d')
+    subjects['endDate'] = subjects['endDate'].strftime('%Y-%m-%d')
+    subjects['startTime'] = subjects['startTime'].strftime('%H:%M')
+    subjects['endTime'] = subjects['endTime'].strftime('%H:%M')
+    subjects['creationDate'] = subjects['creationDate'].strftime(
+        '%Y-%m-%d %H:%M:%S')
+    subjects['lastupDate'] = subjects['lastupDate'].strftime(
+        '%Y-%m-%d %H:%M:%S')
+
     return subjects
-    # subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
-    # return {k: (v.strftime('%Y-%m-%d %H:%M:%S') if isinstance(v, datetime.date) else v) for k, v in subjects.items()}
 
 
 def getScheduleContent(browser: ChromeBrowser) -> dict[dict[str, str]]:

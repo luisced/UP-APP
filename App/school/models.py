@@ -42,12 +42,12 @@ class Subject(db.Model):
     startTime: str = db.Column(db.Time, nullable=False)
     group: str = db.Column(db.String(280), nullable=False)
     endTime: str = db.Column(db.Time, nullable=False)
-    startdate: datetime = db.Column(db.Date, nullable=False)
-    enddate: datetime = db.Column(db.Date, nullable=False)
+    startDate: datetime = db.Column(db.Date, nullable=False)
+    endDate: datetime = db.Column(db.Date, nullable=False)
     status: bool = db.Column(db.Boolean, nullable=False, default=True)
-    creationdate: datetime = db.Column(
+    creationDate: datetime = db.Column(
         db.Date, nullable=False, default=datetime.now)
-    lastupdate: str = db.Column(
+    lastupDate: str = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
     option = db.Column(db.Integer, nullable=False, default=0)
 
