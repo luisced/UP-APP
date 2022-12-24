@@ -6,6 +6,7 @@ import traceback
 app = create_app()
 admin = Admin(app, name='UP4U', template_mode='bootstrap3')
 
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     # pass through HTTP errors
@@ -19,4 +20,3 @@ def handle_exception(e):
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True,
             use_reloader=True, use_debugger=True, port=5555)
-  

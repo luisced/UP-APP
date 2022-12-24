@@ -14,10 +14,15 @@ login_manager = LoginManager()
 login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
 
-logging.basicConfig(filename='logs.log', level=logging.DEBUG,)
+# Configure logging
+logging.basicConfig(level=logging.INFO,)
+formatter = logging.Formatter(
+    '%(levelname)s - %(message)s')
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
 
 
-@login_manager.user_loader
+@ login_manager.user_loader
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config["SESSION_PERMANENT"] = False
@@ -26,7 +31,7 @@ def create_app(config_class=Config):
     Session(app)
     CORS(app)
 
-    #CORS(app, resources={r"/*": {"origins": "*"}})
+    # CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)

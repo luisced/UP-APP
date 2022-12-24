@@ -57,20 +57,17 @@ def clickLoginButton(browser: ChromeBrowser) -> None:
 def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
     '''Logs in to the UP4U page'''
     try:
-        username = fillUsernameInput(findUsernameInput(browser), studentId)
-        password = fillPassswordInput(findPasswordInput(browser), password)
-        print(f'Username: {username}\nPassword: {password}')
-        logging.info(f'Username: {username}\nPassword: {password}')
+        fillUsernameInput(findUsernameInput(browser), studentId)
+        fillPassswordInput(findPasswordInput(browser), password)
         clickLoginButton(browser)
         if browser.find_element(By.CLASS_NAME, "help-block").text:
             logging.error(f"{color(1,'Error message found, login failed')} ❌")
         else:
-            logging.info(
-                f"Login successful ✅\nWaiting for the page to load... 🕒\nLet me sleep for 3 seconds\nZZzzzz...")
+            logging.info(f"{color(2,'Login successful')} ✅")
+            logging.info(f'{color(6,"Im going to sleep now 😴 ZzZzZ...")}')
             time.sleep(3)
-            logging.info("I'm awake now 🤓\nMain Menu loaded ✅")
+            logging.info(f'{color(6,"Im awake now 🤓")}')
     except Exception as e:
-        print(f'Login failed ❌\n{e}')
         logging.critical(f"{color(5,'Login failed')} ❌\n{e}")
     # color the url blue in the terminal
     return f'Current URL after login: \033[94m{browser.current_url}\033[0m'

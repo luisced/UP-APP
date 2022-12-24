@@ -1,7 +1,9 @@
 from school.models import ChromeBrowser
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from school.tools.utils import color
 import time
+import logging
 
 
 def findScheduleLink(browser: ChromeBrowser) -> str:
@@ -9,8 +11,8 @@ def findScheduleLink(browser: ChromeBrowser) -> str:
     try:
         browser.find_element(By.LINK_TEXT, "Horarios").click()
         time.sleep(3)
-        print("Schedule link found ✅\nLoading schedule...")
+        logging.info(f'{color(2,"Loading schedule...")} ✅')
     except NoSuchElementException:
-        print("Schedule link not found ❌")
+        logging.error(f'{color(1,"Schedule link not found")} ❌')
 
     return f'Current URL after main menu: \033[94m{browser.current_url}\033[0m'

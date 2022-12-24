@@ -12,7 +12,7 @@ import logging
 def findScheduleTable(browser):
     try:
         scheduleContent = browser.find_element(By.ID, "contenido-tabla")
-        logging.info(f'{color(3,"Schedule content found")} ✅')
+        logging.info(f'{color(2,"Schedule content found")} ✅')
     except NoSuchElementException:
         logging.error(f'{color(1,"Schedule content not found")} ❌')
     return scheduleContent
@@ -22,7 +22,7 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     '''Extracts the schedule subjects from the schedule content'''
     try:
         rows = scheduleContent.find_elements(By.CSS_SELECTOR, "div.row")
-        logging.info(f'{color(4,"Schedule content has rows")}🔎')
+        logging.info(f'{color(4,f"Schedule content has {len(rows)} rows")}🔎')
     except NoSuchElementException:
         logging.warning(f'{color(1,"Schedule content has no rows")} ❌')
 
@@ -74,7 +74,7 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
             data['day'] = data['day'] if data['day'] else current_day
             createSubject(**data)
             current_day = data['day']
-        logging.info(f'{color(3,"Schedule data loaded into DB")} ✅')
+        logging.info(f'{color(4,"Schedule data loaded into DB")} ✅')
     except Exception as e:
         logging.error(
             f'{color(1,"Schedule data not loaded into DB")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
@@ -91,7 +91,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
                               startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
             db.session.add(subject)
             db.session.commit()
-            logging.info(f"{color(3,'Subject created:')} ✅")
+            logging.info(f"{color(2,'Subject created:')} ✅")
         else:
             raise ValueError(
                 f"{color(3,'Subject already exists in the database')}")
@@ -105,7 +105,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
 def getSubject(subject: Subject) -> dict[str, str]:
     '''Returns the subject data as a dictionary'''
     subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
-    logging.info(f"{color(3,'Get Subject Complete')} ✅")
+    logging.info(f"{color(2,'Get Subject Complete')} ✅")
     return formatDateObjsSubject(subjects)
 
 

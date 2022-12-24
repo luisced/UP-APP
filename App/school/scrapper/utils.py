@@ -16,8 +16,8 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         findScheduleLink(browser)
         scheduleContent = getScheduleContent(browser)
     except Exception as e:
-        logging.error(
-            f'{color(1,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+        logging.critical(
+            f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
         scheduleContent = None
 
     return scheduleContent
