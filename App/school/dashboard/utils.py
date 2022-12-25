@@ -15,7 +15,6 @@ def enterDashboard(browser: ChromeBrowser) -> str:
         try:
             userName = browser.find_element(
                 By.XPATH, "//div[@class='user-title pull-left hidden-xs']").find_element(By.XPATH, "//strong")
-            print(**session['student'])
             createStudent(**session['student'], name=userName.text)
         except NoSuchElementException:
             logging.error(
