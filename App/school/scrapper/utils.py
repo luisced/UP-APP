@@ -1,5 +1,5 @@
 from school.models import ChromeBrowser
-from school.dashboard.utils import findScheduleLink
+from school.dashboard.utils import enterDashboard
 from school.schedule.utils import *
 from school.login.utils import *
 from school.tools.utils import color
@@ -13,7 +13,7 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         browser = ChromeBrowser().buildBrowser()
         browser.get("https://up4u.up.edu.mx/user/auth/login")
         login(browser, studentId, password)
-        findScheduleLink(browser)
+        enterDashboard(browser)
         scheduleContent = getScheduleContent(browser)
     except Exception as e:
         logging.critical(

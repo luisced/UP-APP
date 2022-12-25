@@ -1,3 +1,4 @@
+from flask import session
 import psutil
 
 
@@ -45,3 +46,9 @@ def color(color: int, text: str) -> str:
             return f"\033[1;36;40m{text}\033[0m"
         case _:
             raise ValueError("Invalid color")
+
+
+def deleteStudentSession() -> None:
+    '''Deletes the student session'''
+    session.pop('student', None)
+    session.pop('logged_in', None)

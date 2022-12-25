@@ -4,6 +4,7 @@ from school.models import *
 from school.tools.utils import color
 import time
 import logging
+from flask import session
 
 
 def findUsernameInput(browser: ChromeBrowser) -> str:
@@ -57,14 +58,19 @@ def clickLoginButton(browser: ChromeBrowser) -> None:
 def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
     '''Logs in to the UP4U page'''
     try:
-        fillUsernameInput(findUsernameInput(browser), studentId)
-        fillPassswordInput(findPasswordInput(browser), password)
+        id = fillUsernameInput(findUsernameInput(browser), studentId)
+        psw = fillPassswordInput(findPasswordInput(browser), password)
         clickLoginButton(browser)
         if browser.find_element(By.CLASS_NAME, "help-block").text:
             logging.error(f"{color(1,'Error message found, login failed')} ❌")
         else:
             logging.info(f"{color(2,'Login successful')} ✅")
             logging.info(f'{color(6,"Im going to sleep now 😴 ZzZzZ...")}')
+            session['logged_in'] = True
+            session['student'] = {}
+            session['student']['id'] = id
+            session['student']['password'] = psw
+            print(session['student'])
             time.sleep(3)
             logging.info(f'{color(6,"Im awake now 🤓")}')
     except Exception as e:

@@ -5,15 +5,15 @@ import logging
 import traceback
 
 
-def createStudent(studentId: str, password: str, name: str, lastName: str) -> Student:
+def createStudent(studentId: str, password: str, name: str) -> Student:
     '''Creates a student object'''
     try:
         if not Student.query.filter_by(studentId=studentId).first():
             student = Student(
                 studentId=studentId,
                 password=generate_password_hash(password).decode('utf-8'),
-                name=name,
-                lastName=lastName,
+                name=name.split(' ')[0],
+                lastName=name.split(' ')[1:],
                 email=studentId+"@up.edu.mx"
             )
             logging.info(f'{color(2,"Student created")} ✅')
