@@ -4,7 +4,7 @@ from school import db
 from school.tools.utils import color
 from school.models import ChromeBrowser, Subject, Student
 from school.relations import RelationStudentSubjectTable
-from school.student.utils import createStudentSubjectRelationship
+from school.student.utils import createStudentSubjectRelationship, getStudent
 from datetime import datetime
 from flask import session
 import re
@@ -126,7 +126,9 @@ def getStudentSubjects(student: Student) -> dict:
     )
     data = [getSubject(subject) for subject in subjects]
 
-    return {'ID': student.studentID, 'subjects': data}
+    student = {'Student': getStudent(student)}
+    student['Student']['Subjects'] = data
+    return student
 
 
 def formatDateObjsSubject(subjects: dict[str, str]) -> dict[str, str]:

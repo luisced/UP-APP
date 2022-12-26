@@ -1,5 +1,4 @@
 from school.models import Student, Subject
-from school.relations import RelationStudentSubjectTable
 from school import db
 from school.tools.utils import color
 import logging
@@ -70,16 +69,19 @@ def createStudentSubjectRelationship(student: Student, subject: Subject) -> None
             f'{color(1,"Couldnt create student-subject relationship")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
 
 
-def getStudentSubjects(student: Student) -> dict:
-    subjectIDs = [subject.id for subject in student.subjects]
-    subjects = (
-        db.session.query(Subject)
-        .join(RelationStudentSubjectTable)
-        .filter(RelationStudentSubjectTable.c.studentId == student.id)
-        .filter(Subject.id.in_(subjectIDs))
-        .all()
-    )
+def getStudent(student: Student) -> dict[str:str]:
+    '''Returns a dictionary with the student's information'''
+    # Create a dictionary with the student's information
+    students = Student.to_dict(Student.query.filter_by(id=student.id).first())
+    logging.info(f'{color(2,"Get Student Complete")} ✅')
+    return formatDateObjsStudent(students)
 
-    data = [getSubject(subject) for subject in subjects]
 
-    return {'ID': student.studentID, 'subjects': data}
+def formatDateObjsStudent(student: dict[str:str]) -> dict[str:str]:
+    '''Formats the date objects in the student dictionary'''
+    # Format the date objects in the dictionary
+    student['created_at'] = student['creationDate'].strftime(
+        '%Y-%m-%d %H:%M:%S')
+    student['lastupDate'] = student['lastupDate'].strftime('%Y-%m-%d %H:%M:%S')
+    logging.info(f'{color(2,"Format Date Objects Complete")} ✅')
+    return student
