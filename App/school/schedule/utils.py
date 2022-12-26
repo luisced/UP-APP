@@ -2,8 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from school import db
 from school.tools.utils import color
-from school.models import ChromeBrowser, Subject
+from school.models import ChromeBrowser, Subject, Student
+from school.student.utils import createStudentSubjectRelationship
 from datetime import datetime
+from flask import session
 import re
 import traceback
 import logging
@@ -72,7 +74,10 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
         subject_data = cleanScheduleData(subjects)
         for data in subject_data:
             data['day'] = data['day'] if data['day'] else current_day
-            createSubject(**data)
+            subject = createSubject(**data)
+            createStudentSubjectRelationship(Student.query.filter_by(
+                id=session['student']['id']).first(), subject)
+
             current_day = data['day']
         logging.info(f'{color(4,"Schedule data loaded into DB")} ✅')
     except Exception as e:

@@ -89,8 +89,8 @@ class Student(db.Model):
     # Relationships
 
     # Secondary table
-    subjectID: int = db.relationship('Subject', secondary=RelationStudentSubjectTable,
-                                     backref=db.backref('subjectID', lazy='dynamic'))
+    subjects: int = db.relationship('Subject', secondary=RelationStudentSubjectTable,
+                                    backref=db.backref('subjects', lazy='dynamic'))
 
     def __repr__(self) -> str:
         '''Convert the student to a string'''
