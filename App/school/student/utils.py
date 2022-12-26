@@ -37,29 +37,33 @@ def createStudent(studentID: str, password: str, name: str) -> Student:
 def createStudentSubjectRelationship(student: Student, subject: Subject) -> None:
     '''Creates a relationship between a student and a subject by adding the subject to the student's subjects list'''
 
-    # Check if the student or subject exist in the database
-    # Get the student and subject objects from the database
-    checkStudent = Student.query.filter_by(id=student.id).first()
-    checkSubject = Subject.query.filter_by(id=subject.id).first()
+    try:
+        # Check if the student or subject exist in the database
+        # Get the student and subject objects from the database
+        checkStudent = Student.query.filter_by(id=student.id).first()
+        checkSubject = Subject.query.filter_by(id=subject.id).first()
 
-    # Check if the student and subject objects exist
-    if checkStudent and checkSubject:
-        # Check if the relationship already exists
-        if subject not in student.subjects:
-            # Append the subject object to the student subjects list
-            student.subjects.append(subject)
-            # Commit the changes to the database
-            db.session.commit()
-            # Log the successful completion of the task
-            logging.info(
-                f'{color(2,"Student-Subject relationship created")} ✅')
+        # Check if the student and subject objects exist
+        if checkStudent and checkSubject:
+            # Check if the relationship already exists
+            if subject not in student.subjects:
+                # Append the subject object to the student subjects list
+                student.subjects.append(subject)
+                # Commit the changes to the database
+                db.session.commit()
+                # Log the successful completion of the task
+                logging.info(
+                    f'{color(2,"Student-Subject relationship created")} ✅')
+            else:
+                # Log the error
+                raise ValueError(
+                    logging.error(
+                        f'{color(3,"Student-Subject relationship already exists")} ❌'))
         else:
             # Log the error
-            raise ValueError(
+            raise TypeError(
                 logging.error(
-                    f'{color(3,"Student-Subject relationship already exists")} ❌'))
-    else:
-        # Log the error
-        raise TypeError(
-            logging.error(
-                f'{color(1,"Student or subject not found in database")} ❌'))
+                    f'{color(1,"Student or subject not found in database")} ❌'))
+    except Exception as e:
+        logging.error(
+            f'{color(1,"Couldnt create student-subject relationship")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
