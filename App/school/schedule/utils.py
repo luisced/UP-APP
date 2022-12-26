@@ -3,6 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 from school import db
 from school.tools.utils import color
 from school.models import ChromeBrowser, Subject, Student
+from school.relations import RelationStudentSubjectTable
 from school.student.utils import createStudentSubjectRelationship
 from datetime import datetime
 from flask import session
@@ -77,7 +78,6 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
             subject = createSubject(**data)
             createStudentSubjectRelationship(Student.query.filter_by(
                 studentID=session['student']['studentID']).first(), subject)
-
             current_day = data['day']
         logging.info(f'{color(4,"Schedule data loaded into DB")} ✅')
     except Exception as e:
@@ -112,6 +112,21 @@ def getSubject(subject: Subject) -> dict[str, str]:
     subjects = Subject.to_dict(Subject.query.filter_by(id=subject.id).first())
     logging.info(f"{color(2,'Get Subject Complete')} ✅")
     return formatDateObjsSubject(subjects)
+
+
+def getStudentData(student: Student) -> dict:
+    subjectIDs = [subject.id for subject in student.subjects]
+    subjects = (
+        db.session.query(Subject)
+        .join(RelationStudentSubjectTable)
+        .filter(RelationStudentSubjectTable.c.studentId == student.id)
+        .filter(Subject.id.in_(subjectIDs))
+        .all()
+    )
+
+    data = [getSubject(subject) for subject in subjects]
+
+    return {'ID': student.studentID, 'subjects': data}
 
 
 def formatDateObjsSubject(subjects: dict[str, str]) -> dict[str, str]:

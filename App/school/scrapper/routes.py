@@ -1,8 +1,8 @@
 from school.models import Student
-from school.schedule.utils import getSubject
+from school.schedule.utils import getSubject, getStudentData
 from flask import Blueprint, request, jsonify, render_template
 from school.scrapper.utils import *
-
+import time
 
 scrapper = Blueprint('scrapper', __name__)
 
@@ -26,8 +26,11 @@ def scrapp_up4u() -> dict[str, str]:
                         json_data['id'], json_data['password'])
                     data = [subject for subject in schedule]
                 else:
-                    data = [getSubject(subject)
-                            for subject in student.subjects]
+                    # startTime = time.perf_counter()
+                    # data = [getSubject(subject)for subject in student.subjects]
+                    data = [getStudentData(student)]
+                    # endTime = time.perf_counter()
+                    # print(f'Execution time: {endTime - startTime}')
                 message, code = f'Data extracted', 1
             else:
                 error, code = 'Missing fields', 2

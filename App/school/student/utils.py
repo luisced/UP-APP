@@ -1,4 +1,5 @@
 from school.models import Student, Subject
+from school.relations import RelationStudentSubjectTable
 from school import db
 from school.tools.utils import color
 import logging
@@ -67,3 +68,18 @@ def createStudentSubjectRelationship(student: Student, subject: Subject) -> None
     except Exception as e:
         logging.error(
             f'{color(1,"Couldnt create student-subject relationship")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
+
+
+def getStudentData(student: Student) -> dict:
+    subjectIDs = [subject.id for subject in student.subjects]
+    subjects = (
+        db.session.query(Subject)
+        .join(RelationStudentSubjectTable)
+        .filter(RelationStudentSubjectTable.c.studentId == student.id)
+        .filter(Subject.id.in_(subjectIDs))
+        .all()
+    )
+
+    data = [getSubject(subject) for subject in subjects]
+
+    return {'ID': student.studentID, 'subjects': data}
