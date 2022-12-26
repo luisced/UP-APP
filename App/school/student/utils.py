@@ -1,21 +1,23 @@
 from school.models import Student
-from flask_bcrypt import generate_password_hash
+from school import db
 from school.tools.utils import color
 import logging
 import traceback
 
 
-def createStudent(studentId: str, password: str, name: str) -> Student:
+def createStudent(studentID: str, password: str, name: str) -> Student:
     '''Creates a student object'''
     try:
-        if not Student.query.filter_by(studentId=studentId).first():
+        if not Student.query.filter_by(studentID=studentID).first():
             student = Student(
-                studentId=studentId,
-                password=generate_password_hash(password).decode('utf-8'),
+                studentID=studentID,
+                password=password,
                 name=name.split(' ')[0],
-                lastName=name.split(' ')[1:],
-                email=studentId+"@up.edu.mx"
+                lastName=' '.join(name.split(' ')[1:]),
+                email=studentID+"@up.edu.mx"
             )
+            db.session.add(student)
+            db.session.commit()
             logging.info(f'{color(2,"Student created")} ✅')
         else:
             raise ValueError(

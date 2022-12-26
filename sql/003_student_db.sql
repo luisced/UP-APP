@@ -8,6 +8,7 @@ CREATE TABLE
         `StudentID` text NOT NULL,
         `Password` text NOT NULL,
         `Name` text NOT NULL,
+        `LastName` text NOT NULL,
         `Email` text NOT NULL,
         `Status` tinyint(4) NOT NULL,
         `CreationDate` datetime NOT NULL,

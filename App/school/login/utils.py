@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from flask_bcrypt import generate_password_hash
 from school.models import *
 from school.tools.utils import color
 import time
@@ -58,7 +59,7 @@ def clickLoginButton(browser: ChromeBrowser) -> None:
 def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
     '''Logs in to the UP4U page'''
     try:
-        id = fillUsernameInput(findUsernameInput(browser), studentId)
+        Id = fillUsernameInput(findUsernameInput(browser), studentId)
         psw = fillPassswordInput(findPasswordInput(browser), password)
         clickLoginButton(browser)
         if browser.find_element(By.CLASS_NAME, "help-block").text:
@@ -67,10 +68,8 @@ def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
             logging.info(f"{color(2,'Login successful')} ✅")
             logging.info(f'{color(6,"Im going to sleep now 😴 ZzZzZ...")}')
             session['logged_in'] = True
-            session['student'] = {}
-            session['student']['id'] = id
-            session['student']['password'] = psw
-            print(session['student'])
+            session['student'] = {'studentID': Id, 'password': generate_password_hash(
+                psw).decode('utf-8')}
             time.sleep(3)
             logging.info(f'{color(6,"Im awake now 🤓")}')
     except Exception as e:

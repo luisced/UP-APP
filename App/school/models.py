@@ -84,7 +84,7 @@ class Student(db.Model):
         db.Date, nullable=False, default=datetime.now)
     lastupDate: str = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
-    option: int = db.Column(db.Integer, nullable=False, default=0)
+    options: int = db.Column(db.Integer, nullable=False, default=0)
 
     # Relationships
 
