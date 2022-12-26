@@ -10,6 +10,7 @@ from flask import session
 import re
 import traceback
 import logging
+import time
 
 
 def findScheduleTable(browser):
@@ -114,7 +115,7 @@ def getSubject(subject: Subject) -> dict[str, str]:
     return formatDateObjsSubject(subjects)
 
 
-def getStudentData(student: Student) -> dict:
+def getStudentSubjects(student: Student) -> dict:
     subjectIDs = [subject.id for subject in student.subjects]
     subjects = (
         db.session.query(Subject)
@@ -123,7 +124,6 @@ def getStudentData(student: Student) -> dict:
         .filter(Subject.id.in_(subjectIDs))
         .all()
     )
-
     data = [getSubject(subject) for subject in subjects]
 
     return {'ID': student.studentID, 'subjects': data}

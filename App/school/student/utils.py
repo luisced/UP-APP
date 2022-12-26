@@ -70,7 +70,7 @@ def createStudentSubjectRelationship(student: Student, subject: Subject) -> None
             f'{color(1,"Couldnt create student-subject relationship")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
 
 
-def getStudentData(student: Student) -> dict:
+def getStudentSubjects(student: Student) -> dict:
     subjectIDs = [subject.id for subject in student.subjects]
     subjects = (
         db.session.query(Subject)
