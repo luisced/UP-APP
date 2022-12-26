@@ -1,3 +1,5 @@
+from school.models import Student
+from school.schedule.utils import getSubject
 from flask import Blueprint, request, jsonify, render_template
 from school.scrapper.utils import *
 
@@ -17,10 +19,15 @@ def scrapp_up4u() -> dict[str, str]:
         error, message, code = False, '', ''
         if json_data and all(json_data.values()):
             if ['id', 'password'] == list(json_data.keys()):
-                schedule = extractUP4USchedule(
-                    json_data['id'], json_data['password'])
-                for subject in schedule:
-                    data.append(subject)
+                student = Student.query.filter_by(
+                    studentID=json_data['id']).first()
+                if not student:
+                    schedule = extractUP4USchedule(
+                        json_data['id'], json_data['password'])
+                    data = [subject for subject in schedule]
+                else:
+                    data = [getSubject(subject)
+                            for subject in student.subjects]
                 message, code = f'Data extracted', 1
             else:
                 error, code = 'Missing fields', 2
