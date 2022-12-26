@@ -116,18 +116,25 @@ def getSubject(subject: Subject) -> dict[str, str]:
 
 
 def getStudentSubjects(student: Student) -> dict:
-    subjectIDs = [subject.id for subject in student.subjects]
-    subjects = (
-        db.session.query(Subject)
-        .join(RelationStudentSubjectTable)
-        .filter(RelationStudentSubjectTable.c.studentId == student.id)
-        .filter(Subject.id.in_(subjectIDs))
-        .all()
-    )
+    '''Returns the student subjects as a dictionary with his subjects'''
+    try:
+        subjectIDs = [subject.id for subject in student.subjects]
+        subjects = (
+            db.session.query(Subject)
+            .join(RelationStudentSubjectTable)
+            .filter(RelationStudentSubjectTable.c.studentId == student.id)
+            .filter(Subject.id.in_(subjectIDs))
+            .all()
+        )
 
-    student = {'Student': getStudent(student)}
-    student['Student']['Subjects'] = [
-        getSubject(subject) for subject in subjects]
+        student = {'Student': getStudent(student)}
+        student['Student']['Subjects'] = [
+            getSubject(subject) for subject in subjects]
+        logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Get Student Subjects Failed')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        student = None
     return student
 
 

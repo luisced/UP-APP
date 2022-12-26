@@ -83,5 +83,4 @@ def formatDateObjsStudent(student: dict[str:str]) -> dict[str:str]:
     student['created_at'] = student['creationDate'].strftime(
         '%Y-%m-%d %H:%M:%S')
     student['lastupDate'] = student['lastupDate'].strftime('%Y-%m-%d %H:%M:%S')
-    logging.info(f'{color(2,"Format Date Objects Complete")} ✅')
     return student
