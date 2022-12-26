@@ -124,10 +124,10 @@ def getStudentSubjects(student: Student) -> dict:
         .filter(Subject.id.in_(subjectIDs))
         .all()
     )
-    data = [getSubject(subject) for subject in subjects]
 
     student = {'Student': getStudent(student)}
-    student['Student']['Subjects'] = data
+    student['Student']['Subjects'] = [
+        getSubject(subject) for subject in subjects]
     return student
 
 
