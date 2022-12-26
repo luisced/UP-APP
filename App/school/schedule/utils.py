@@ -76,7 +76,7 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
             data['day'] = data['day'] if data['day'] else current_day
             subject = createSubject(**data)
             createStudentSubjectRelationship(Student.query.filter_by(
-                id=session['student']['id']).first(), subject)
+                studentID=session['student']['studentID']).first(), subject)
 
             current_day = data['day']
         logging.info(f'{color(4,"Schedule data loaded into DB")} ✅')
