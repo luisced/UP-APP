@@ -16,6 +16,7 @@ def handle_exception(e):
     # now you're handling non-HTTP exceptions only
     return {"error": True, "message": str(e)}, 500
 
+#Main app
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True,
