@@ -55,3 +55,32 @@ def createStudentCompatibleSchedule(studentID: str) -> dict[str, str]:
     response.update({'sucess': True, 'message': message, 'Compatible Schedule': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] and data != [None] else {
         'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
     return jsonify(response)
+
+
+@scrapper.route('/getSubjectsUPSite/<string:studentID>', methods=['GET', 'POST'])
+def fetchUPSite(studentID: str) -> dict[str, str]:
+    '''
+    This endpoint returns the schedule of a student in a json format
+    '''
+    if request.method == 'GET':
+        json_data = request.get_json()
+        data: list[dict[str, str]] = []
+        response: dict[str, str] = {}
+        error, code = None, None
+        if not json_data or not all(json_data.values()):
+            error, code = 'No data received', 3
+        elif 'password' not in json_data:
+            error, code = 'Missing fields', 2
+        else:
+            student = Student.query.filter_by(studentID=studentID).first()
+            if student:
+                data = getStudentSubjects(student)
+            else:
+                data = extractUPSiteSchedule(studentID, json_data['password'])
+            message, code = f'Data extracted for {session["student"]["studentID"]}', 1
+    else:
+        error, code = 'Invalid method', 4
+
+    response.update({'sucess': True, 'message': message, 'Schedule': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] and data != [None] else {
+        'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
+    return jsonify(response)
