@@ -26,14 +26,19 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
 def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
     '''Extracts the schedule of a student from the UP site'''
     try:
-        browser = ChromeBrowser().buildBrowser()
-        browser.get(
-            "https://upsite.up.edu.mx/psp/CAMPUS/?cmd=login&languageCd=ESP&")
-        loginUPSite(browser, studentId, password)
-        enterDashboardUPSite(browser)
+        # Start the browser
+        with ChromeBrowser().buildBrowser() as browser:
+            # Go to the main page
+            browser.get(
+                "https://upsite.up.edu.mx/psp/CAMPUS/?cmd=login&languageCd=ESP&")
+            # Login
+            loginUPSite(browser, studentId, password)
+            # Enter the dashboard
+            enterDashboardUPSite(browser)
 
-        # scheduleContent = getScheduleContent(browser)
+            # Get the schedule content
+            subjectData = fetchSubjectData(browser)
+
     except Exception as e:
         logging.critical(
             f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
-        scheduleContent = None
