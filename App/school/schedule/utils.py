@@ -165,84 +165,21 @@ def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
     return subjects_data
 
 
-def createCompatibleSchedule(subjects: Subject) -> list[dict[str, str]]:
+def createCompatibleSchedule(subjects: Subject) -> list[Subject]:
     '''Creates a compatible schedule for the student based on the subjects in database'''
     try:
-        # sort the subjects by day and startTime
-        subjects = sorted(subjects, key=lambda subject: subject['day'])
-        subjects = sorted(subjects, key=lambda subject: subject['startTime'])
+        days = {"Lunes": 0, "Martes": 1, "Miércoles": 2,
+                "Jueves": 3, "Viernes": 4, "Sábado": 5, "Domingo": 6}
+        sorted_subjects = sorted(subjects, key=lambda subject: (
+            days[subject.day], subject.startTime))
 
-        print(subjects)
-        # create a schedule with the sorted subjects
-        schedule = []
-        for subject in subjects:
-            schedule.append({
-                'day': subject['day'],
-                'startTime': subject['startTime'],
-                'endTime': subject['endTime'],
-                'subject': subject['name'],
-                'teacher': subject['teacher'],
-                'group': subject['group'],
-                'classroom': subject['classroom']
-            })
-        logging.info(f"{color(2,'Compatible Schedule Created')} ✅")
+        schedule = [getSubject(sorted_subjects[i])
+                    for i in range(len(sorted_subjects))]
+
+        # create a list of days
+
     except Exception as e:
         logging.error(
             f"{color(1,'Compatible Schedule Not Created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         schedule = None
     return schedule
-
-
-# def scheduleExcel(subjects: list[Subject]) -> pd:
-#     '''Exports the schedule to an excel file'''
-#     # Create a new Excel workbook
-#     workbook = openpyxl.Workbook()
-
-#     # Get the active worksheet
-#     worksheet = workbook.active
-
-#     # Set the column width
-#     worksheet.column_dimensions['A'].width = 10
-#     for i in range(2, 7):
-#         worksheet.column_dimensions[f"{chr(i+64)}"].width = 10
-
-#     # Leave cell A1 blank
-#     worksheet.cell(row=1, column=1).value = ""
-
-#     # Write the hours and half-hours in column A, starting at row 2
-#     for hour in range(7, 21):
-#         worksheet.cell(row=hour*2-11, column=1).value = f"{hour}:00"
-#         worksheet.cell(row=hour*2-10, column=1).value = f"{hour}:30"
-
-#     # Write the days of the week in Spanish in columns B to G, starting at row 1
-#     days_of_week_spanish = ["Lunes", "Martes", "Miércoles",
-#                             "Jueves", "Viernes", ]
-#     for i, day in enumerate(days_of_week_spanish):
-#         worksheet.cell(row=1, column=i+2).value = day
-
-#     #  Write subject content in the cells
-#     # for subject in subjects:
-#     #     start_time = subject.startTime
-#     #     end_time = subject.endTime
-#     #     day = subject.day
-#     #     # Get the row and column of the start time
-#     #     start_row = (start_time * 2) - 11
-#     #     start_column = days_of_week_spanish.index(day) + 2
-#     #     # Get the row and column of the end time
-#     #     end_row = (end_time * 2) - 10
-#     #     end_column = days_of_week_spanish.index(day) + 2
-#     #     # Write the subject name in the cells
-#     #     for row in range(start_row, end_row+1):
-#     #         for column in range(start_column, end_column+1):
-#     #             worksheet.cell(row=row, column=column).value = subject.name
-
-#     # Check if the file already exists and delete it if it does
-#     if os.path.exists("hours.xlsx"):
-#         os.remove("hours.xlsx")
-
-#     # Save the workbook
-#     workbook.save("hours.xlsx")
-
-#     print("Hours and days of the week written to Excel file successfully!")
-# # df = pd.DataFrame(subjects)
-# # df.to_excel('schedule.xlsx', index=False)

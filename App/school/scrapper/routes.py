@@ -45,13 +45,13 @@ def createStudentCompatibleSchedule(studentID: str) -> dict[str, str]:
         error, code = None, None
 
         if Student.query.filter_by(studentID=studentID).first():
-            data = createCompatibleSchedule(list(Subject.query.all()))
+            data = createCompatibleSchedule(Subject.query.all())
             message, code = f'Compatible schedule created for {session["student"]["studentID"]}', 1
         else:
             error, code = 'Student not found', 2
     else:
         error, code = 'Invalid method', 3
 
-    response.update({'sucess': True, 'message': message, 'Schedule': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] and data != [None] else {
+    response.update({'sucess': True, 'message': message, 'Compatible Schedule': data, 'status_code': 200, 'error': None, 'code': code} if data and data != [] and data != [None] else {
         'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
     return jsonify(response)
