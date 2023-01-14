@@ -1,3 +1,4 @@
+from sqlalchemy.orm import joinedload
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from school import db
@@ -31,26 +32,15 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
     except NoSuchElementException:
         logging.warning(f'{color(1,"Schedule content has no rows")} ❌')
 
-    data = []
-    for row in rows:
-        # Find all the div elements within the row
-        cells = row.find_elements(By.CSS_SELECTOR, 'div')
-
-        # Extract the data from the cells
-        cell_data = [cell.text for cell in cells]
-
-        # Add the data to the list
-        data.append(cell_data)
-
-    return data
+    return [[cell.text for cell in row.find_elements(
+        By.CSS_SELECTOR, 'div')] for row in rows]
 
 
 def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]:
     '''Cleans the schedule data'''
-    cleanedSubjects = []
-    for subjectData in subjectsList:
-        # Create a dictionary with all subject data
-        subject_data = {
+
+    return [
+        {
             'day': subjectData[1].strip(),
             'start_time': subjectData[2].strip(),
             'end_time': subjectData[3].strip(),
@@ -59,14 +49,10 @@ def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]
             'start_date': subjectData[7].strip(),
             'end_date': subjectData[8].strip(),
             'group': subjectData[9].strip(),
-            'classroom': re.compile(
-                r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
+            'classroom': re.compile(r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
         }
-
-        # Add the subject data to the list
-        cleanedSubjects.append(subject_data)
-
-    return cleanedSubjects
+        for subjectData in subjectsList
+    ]
 
 
 def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -92,18 +78,20 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
 def getStudentSubjects(student: Student) -> dict:
     '''Returns the student subjects as a dictionary with his subjects'''
     try:
-        subjectIDs = [subject.id for subject in student.subjects]
+
         subjects = (
             db.session.query(Subject)
-            .join(RelationStudentSubjectTable)
-            .filter(RelationStudentSubjectTable.c.studentId == student.id)
-            .filter(Subject.id.in_(subjectIDs))
+            .filter(Subject.id.in_((
+                db.session.query(RelationStudentSubjectTable.c.subjectId)
+                .filter(RelationStudentSubjectTable.c.studentId == student.id)
+                .subquery()
+            )
+            ))
             .all()
         )
-
         student = {'Student': getStudent(student)}
-        student['Student']['Subjects'] = [
-            getSubject(subject) for subject in subjects]
+        student['Student']['Subjects'] = list(map(
+            lambda subject: getSubject(subject), subjects))
         logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
     except Exception as e:
         logging.error(

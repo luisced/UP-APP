@@ -56,7 +56,7 @@ class Subject(db.Model):
 
     # Secondary table
     students = db.relationship('Student', secondary=RelationStudentSubjectTable,
-                               backref='students', lazy='dynamic', viewonly=True)
+                               backref='students', lazy='select', viewonly=True)
 
     def __repr__(self) -> str:
         '''Convert the subject to a string'''

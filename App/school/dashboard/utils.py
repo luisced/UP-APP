@@ -35,16 +35,16 @@ def enterDashboard(browser: ChromeBrowser) -> str:
 def enterDashboardUPSite(browser: ChromeBrowser) -> str:
     '''Extracts the schedule link from the main page'''
     try:
-        enterUPSiteSubjects(browser)
-
+        upsite_subjecs = enterUPSiteSubjects(browser)
     except NoSuchElementException:
         logging.error(
             f'{color(1,"Something went wrong while being in dasboard")} ❌ {traceback.format_exc().splitlines()[-3]}')
+        upsite_subjecs = None
 
-    return f'Current URL after main menu: \033[94m{browser.current_url}\033[0m'
+    return upsite_subjecs
 
 
-def enterUPSiteSubjects(browser) -> None:
+def enterUPSiteSubjects(browser) -> str:
     '''Fetches the subjects from the UPSite page'''
     try:
         browser.get(
@@ -59,11 +59,14 @@ def enterUPSiteSubjects(browser) -> None:
         browser.find_element(By.ID, "#ICSave").click()
         WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.ID, 'win0div$ICField94')))
-        with open('App/school/dashboard/upsite.html', 'w') as f:
-            f.write(browser.page_source)
+
+        source_code = browser.page_source
 
         logging.info(
             f'{color(2,"Enter Carrito de Inscripción...")} ✅')
     except NoSuchElementException:
         logging.error(
             f'{color(1,"Carrito de Inscripción link not found")} ❌ {traceback.format_exc().splitlines()[-3]}')
+        source_code = None
+
+    return source_code
