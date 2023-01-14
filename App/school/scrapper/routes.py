@@ -74,8 +74,6 @@ def fetchUPSite(studentID: str) -> dict[str, str]:
         else:
             student = Student.query.filter_by(studentID=studentID).first()
             if student:
-                data = getStudentSubjects(student)
-            else:
                 data = extractUPSiteSchedule(studentID, json_data['password'])
             message, code = f'Data extracted for {session["student"]["studentID"]}', 1
     else:

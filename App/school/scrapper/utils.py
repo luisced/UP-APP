@@ -1,5 +1,5 @@
 from school.models import ChromeBrowser
-from school.dashboard.utils import enterDashboard
+from school.dashboard.utils import enterDashboard, enterDashboardUPSite
 from school.schedule.utils import *
 from school.login.utils import *
 from school.tools.utils import color
@@ -29,12 +29,11 @@ def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
         browser = ChromeBrowser().buildBrowser()
         browser.get(
             "https://upsite.up.edu.mx/psp/CAMPUS/?cmd=login&languageCd=ESP&")
-        login(browser, studentId, password)
-        enterDashboard(browser)
-        scheduleContent = getScheduleContent(browser)
+        loginUPSite(browser, studentId, password)
+        enterDashboardUPSite(browser)
+
+        # scheduleContent = getScheduleContent(browser)
     except Exception as e:
         logging.critical(
             f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
         scheduleContent = None
-
-    return scheduleContent
