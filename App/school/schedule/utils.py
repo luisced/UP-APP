@@ -165,6 +165,34 @@ def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
     return subjects_data
 
 
+def createCompatibleSchedule(subjects: Subject) -> list[dict[str, str]]:
+    '''Creates a compatible schedule for the student based on the subjects in database'''
+    try:
+        # sort the subjects by day and startTime
+        subjects = sorted(subjects, key=lambda subject: subject['day'])
+        subjects = sorted(subjects, key=lambda subject: subject['startTime'])
+
+        print(subjects)
+        # create a schedule with the sorted subjects
+        schedule = []
+        for subject in subjects:
+            schedule.append({
+                'day': subject['day'],
+                'startTime': subject['startTime'],
+                'endTime': subject['endTime'],
+                'subject': subject['name'],
+                'teacher': subject['teacher'],
+                'group': subject['group'],
+                'classroom': subject['classroom']
+            })
+        logging.info(f"{color(2,'Compatible Schedule Created')} ✅")
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Compatible Schedule Not Created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        schedule = None
+    return schedule
+
+
 # def scheduleExcel(subjects: list[Subject]) -> pd:
 #     '''Exports the schedule to an excel file'''
 #     # Create a new Excel workbook
