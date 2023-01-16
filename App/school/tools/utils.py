@@ -52,3 +52,11 @@ def deleteStudentSession() -> None:
     '''Deletes the student session'''
     session.pop('student', None)
     session.pop('logged_in', None)
+
+
+class StudentNotFoundError(Exception):
+    """Error raised when student not found in DB"""
+
+
+class ScheduleExtractionError(Exception):
+    """Error raised when the schedule extraction from UP4U platform fails"""
