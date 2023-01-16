@@ -19,21 +19,24 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         if student:
             scheduleContent = getStudentSubjects(student)
         else:
-            raise StudentNotFoundError(logging.warning(
-                f'{color(3,"Student not found in DB, creating profile...")} 🔍: {studentId}'))
-    except StudentNotFoundError:
+            raise StudentNotFoundError
+    except StudentNotFoundError as e:
+        logging.warning(e.message)
         # Try to get the schedule from the UP4U platform
         try:
             with ChromeBrowser().buildBrowser() as browser:
                 browser.get("https://up4u.up.edu.mx/user/auth/login")
                 login(browser, studentId, password)
                 enterDashboard(browser)
-                scheduleContent = getScheduleContent(browser)
-        except Exception as e:
-            logging.critical(
-                f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+                fetchScheduleContent(browser)
+                scheduleContent = getStudentSubjects(Student.query.filter_by(studentID=session['student']['studentID']
+                                                                             ).first())
+        except ScheduleExtractionError as e:
+            logging.critical(e.message)
             scheduleContent = []
-
+        finally:
+            browser.quit()
+            del session['student']
     return scheduleContent
 
 

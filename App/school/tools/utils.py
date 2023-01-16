@@ -1,4 +1,5 @@
 from flask import session
+from dataclasses import dataclass
 import psutil
 
 
@@ -57,6 +58,12 @@ def deleteStudentSession() -> None:
 class StudentNotFoundError(Exception):
     """Error raised when student not found in DB"""
 
+    def __init__(self, message=None) -> str:
+        self.message: str = f'{color(3,"Student not found in DB, creating profile...")} 🔍' if message is None else message
+
 
 class ScheduleExtractionError(Exception):
     """Error raised when the schedule extraction from UP4U platform fails"""
+
+    def __init__(self, message=None) -> str:
+        self.message: str = f'{color(5,"Schedule extraction failed")} 🔍' if message is None else message

@@ -6,12 +6,10 @@ from school.models import ChromeBrowser, Subject, Student
 from school.relations import RelationStudentSubjectTable
 from school.student.utils import createStudentSubjectRelationship, getStudent
 from school.subjects.utils import getSubject, createSubject
-from datetime import datetime
 from flask import session
 import re
 import traceback
 import logging
-import time
 
 
 def findScheduleTable(browser):
@@ -99,18 +97,14 @@ def getStudentSubjects(student: Student) -> dict:
     return student
 
 
-def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
+def fetchScheduleContent(browser: ChromeBrowser) -> None:
     '''Extracts the schedule content from the schedule page and returns a list of dictionaries with the schedule data'''
     try:
-        loads = loadScheduleData(
+        loadScheduleData(
             findScheduleSubjects(findScheduleTable(browser)))
-        subjects_data = [getSubject(Subject.query.filter_by(
-            group=subject['group'], day=subject['day']).first()) for subject in loads]
     except Exception as e:
         logging.error(
             f"{color(1,'Schedule content not extracted')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        loads = None
-    return subjects_data
 
 
 def createCompatibleSchedule(subjects: Subject) -> list[Subject]:
