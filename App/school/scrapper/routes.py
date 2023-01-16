@@ -23,7 +23,7 @@ def getStudentSchedule(studentID: str) -> dict[str, str]:
             error, code = 'Missing fields', 2
         else:
             data = extractUP4USchedule(studentID, json_data['password'])
-            message, code = f'Data extracted for {session["student"]["studentID"]}', 1
+            message, code = f'Data extracted', 1
     else:
         error, code = 'Invalid method', 4
 

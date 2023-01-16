@@ -36,7 +36,6 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
             scheduleContent = []
         finally:
             browser.quit()
-            del session['student']
     return scheduleContent
 
 
