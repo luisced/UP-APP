@@ -19,3 +19,17 @@ CREATE TABLE
         CONSTRAINT `RelationStudentSubjectTable_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `Student` (`ID`),
         CONSTRAINT `RelationStudentSubjectTable_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `Subject` (`ID`)
     ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+DROP TABLE IF EXISTS `RelationSubjectClassroomTable`;
+
+CREATE TABLE
+    `RelationSubjectClassroomTable` (
+        `ID` int(11) NOT NULL AUTO_INCREMENT,
+        `SubjectID` int(11) NOT NULL,
+        `ClassroomID` int(11) NOT NULL,
+        PRIMARY KEY (`ID`),
+        KEY `SubjectID` (`SubjectID`),
+        KEY `ClassroomID` (`ClassroomID`),
+        CONSTRAINT `RelationSubjectClassroomTable_ibfk_1` FOREIGN KEY (`SubjectID`) REFERENCES `Subject` (`ID`),
+        CONSTRAINT `RelationSubjectClassroomTable_ibfk_2` FOREIGN KEY (`ClassroomID`) REFERENCES `Classroom` (`ID`)
+    ) ENGINE = InnoDB DEFAULT CHARSET = latin1;

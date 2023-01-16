@@ -74,7 +74,6 @@ def login(browser: ChromeBrowser, studentId: str, password: str) -> str:
             logging.info(f'{color(6,"Im awake now 🤓")}')
     except Exception as e:
         logging.critical(f"{color(5,'Login failed')} ❌\n{e}")
-    # color the url blue in the terminal
     return f'Current URL after login: \033[94m{browser.current_url}\033[0m'
 
 

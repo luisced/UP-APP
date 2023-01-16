@@ -3,7 +3,6 @@ from school.dashboard.utils import enterDashboard, enterDashboardUPSite
 from school.schedule.utils import *
 from school.login.utils import *
 from school.subjects.utils import fetchSubjectData
-
 from school.tools.utils import color, StudentNotFoundError, ScheduleExtractionError
 import traceback
 import logging
@@ -34,8 +33,6 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         except ScheduleExtractionError as e:
             logging.critical(e.message)
             scheduleContent = []
-        finally:
-            browser.quit()
     return scheduleContent
 
 

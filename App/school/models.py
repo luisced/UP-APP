@@ -38,7 +38,6 @@ class Subject(db.Model):
                         autoincrement=True, nullable=False)
     name: str = db.Column(db.String(280), nullable=False)
     teacher: str = db.Column(db.String(280), nullable=False)
-    classroom: str = db.Column(db.String(280), nullable=False)
     day: str = db.Column(db.String(280), nullable=False)
     startTime: str = db.Column(db.Time, nullable=False)
     group: str = db.Column(db.String(280), nullable=False)
@@ -55,8 +54,11 @@ class Subject(db.Model):
     # Relationships
 
     # Secondary table
-    students = db.relationship('Student', secondary=RelationStudentSubjectTable,
-                               backref='students', lazy='select', viewonly=True)
+    students: int = db.relationship('Student', secondary=RelationStudentSubjectTable,
+                                    backref='students', lazy='dynamic', viewonly=True)
+
+    classrooms: int = db.relationship('Classroom', secondary=RelationSubjectClassroomTable,
+                                    backref='classrooms', lazy='dynamic', viewonly=True)
 
     def __repr__(self) -> str:
         '''Convert the subject to a string'''
@@ -99,3 +101,18 @@ class Student(db.Model):
     def to_dict(self) -> dict:
         '''Convert the student to a dictionary'''
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
+
+@dataclass
+class Classroom(db.Model):
+    '''Model to represent a classroom '''
+    __tablename__ = 'Classroom'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    name: str = db.Column(db.String(280), nullable=False)
+    options: int = db.Column(db.Integer, nullable=False, default=0)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationDate: datetime = db.Column(
+        db.Date, nullable=False, default=datetime.now)
+    lastupDate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)

@@ -7,7 +7,6 @@ CREATE TABLE
         `ID` int(11) NOT NULL AUTO_INCREMENT,
         `Name` text NOT NULL,
         `Teacher` text NOT NULL,
-        `Classroom` text NOT NULL,
         `Day` text NOT NULL,
         `StartTime` time NOT NULL,
         `EndTime` time NOT NULL,
