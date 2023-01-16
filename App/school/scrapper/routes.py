@@ -22,11 +22,7 @@ def getStudentSchedule(studentID: str) -> dict[str, str]:
         elif 'password' not in json_data:
             error, code = 'Missing fields', 2
         else:
-            student = Student.query.filter_by(studentID=studentID).first()
-            if student:
-                data = getStudentSubjects(student)
-            else:
-                data = extractUP4USchedule(studentID, json_data['password'])
+            data = extractUP4USchedule(studentID, json_data['password'])
             message, code = f'Data extracted for {session["student"]["studentID"]}', 1
     else:
         error, code = 'Invalid method', 4

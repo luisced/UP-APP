@@ -11,15 +11,17 @@ import logging
 
 def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
     '''Extracts the schedule of a student from the UP4U platform'''
-    scheduleContent = None
+    scheduleContent: list[Subject] = []
 
+    # Try to get the student from the database
     try:
         scheduleContent = getStudentSubjects(
             Student.query.filter_by(studentID=studentId).first())
-    except ValueError:
-        logging.warning(
-            f'{color(3,"Student not found in DB, creating profile...")} 🔍: {studentId}')
-    finally:
+    except Exception as e:
+        raise logging.warning(
+            f'{color(3,"Student not found in DB, creating profile...")} 🔍: {studentId}, {e}')
+    if not scheduleContent:
+        # Try to get the schedule from the UP4U platform
         try:
             with ChromeBrowser().buildBrowser() as browser:
                 browser.get("https://up4u.up.edu.mx/user/auth/login")
@@ -29,7 +31,9 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
         except Exception as e:
             logging.critical(
                 f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
-            scheduleContent = None
+            scheduleContent = []
+        logging.info(
+            f'{color(2,"Schedule extracted from DB")} ✅: {studentId}')
 
     return scheduleContent
 
