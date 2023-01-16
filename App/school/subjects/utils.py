@@ -1,7 +1,6 @@
-
+from school import db
 from school.models import Subject, ChromeBrowser
 from school.tools.utils import color
-from school import db
 from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
@@ -10,13 +9,14 @@ import logging
 import traceback
 
 
-def createSubject(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str, classroom: str):
+def createSubject(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str):
     '''Creates a subject object'''
     try:
 
-        if not Subject.query.filter_by(group=group, day=day).first():
+        if not Subject.query.filter_by(name=subject).first():
             subject = Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
-                              startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, classroom=classroom)
+                              startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, )
+
             db.session.add(subject)
             db.session.commit()
             logging.info(f"{color(2,'Subject created:')} ✅")

@@ -6,7 +6,7 @@ RelationStudentSubjectTable = db.Table('RelationStudentSubjectTable',
                                                  db.ForeignKey('Student.id')),
                                        db.Column('subjectId', db.Integer, db.ForeignKey('Subject.id')),)
 
-RelationSubjectClassroomTable = db.Table('RelationSubjectClassroomTable',
+RelationClassroomSubjectTable = db.Table('RelationClassroomSubjectTable',
                                          db.Column(
                                              'subjectId', db.Integer, db.ForeignKey('Subject.id')),
                                          db.Column('classroomId', db.Integer, db.ForeignKey('Classroom.id')),)

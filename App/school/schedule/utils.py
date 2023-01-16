@@ -6,7 +6,9 @@ from school.models import ChromeBrowser, Subject, Student
 from school.relations import RelationStudentSubjectTable
 from school.student.utils import createStudentSubjectRelationship, getStudent
 from school.subjects.utils import getSubject, createSubject
+from school.classrooms.utils import createClassroom, createClassroomSubjectRelationship
 from flask import session
+from datetime import datetime
 import re
 import traceback
 import logging
@@ -52,7 +54,7 @@ def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]
     ]
 
 
-def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, str]]:
+def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> None:
     '''Loads the schedule data into a Subject object'''
     current_day = ''
     subjects = [subject for subject in scheduleSubjects if subject != []]
@@ -60,16 +62,25 @@ def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> list[dict[str, s
         subject_data = cleanScheduleData(subjects)
         for data in subject_data:
             data['day'] = data['day'] if data['day'] else current_day
-            subject = createSubject(**data)
-            createStudentSubjectRelationship(Student.query.filter_by(
-                studentID=session['student']['studentID']).first(), subject)
+            createSchedule(**data)
             current_day = data['day']
         logging.info(f'{color(4,"Schedule data loaded into DB")} ✅')
     except Exception as e:
         logging.error(
             f'{color(1,"Schedule data not loaded into DB")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
-        subject_data = None
-    return subject_data
+
+
+def createSchedule(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str, classroom: str) -> None:
+    '''Creates a schedule object'''
+
+    # create objects
+    subject = createSubject(day, start_time, end_time, subject, teacher,
+                            start_date, end_date, group)
+    classroom = createClassroom(classroom)
+    # create relations
+
+    createStudentSubjectRelationship(Student.query.filter_by(
+        studentID=session['student']['studentID']).first(), subject)
 
 
 def getStudentSubjects(student: Student) -> dict:
