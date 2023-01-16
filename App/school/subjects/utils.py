@@ -64,15 +64,19 @@ def extractSubjectsFromTable(browser: str) -> list[str]:
     return [row.text for row in rows]
 
 
-def cleanSubjectText(subjectText: str) -> list[str]:
-    '''Cleans the subject text'''
-    return None
+# def cleanSubjectText(subjectText: str) -> list[str]:
+#     '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
+#     try:
+
+
+#     return None
 # Remove the first 2 elements
 
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    print(extractSubjectsFromTable(browser))
+    cleanSubjectText(extractSubjectsFromTable(browser))
+
     # create html file swith source code
 
     # try:s

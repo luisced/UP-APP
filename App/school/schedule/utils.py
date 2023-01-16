@@ -14,15 +14,6 @@ import logging
 import time
 
 
-def findScheduleTable(browser):
-    try:
-        scheduleContent = browser.find_element(By.ID, "contenido-tabla")
-        logging.info(f'{color(2,"Schedule content found")} ✅')
-    except NoSuchElementException:
-        logging.error(f'{color(1,"Schedule content not found")} ❌')
-    return scheduleContent
-
-
 def findScheduleSubjects(scheduleContent: str) -> list[str]:
     '''Extracts the schedule subjects from the schedule content'''
     try:
@@ -103,7 +94,7 @@ def getScheduleContent(browser: ChromeBrowser) -> list[dict[str, str]]:
     '''Extracts the schedule content from the schedule page and returns a list of dictionaries with the schedule data'''
     try:
         loads = loadScheduleData(
-            findScheduleSubjects(findScheduleTable(browser)))
+            findScheduleSubjects(browser))
         subjects_data = [getSubject(Subject.query.filter_by(
             group=subject['group'], day=subject['day']).first()) for subject in loads]
     except Exception as e:
