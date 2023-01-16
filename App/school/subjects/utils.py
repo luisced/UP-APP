@@ -19,7 +19,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
             logging.info(f"{color(2,'Subject created:')} ✅")
         else:
             raise ValueError(
-                f"{color(3,'Subject already exists in the database')}")
+                f"{color(3,'Subject already exists in the database')}") 
     except Exception as e:
         logging.error(
             f"{color(1,'Subject not created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")

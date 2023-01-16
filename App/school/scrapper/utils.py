@@ -37,7 +37,7 @@ def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
             enterDashboardUPSite(browser)
 
             # Get the schedule content
-            subjectData = fetchSubjectData(browser)
+#            subjectData = fetchSubjectData(browser)
 
     except Exception as e:
         logging.critical(
