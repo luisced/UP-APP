@@ -1,8 +1,11 @@
 
-from school.models import Subject
+from school.models import Subject, ChromeBrowser
 from school.tools.utils import color
 from school import db
 from datetime import datetime
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+
 import logging
 import traceback
 
@@ -19,7 +22,7 @@ def createSubject(day: str, start_time: datetime, end_time: datetime, subject: s
             logging.info(f"{color(2,'Subject created:')} ✅")
         else:
             raise ValueError(
-                f"{color(3,'Subject already exists in the database')}") 
+                f"{color(3,'Subject already exists in the database')}")
     except Exception as e:
         logging.error(
             f"{color(1,'Subject not created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
@@ -45,3 +48,50 @@ def formatDateObjsSubject(subjects: dict[str, str]) -> dict[str, str]:
     subjects['lastupDate'] = subjects['lastupDate'].strftime(
         '%Y-%m-%d %H:%M:%S')
     return subjects
+
+
+def extractSubjectsFromTable(browser: str) -> list[str]:
+    '''Once the html table was located, it scrappes the subjects out of it'''
+    try:
+        rows = browser.find_elements(
+            By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody')
+        logging.info(
+            f"{color(2,'Subjects content found')} ✅")
+    except NoSuchElementException:
+        logging.error(
+            f"{color(1,'Subjects content not found')} ❌")
+
+    return [row.text for row in rows]
+
+
+def cleanSubjectText(subjectText: str) -> list[str]:
+    '''Cleans the subject text'''
+    return None
+# Remove the first 2 elements
+
+
+def fetchSubjectData(browser: ChromeBrowser) -> str:
+    '''Fetches the subject data from the html'''
+    print(extractSubjectsFromTable(browser))
+    # create html file swith source code
+
+    # try:s
+
+    #     # Get the table
+    #     table = source_html.find('table', {'class': 'PSLEVEL3GRID'})
+    #     # Get the rows
+    #     rows = table.find_all('tr', {'class': 'PSLEVEL3'
+    #                                     'GRIDROW'})
+    #     # Get the columns
+    #     columns = [row.find_all('td') for row in rows]
+    #     # Get the data
+    #     data = [[column.text for column in row] for row in columns]
+    #     # Get the subjects
+    #     subjects = [getSubjectData(row) for row in data]
+    #     # Create the subjects
+    #     [createSubject(**subject) for subject in subjects]
+    #     return 'Subjects created'
+    # except Exception as e:
+    #     logging.critical(
+    #         f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+    #     return 'Subjects not created'

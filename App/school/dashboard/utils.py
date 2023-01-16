@@ -1,7 +1,6 @@
 from school.student.utils import createStudent
 from school.models import ChromeBrowser
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -60,13 +59,8 @@ def enterUPSiteSubjects(browser) -> str:
         WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.ID, 'win0div$ICField94')))
 
-        source_code = browser.page_source
-
         logging.info(
             f'{color(2,"Enter Carrito de Inscripción...")} ✅')
     except NoSuchElementException:
         logging.error(
             f'{color(1,"Carrito de Inscripción link not found")} ❌ {traceback.format_exc().splitlines()[-3]}')
-        source_code = None
-
-    return source_code

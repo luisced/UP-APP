@@ -1,4 +1,3 @@
-from sqlalchemy.orm import joinedload
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from school import db

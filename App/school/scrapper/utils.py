@@ -2,6 +2,8 @@ from school.models import ChromeBrowser
 from school.dashboard.utils import enterDashboard, enterDashboardUPSite
 from school.schedule.utils import *
 from school.login.utils import *
+from school.subjects.utils import fetchSubjectData
+
 from school.tools.utils import color
 import traceback
 import logging
@@ -35,9 +37,8 @@ def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
             loginUPSite(browser, studentId, password)
             # Enter the dashboard
             enterDashboardUPSite(browser)
-
             # Get the schedule content
-#            subjectData = fetchSubjectData(browser)
+            fetchSubjectData(browser)
 
     except Exception as e:
         logging.critical(
