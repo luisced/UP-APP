@@ -57,9 +57,6 @@ class Subject(db.Model):
     students: int = db.relationship('Student', secondary=RelationStudentSubjectTable,
                                     backref='students', lazy='dynamic', viewonly=True)
 
-    classroomsSubjects: int = db.relationship('Classroom', secondary=RelationClassroomSubjectTable,
-                                              backref='classroomsSubjects', lazy='dynamic', viewonly=True)
-
     def __repr__(self) -> str:
         '''Convert the subject to a string'''
         return f'Subject:{" ".join([f"{column.name}={getattr(self, column.name)}" for column in self.__table__.columns])}'
@@ -118,7 +115,3 @@ class Classroom(db.Model):
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     # Relationships
-
-    # Secondary table
-    subjectsClasroom: int = db.relationship('Subject', secondary=RelationClassroomSubjectTable,
-                                            backref=db.backref('subjectsClasroom', lazy='dynamic'))
