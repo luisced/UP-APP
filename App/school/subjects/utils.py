@@ -1,10 +1,11 @@
 from school import db
 from school.models import Subject, ChromeBrowser
 from school.tools.utils import color
+from school.days.utils import abreviatonToDay
 from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import itertools
+import re
 import logging
 import traceback
 
@@ -76,24 +77,50 @@ def extractSubjectsFromTable(browser: str) -> list[list[str]]:
 def cleanSubjectText(subjectText: str) -> list[str]:
     '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
     try:
-        groups = []
-        for subject in subjectText:
-            print(subject)
-            if subject != []:
-                arguments = {
-                    'subject': subject[0].split('-')[-1].strip(),
-                    'category': subject[0].split('-').strip()
-                }
-                groups.append(arguments)
+        new_subjects = []
+        for subj in subjectText:
+            if subj != []:
+                classes = re.findall(r"\b\d{4}\b(?=\s)", ' '.join(subj))
+                subject = subj[0].split('-')[-1].strip()
+                arguments = {subject: []}
+                for i in classes:
+                    arguments[subject].append({
+                        'category': i[0].split('-')[0].rstrip(),
+                        'days': [],
+                        'teacher': '',
+                        'language': '',
+                    })
+
+                    new_subjects.append(arguments)
+
             else:
-                continue
+                pass
         logging.info(
             f"{color(2,'Subject text cleaned')} ✅")
     except Exception as e:
         logging.error(
             f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         return None
-    return groups
+    return new_subjects
+    # group = suj[3].split('-')[0]
+    # arguments = {
+    #     subject: {}
+    # }
+    # for i in range(1, group+1):
+    #     arguments[subject][i] = {
+    #         'category': subj[0].split('-')[0].rstrip(),
+    #         'days': [],
+    #         'teacher': '',
+    #         'language': '',
+    #         'classrooms': []
+    #     }
+    # for item in subj:
+    #     for day in ['Lun', 'Mart', 'Mierc', 'Jue', 'V',]:
+    #         if item.startswith(day):
+    #             arguments[subject][i]['days'].append(
+    #                 abreviatonToDay(day))
+
+    #     new_subjects.append(arguments)
 
 
 #     return None
