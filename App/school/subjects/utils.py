@@ -51,8 +51,9 @@ def formatDateObjsSubject(subjects: dict[str, str]) -> dict[str, str]:
     return subjects
 
 
-def extractSubjectsFromTable(browser: str) -> list[str]:
-    '''Once the html table was located, it scrappes the subjects out of it'''
+def extractSubjectsFromTable(browser: str) -> list[list[str]]:
+    '''Once the html table was located, it scrappes the subjects out
+       of it and returns a list of list, each list represents a subject '''
     try:
         rows = browser.find_elements(
             By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
@@ -63,50 +64,36 @@ def extractSubjectsFromTable(browser: str) -> list[str]:
         #     f.write('\n'.join(source_codes))
         #     f.write("\n</body>\n</html>")
 
-        # convert each tr element into a list and then append that list to another one
-
-        # print page source code
-        # print(browser.page_source)
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
     except NoSuchElementException:
         logging.error(
             f"{color(1,'Subjects content not found')} ❌")
 
-    return [[row.text] for row in rows]
+    return list(map(lambda x: [line for line in x[0].splitlines()], [[row.text.strip()] for row in rows]))
 
 
 def cleanSubjectText(subjectText: str) -> list[str]:
     '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
     try:
-        cleanSubjects = list(itertools.chain.from_iterable(
-            [text.splitlines() for text in subjectText]))
-
-        classes = []
-        current_class = {}
-        for i, val in enumerate(cleanSubjects):
-            # Check if the current element is a class name
-            if "-" in val:
-                current_class["class_name"] = val.strip()
-                current_class["section"] = cleanSubjects[i + 1].strip()
-                current_class["type"] = cleanSubjects[i + 2].strip()
-                current_class["days_times"] = cleanSubjects[i + 3].strip()
-                current_class["location"] = cleanSubjects[i + 4].strip()
-                current_class["instructor"] = cleanSubjects[i + 5].strip()
-                current_class["language"] = cleanSubjects[i + 6].strip()
-                current_class["enrollment"] = cleanSubjects[i + 7].strip()
-                current_class["state"] = cleanSubjects[i + 8].strip()
-                # current_class["notes"] = cleanSubjects[i + 9].strip()
-                classes.append(current_class)
-                current_class = {}
-
+        groups = []
+        for subject in subjectText:
+            print(subject)
+            if subject != []:
+                arguments = {
+                    'subject': subject[0].split('-')[-1].strip(),
+                    'category': subject[0].split('-').strip()
+                }
+                groups.append(arguments)
+            else:
+                continue
         logging.info(
             f"{color(2,'Subject text cleaned')} ✅")
     except Exception as e:
         logging.error(
             f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         return None
-    return classes
+    return groups
 
 
 #     return None
@@ -115,9 +102,7 @@ def cleanSubjectText(subjectText: str) -> list[str]:
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    text = extractSubjectsFromTable(browser)
-    print(text)
-    # cleanSubjectText(text)
+    print(cleanSubjectText(extractSubjectsFromTable(browser)))
 
     # create html file swith source code
 
