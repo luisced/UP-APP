@@ -37,13 +37,6 @@ class Subject(db.Model):
     id: int = db.Column(db.Integer, primary_key=True,
                         autoincrement=True, nullable=False)
     name: str = db.Column(db.String(280), nullable=False)
-    teacher: str = db.Column(db.String(280), nullable=False)
-    day: str = db.Column(db.String(280), nullable=False)
-    startTime: str = db.Column(db.Time, nullable=False)
-    group: str = db.Column(db.String(280), nullable=False)
-    endTime: str = db.Column(db.Time, nullable=False)
-    startDate: datetime = db.Column(db.Date, nullable=False)
-    endDate: datetime = db.Column(db.Date, nullable=False)
     status: bool = db.Column(db.Boolean, nullable=False, default=True)
     creationDate: datetime = db.Column(
         db.Date, nullable=False, default=datetime.now)
@@ -54,8 +47,6 @@ class Subject(db.Model):
     # Relationships
 
     # Secondary table
-    students: int = db.relationship('Student', secondary=RelationStudentSubjectTable,
-                                    backref='students', lazy='dynamic', viewonly=True)
 
     def __repr__(self) -> str:
         '''Convert the subject to a string'''
@@ -88,8 +79,6 @@ class Student(db.Model):
     # Relationships
 
     # Secondary table
-    subjects: int = db.relationship('Subject', secondary=RelationStudentSubjectTable,
-                                    backref=db.backref('subjects', lazy='dynamic'))
 
     def __repr__(self) -> str:
         '''Convert the student to a string'''
@@ -115,3 +104,49 @@ class Classroom(db.Model):
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     # Relationships
+
+
+@dataclass
+class Teacher(db.Model):
+    '''Model to represent a teacher '''
+    __tablename__ = 'Teacher'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    name: str = db.Column(db.String(280), nullable=False)
+    options: int = db.Column(db.Integer, nullable=False, default=0)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationDate: datetime = db.Column(
+        db.Date, nullable=False, default=datetime.now)
+    lastupDate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    # Relationships
+
+
+@dataclass
+class Groups(db.Model):
+    '''Model to represent a group '''
+    __tablename__ = 'Groups'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    group: str = db.Column(db.String(280), nullable=False)
+    startTime: str = db.Column(db.Time, nullable=False)
+    endTime: str = db.Column(db.Time, nullable=False)
+    startDate: datetime = db.Column(db.Date, nullable=False)
+    endDate: datetime = db.Column(db.Date, nullable=False)
+    options: int = db.Column(db.Integer, nullable=False, default=0)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationDate: datetime = db.Column(
+        db.Date, nullable=False, default=datetime.now)
+    lastupDate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    # Relationships
+
+    # Foreign keys
+    teacher: int = db.Column(
+        db.Integer, db.ForeignKey('Teacher.id'), nullable=False)
+    subject: int = db.Column(
+        db.Integer, db.ForeignKey('Subject.id'), nullable=False)
+
+    # Secondary table

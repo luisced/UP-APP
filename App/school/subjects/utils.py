@@ -4,18 +4,19 @@ from school.tools.utils import color
 from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-
+import itertools
 import logging
 import traceback
 
 
-def createSubject(day: str, start_time: datetime, end_time: datetime, subject: str, teacher: str, start_date: datetime, end_date: datetime, group: str):
+def createSubject(name: str):
     '''Creates a subject object'''
     try:
 
         if not Subject.query.filter_by(name=subject).first():
-            subject = Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
-                              startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, )
+            subject = Subject(name=name)
+            # Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
+            #                   startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, )
 
             db.session.add(subject)
             db.session.commit()
@@ -55,6 +56,13 @@ def extractSubjectsFromTable(browser: str) -> list[str]:
     try:
         rows = browser.find_elements(
             By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody')
+
+        path = '/horario.html'
+
+        code = browser.page_source
+        with open(path, 'w') as f:
+            f.write(code)
+
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
     except NoSuchElementException:
@@ -64,9 +72,37 @@ def extractSubjectsFromTable(browser: str) -> list[str]:
     return [row.text for row in rows]
 
 
-# def cleanSubjectText(subjectText: str) -> list[str]:
-#     '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
-#     try:
+def cleanSubjectText(subjectText: str) -> list[str]:
+    '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
+    try:
+        cleanSubjects = list(itertools.chain.from_iterable(
+            [text.splitlines() for text in subjectText]))
+
+        classes = []
+        current_class = {}
+        for i, val in enumerate(cleanSubjects):
+            # Check if the current element is a class name
+            if "-" in val:
+                current_class["class_name"] = val.strip()
+                current_class["section"] = cleanSubjects[i + 1].strip()
+                current_class["type"] = cleanSubjects[i + 2].strip()
+                current_class["days_times"] = cleanSubjects[i + 3].strip()
+                current_class["location"] = cleanSubjects[i + 4].strip()
+                current_class["instructor"] = cleanSubjects[i + 5].strip()
+                current_class["language"] = cleanSubjects[i + 6].strip()
+                current_class["enrollment"] = cleanSubjects[i + 7].strip()
+                current_class["state"] = cleanSubjects[i + 8].strip()
+                # current_class["notes"] = cleanSubjects[i + 9].strip()
+                classes.append(current_class)
+                current_class = {}
+
+        logging.info(
+            f"{color(2,'Subject text cleaned')} ✅")
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return None
+    return classes
 
 
 #     return None

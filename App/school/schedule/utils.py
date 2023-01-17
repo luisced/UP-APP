@@ -3,9 +3,10 @@ from selenium.common.exceptions import NoSuchElementException
 from school import db
 from school.tools.utils import color
 from school.models import ChromeBrowser, Subject, Student
-from school.relations import RelationStudentSubjectTable
+# from school.relations import RelationStudentSubjectTable
 from school.student.utils import createStudentSubjectRelationship, getStudent
 from school.subjects.utils import getSubject, createSubject
+from school.days.utils import abreviatonToDay
 from school.classrooms.utils import createClassroom, createClassroomSubjectRelationship
 from flask import session
 from datetime import datetime
@@ -79,33 +80,33 @@ def createSchedule(day: str, start_time: datetime, end_time: datetime, subject: 
     classroom = createClassroom(classroom)
     # create relations
 
-    createStudentSubjectRelationship(Student.query.filter_by(
-        studentID=session['student']['studentID']).first(), subject)
+    # createStudentSubjectRelationship(Student.query.filter_by(
+    #     studentID=session['student']['studentID']).first(), subject)
 
 
 def getStudentSubjects(student: Student) -> dict:
     '''Returns the student subjects as a dictionary with his subjects'''
-    try:
+#     try:
 
-        subjects = (
-            db.session.query(Subject)
-            .filter(Subject.id.in_((
-                db.session.query(RelationStudentSubjectTable.c.subjectId)
-                .filter(RelationStudentSubjectTable.c.studentId == student.id)
-                .subquery()
-            )
-            ))
-            .all()
-        )
-        student = {'Student': getStudent(student)}
-        student['Student']['Subjects'] = list(map(
-            lambda subject: getSubject(subject), subjects))
-        logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
-    except Exception as e:
-        logging.error(
-            f"{color(1,'Get Student Subjects Failed')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        student = None
-    return student
+#         subjects = (
+#             db.session.query(Subject)
+#             .filter(Subject.id.in_((
+#                 db.session.query(RelationStudentSubjectTable.c.subjectId)
+#                 .filter(RelationStudentSubjectTable.c.studentId == student.id)
+#                 .subquery()
+#             )
+#             ))
+#             .all()
+#         )
+#         student = {'Student': getStudent(student)}
+#         student['Student']['Subjects'] = list(map(
+#             lambda subject: getSubject(subject), subjects))
+#         logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
+#     except Exception as e:
+#         logging.error(
+#             f"{color(1,'Get Student Subjects Failed')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+#         student = None
+#     return student
 
 
 def fetchScheduleContent(browser: ChromeBrowser) -> None:
