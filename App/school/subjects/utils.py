@@ -55,21 +55,25 @@ def extractSubjectsFromTable(browser: str) -> list[str]:
     '''Once the html table was located, it scrappes the subjects out of it'''
     try:
         rows = browser.find_elements(
-            By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody')
+            By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
 
-        path = '/horario.html'
+        # with open('App/school/dashboard/upsite.html', 'w') as f:
+        #     f.write("<!DOCTYPE html>\n<html>\n<body>\n")
+        #     source_codes = [row.get_attribute('innerHTML') for row in rows]
+        #     f.write('\n'.join(source_codes))
+        #     f.write("\n</body>\n</html>")
 
-        code = browser.page_source
-        with open(path, 'w') as f:
-            f.write(code)
+        # convert each tr element into a list and then append that list to another one
 
+        # print page source code
+        # print(browser.page_source)
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
     except NoSuchElementException:
         logging.error(
             f"{color(1,'Subjects content not found')} ❌")
 
-    return [row.text for row in rows]
+    return [[row.text] for row in rows]
 
 
 def cleanSubjectText(subjectText: str) -> list[str]:
@@ -111,7 +115,9 @@ def cleanSubjectText(subjectText: str) -> list[str]:
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    cleanSubjectText(extractSubjectsFromTable(browser))
+    text = extractSubjectsFromTable(browser)
+    print(text)
+    # cleanSubjectText(text)
 
     # create html file swith source code
 
