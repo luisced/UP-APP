@@ -82,16 +82,23 @@ def cleanSubjectText(subjectText: str) -> list[str]:
             if subj != []:
                 classes = re.findall(r"\b\d{4}\b(?=\s)", ' '.join(subj))
                 subject = subj[0].split('-')[-1].strip()
-                arguments = {subject: []}
-                for i in classes:
-                    arguments[subject].append({
-                        'category': i[0].split('-')[0].rstrip(),
-                        'days': [],
-                        'teacher': '',
-                        'language': '',
-                    })
+                arguments = {
+                    subject: {
 
-                    new_subjects.append(arguments)
+                        f'{classNumber}': [] for classNumber in classes
+
+                    }
+                }
+                print(arguments)
+                # for i in classes:
+                #     arguments[subject].append({
+                #         'category': i[0].split('-')[0].rstrip(),
+                #         'days': [],
+                #         'teacher': '',
+                #         'language': '',
+                #     })
+
+                #     new_subjects.append(arguments)
 
             else:
                 pass

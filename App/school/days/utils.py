@@ -10,8 +10,3 @@ def abreviatonToDay(abv: str) -> str:
         'D': 'Domingo'
     }
     return days[abv]
-
-
-{'Diseño Asistido por Computadora':
- {'4397': {'category': 'MECANICA MEC102', 'days': [], 'teacher': '',
-           'language': ''}, '4398': {'category': 'MECANICA MEC102', 'days': [], 'teacher': '', 'language': ''}}}
