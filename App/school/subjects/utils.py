@@ -89,74 +89,7 @@ def splitListCourses(courseList: list[str]) -> list[list[str]]:
     except Exception as e:
         logging.error(
             f"{color(1,'Courses not split')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-    return [x for x in separated_classes if len(x) > 1]
-
-
-def cleanSubjectText(subjectText: str) -> list[str]:
-    '''Cleans the subject text from the html table sent from extractSubjectsFromTable function'''
-    try:
-        new_subjects = []
-        for subj in subjectText:
-            if subj != []:
-                classes = re.findall(r"\b\d{4}\b(?=\s)", ' '.join(subj))
-                subject = subj[0].split('-')[1].strip()
-                arguments = {
-                    subject: {
-                        f'{classNumber}': {
-                            'days': getDays(subj),
-                            'teacher': '',
-                            'language': ''
-                        }
-                        for classNumber in classes
-                    }
-                }
-
-                # for i in classes:
-                #     arguments[subject].append({
-                #         'category': i[0].split('-')[0].rstrip(),
-                #         'days': [],
-                #         'teacher': '',
-                #         'language': '',
-                #     })
-
-                #     new_subjects.append(arguments)
-
-            else:
-                pass
-        logging.info(
-            f"{color(2,'Subject text cleaned')} ✅")
-    except Exception as e:
-        logging.error(
-            f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        return None
-    return subjectText
-
-
-def getDays(subj: list[str]):
-    days_list = []
-    for item in subj:
-        for day in ['Lun', 'Mart', 'Miérc', 'Jue', 'V']:
-            if item.startswith(day):
-                days_list.append(abreviatonToDay(day))
-    return list(set(days_list))    # group = suj[3].split('-')[0]
-    # arguments = {
-    #     subject: {}
-    # }
-    # for i in range(1, group+1):
-    #     arguments[subject][i] = {
-    #         'category': subj[0].split('-')[0].rstrip(),
-
-    #         'days': [],
-    #         'teacher': '',
-    #         'language': '',
-    #         'classrooms': []
-    #     }
-
-    #     new_subjects.append(arguments)
-
-
-#     return None
-# Remove the first 2 elements
+    return [course for course in separated_classes if len(course) > 1]
 
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
