@@ -55,6 +55,14 @@ def deleteStudentSession() -> None:
     session.pop('logged_in', None)
 
 
+def writeHTMLFile(rows: list) -> None:
+    with open('App/school/dashboard/upsite.html', 'w') as f:
+        f.write("<!DOCTYPE html>\n<html>\n<body>\n")
+        source_codes = [row.get_attribute('innerHTML') for row in rows]
+        f.write('\n'.join(source_codes))
+        f.write("\n</body>\n</html>")
+
+
 class StudentNotFoundError(Exception):
     """Error raised when student not found in DB"""
 

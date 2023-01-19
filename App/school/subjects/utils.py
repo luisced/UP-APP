@@ -81,14 +81,18 @@ def cleanSubjectText(subjectText: str) -> list[str]:
         for subj in subjectText:
             if subj != []:
                 classes = re.findall(r"\b\d{4}\b(?=\s)", ' '.join(subj))
-                subject = subj[0].split('-')[-1].strip()
+                subject = subj[0].split('-')[1].strip()
                 arguments = {
                     subject: {
-
-                        f'{classNumber}': [] for classNumber in classes
-
+                        f'{classNumber}': {
+                            'days': getDays(subj),
+                            'teacher': '',
+                            'language': ''
+                        }
+                        for classNumber in classes
                     }
                 }
+
                 print(arguments)
                 # for i in classes:
                 #     arguments[subject].append({
@@ -108,8 +112,15 @@ def cleanSubjectText(subjectText: str) -> list[str]:
         logging.error(
             f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         return None
-    return new_subjects
-    # group = suj[3].split('-')[0]
+
+
+def getDays(subj: list[str]):
+    days_list = []
+    for item in subj:
+        for day in ['Lun', 'Mart', 'Miérc', 'Jue', 'V']:
+            if item.startswith(day):
+                days_list.append(abreviatonToDay(day))
+    return list(set(days_list))    # group = suj[3].split('-')[0]
     # arguments = {
     #     subject: {}
     # }
@@ -121,11 +132,6 @@ def cleanSubjectText(subjectText: str) -> list[str]:
     #         'language': '',
     #         'classrooms': []
     #     }
-    # for item in subj:
-    #     for day in ['Lun', 'Mart', 'Mierc', 'Jue', 'V',]:
-    #         if item.startswith(day):
-    #             arguments[subject][i]['days'].append(
-    #                 abreviatonToDay(day))
 
     #     new_subjects.append(arguments)
 

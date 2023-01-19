@@ -3,7 +3,7 @@ def abreviatonToDay(abv: str) -> str:
     days = {
         'Lun': 'Lunes',
         'Mart': 'Martes',
-        'Mierc': 'Miércoles',
+        'Miérc': 'Miércoles',
         'Jue': 'Jueves',
         'V': 'Viernes',
         'S': 'Sábado',
