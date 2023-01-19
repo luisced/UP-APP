@@ -59,12 +59,6 @@ def extractSubjectsFromTable(browser: str) -> list[list[str]]:
         rows = browser.find_elements(
             By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
 
-        # with open('App/school/dashboard/upsite.html', 'w') as f:
-        #     f.write("<!DOCTYPE html>\n<html>\n<body>\n")
-        #     source_codes = [row.get_attribute('innerHTML') for row in rows]
-        #     f.write('\n'.join(source_codes))
-        #     f.write("\n</body>\n</html>")
-
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
     except NoSuchElementException:
@@ -72,6 +66,30 @@ def extractSubjectsFromTable(browser: str) -> list[list[str]]:
             f"{color(1,'Subjects content not found')} ❌")
 
     return list(map(lambda x: [line for line in x[0].splitlines()], [[row.text.strip()] for row in rows]))
+
+
+def splitListCourses(courseList: list[str]) -> list[list[str]]:
+    '''Given a list of courses, it splits them into a list of lists, each list represents a course'''
+    try:
+        separated_classes = []
+        current_group = []
+        for sub_list in courseList:
+            for item in sub_list:
+                if item != "Clase Sección Días y Horas Aula Instructor Idioma Inscr / Cap Estado      ":
+                    current_group.append(item)
+                else:
+                    if current_group:
+                        separated_classes.append(current_group)
+                    current_group = [sub_list[0]]
+            if current_group:
+                separated_classes.append(current_group)
+            current_group = []
+        logging.info(
+            f"{color(2,'Courses split successfully')} ✅")
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Courses not split')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+    return [x for x in separated_classes if len(x) > 1]
 
 
 def cleanSubjectText(subjectText: str) -> list[str]:
@@ -93,7 +111,6 @@ def cleanSubjectText(subjectText: str) -> list[str]:
                     }
                 }
 
-                print(arguments)
                 # for i in classes:
                 #     arguments[subject].append({
                 #         'category': i[0].split('-')[0].rstrip(),
@@ -112,6 +129,7 @@ def cleanSubjectText(subjectText: str) -> list[str]:
         logging.error(
             f"{color(1,'Subject text not cleaned')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         return None
+    return subjectText
 
 
 def getDays(subj: list[str]):
@@ -127,6 +145,7 @@ def getDays(subj: list[str]):
     # for i in range(1, group+1):
     #     arguments[subject][i] = {
     #         'category': subj[0].split('-')[0].rstrip(),
+
     #         'days': [],
     #         'teacher': '',
     #         'language': '',
@@ -142,7 +161,8 @@ def getDays(subj: list[str]):
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    print(cleanSubjectText(extractSubjectsFromTable(browser)))
+    print(splitListCourses(extractSubjectsFromTable(browser)))
+    # print(cleanSubjectText())
 
     # create html file swith source code
 
