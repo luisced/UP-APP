@@ -1,8 +1,6 @@
 from school import db
 from school.models import Subject, ChromeBrowser
 from school.tools.utils import color
-from school.days.utils import abreviatonToDay
-from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import re
@@ -113,7 +111,8 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    print(splitListCourses(extractSubjectsFromTable(browser)))
+    subjectData: list[list[str]] = (
+        splitListCourses(extractSubjectsFromTable(browser)))
     # print(cleanSubjectText())
 
     # create html file swith source code
