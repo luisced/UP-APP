@@ -1,6 +1,7 @@
 from school import db
 from school.models import Subject, ChromeBrowser
 from school.tools.utils import color
+from school.groups.utils import createGroup
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import re
@@ -113,6 +114,7 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
     subjectData: list[list[str]] = (
         splitListCourses(extractSubjectsFromTable(browser)))
+    print(map(lambda x: createSubject(**x), subjectData))
     # print(cleanSubjectText())
 
     # create html file swith source code

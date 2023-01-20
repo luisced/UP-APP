@@ -29,6 +29,42 @@ class ChromeBrowser:
 
 
 @dataclass
+class Group(db.Model):
+    '''Model to represent a group for storing groups in the database'''
+
+    __tablename__ = 'Group'
+
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    classNumber: int = db.Column(db.Integer, nullable=False)
+    group: str = db.Column(db.String(280), nullable=False)
+    language: str = db.Column(db.String(280), nullable=False)
+    students: str = db.Column(db.String(280), nullable=True)
+    modality: str = db.Column(db.String(280), nullable=False)
+    description: str = db.Column(db.String(280), nullable=True)
+    startDate: datetime = db.Column(
+        db.Date, nullable=True)
+    endDate: datetime = db.Column(
+        db.Date, nullable=True)
+    options: int = db.Column(db.Integer, nullable=False, default=0)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationDate: datetime = db.Column(
+        db.Date, nullable=False, default=datetime.now)
+    lastupDate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    # Relationships
+
+    # Backref
+    subject: int = db.Column(db.Integer, db.ForeignKey(
+        'Subject.id'), nullable=False)
+    teacher: int = db.Column(db.Integer, db.ForeignKey(
+        'Teacher.id'), nullable=False)
+
+    # Secondary table
+
+
+@dataclass
 class Subject(db.Model):
     '''Model to represent a subject for storing subjects in the database'''
 
@@ -121,32 +157,3 @@ class Teacher(db.Model):
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     # Relationships
-
-
-@dataclass
-class Groups(db.Model):
-    '''Model to represent a group '''
-    __tablename__ = 'Groups'
-    id: int = db.Column(db.Integer, primary_key=True,
-                        autoincrement=True, nullable=False)
-    group: str = db.Column(db.String(280), nullable=False)
-    startTime: str = db.Column(db.Time, nullable=False)
-    endTime: str = db.Column(db.Time, nullable=False)
-    startDate: datetime = db.Column(db.Date, nullable=False)
-    endDate: datetime = db.Column(db.Date, nullable=False)
-    options: int = db.Column(db.Integer, nullable=False, default=0)
-    status: bool = db.Column(db.Boolean, nullable=False, default=True)
-    creationDate: datetime = db.Column(
-        db.Date, nullable=False, default=datetime.now)
-    lastupDate: str = db.Column(
-        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
-
-    # Relationships
-
-    # Foreign keys
-    teacher: int = db.Column(
-        db.Integer, db.ForeignKey('Teacher.id'), nullable=False)
-    subject: int = db.Column(
-        db.Integer, db.ForeignKey('Subject.id'), nullable=False)
-
-    # Secondary table
