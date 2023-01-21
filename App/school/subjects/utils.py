@@ -8,7 +8,6 @@ from selenium.common.exceptions import NoSuchElementException
 import re
 import logging
 import traceback
-import itertools
 
 
 def createSubject(name: str):
@@ -71,15 +70,15 @@ def extractSubjectsFromTable(browser: ChromeBrowser) -> list[str]:
     return rows
 
 
-def splitListCourses(rows: list[str]) -> list[list[str]]:
+def splitListCourses(rows: list[str], languages) -> list[list[str]]:
     '''Given a list of courses, it splits them into a list of lists, each list represents a course'''
     # The try-except block is used to catch any errors that may occur and log them
     try:
         # The map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
         # In this case, the given function is the lambda function, which splits the text of each row using the new line character (\n) as a separator
         # The result of this is a list of lists, each sublist contains the text of each row
-        subjectData = list(map(lambda x: [line for line in x[0].splitlines()], [
-                           [row.text.strip()] for row in rows]))
+        subjectData = [[line.strip() for line in row.text.splitlines()]
+                       for row in rows]
         separated_classes = []
         current_group = []
         # The for loop iterates over each list in the subjectData list and stores the result of each iteration in the sub_list variable
@@ -87,7 +86,7 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
             # The for loop iterates over each element in the sub_list variable and stores the result of each iteration in the item variable
             for item in sub_list:
                 # The if statement verifies that the item variable is not equal to the string "Clase Sección Días y Horas Aula Instructor Idioma Inscr / Cap Estado      "
-                if item != "Clase Sección Días y Horas Aula Instructor Idioma Inscr / Cap Estado      ":
+                if item != "Clase Sección Días y Horas Aula Instructor Idioma Inscr / Cap Estado":
                     # If the condition is true, the item variable is appended to the current_group list
                     current_group.append(item)
                 else:
@@ -113,19 +112,22 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
     # The function returns a list containing only the courses in separated_classes that have more than one element
     # add language to the end of each list
 
-    return [course + ['Español'] for course in separated_classes if len(course) > 1]
+    return [classes for classes in separated_classes if len(classes) > 1]
 
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
-    subjectData: list[list[str]] = (
-        splitListCourses(extractSubjectsFromTable(browser)))
+    extractedHTML: list[str] = extractSubjectsFromTable(browser)
+    languages: list[str] = fetchLanguages(extractedHTML)
+    subjectData: list[list[str]] = splitListCourses(
+        extractedHTML, languages)
+    print(subjectData, len(subjectData))
     for subjectElement in subjectData:
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
-            '-')[0], teacher=teacher.id, language=[-1], students=getStudentRoom(subjectElement),
+            '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality="Presencial", description=subjectElement[-2])
 
 
@@ -141,8 +143,9 @@ def fetchTeachers(data: list[list[str]]) -> Teacher:
     teachers = []
     for teacher in data[::-1]:
         if (
-            not teacher.startswith(('Clase', 'Sección', 'Notas', 'Sala', 'Salón', 'Se', 'Todas', '  Presencial', 'Personal', '  En')) and
-                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher)):
+            not teacher.startswith(('Clase', 'Sección', 'Notas', 'Sala', 'Salón', 'Se', 'Todas', 'Presencial', 'Personal', 'En', 'Español', '', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')) and
+                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher),
+                not teacher[0].isnumeric()):
             teachers.append(teacher)
             break
     for teacherData in list(set(teachers)):
@@ -151,7 +154,8 @@ def fetchTeachers(data: list[list[str]]) -> Teacher:
     return teacher
 
 
-def fetchLanguages(rows: str) -> str:
+def fetchLanguages(rows: str) -> list[str]:
+    languagesList = []
     for row in rows:
         languages = row.find_element(
             By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${str(rows.index(row))}"]')
@@ -159,10 +163,10 @@ def fetchLanguages(rows: str) -> str:
             match = re.search(
                 r'src="(.*?)"', languages.get_attribute('innerHTML'))
             if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
-                language = 'Español'
-            elif match and match.group(1).split('/')[-1] == '/cs/CAMPUS/cache/PS_USA_COL_ESP_1.gif':
-                language = 'Inglés'
+                languagesList.append('Español')
+            elif match and match.group(1).split('/')[-1] == 'PS_USA_COL_ESP_1.gif':
+                languagesList.append('Inglés')
             else:
-                language = 'No disponible'
+                languagesList.append('No especificado')
 
-    return language
+    return languagesList
