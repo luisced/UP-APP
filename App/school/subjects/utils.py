@@ -1,19 +1,21 @@
 from school import db
-from school.models import Subject, ChromeBrowser
+from school.models import Subject, ChromeBrowser, Teacher
 from school.tools.utils import color
 from school.groups.utils import createGroup
+from school.teacher.utils import createTeacher
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import re
 import logging
 import traceback
+import itertools
 
 
 def createSubject(name: str):
     '''Creates a subject object'''
     try:
 
-        if not Subject.query.filter_by(name=subject).first():
+        if not Subject.query.filter_by(name=name).first():
             subject = Subject(name=name)
             # Subject(day=day, startTime=start_time, endTime=end_time, name=subject, teacher=teacher,
             #                   startDate=datetime.strptime(start_date, '%d/%m/%Y'), endDate=datetime.strptime(end_date, '%d/%m/%Y'), group=group, )
@@ -27,7 +29,7 @@ def createSubject(name: str):
     except Exception as e:
         logging.error(
             f"{color(1,'Subject not created')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-        subject = None
+        subject = Subject.query.filter_by(name=name).first()
     return subject
 
 
@@ -60,6 +62,8 @@ def extractSubjectsFromTable(browser: ChromeBrowser) -> list[str]:
 
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
+        logging.info(
+            f"{color(4,f'{len(rows)} Subjects found')} 🔎")
     except NoSuchElementException:
         logging.error(
             f"{color(1,'Subjects content not found')} ❌")
@@ -76,7 +80,6 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
         # The result of this is a list of lists, each sublist contains the text of each row
         subjectData = list(map(lambda x: [line for line in x[0].splitlines()], [
                            [row.text.strip()] for row in rows]))
-
         separated_classes = []
         current_group = []
         # The for loop iterates over each list in the subjectData list and stores the result of each iteration in the sub_list variable
@@ -100,6 +103,7 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
                 separated_classes.append(current_group)
             # The current_group list is reset to an empty list
             current_group = []
+
         logging.info(
             f"{color(2,'Courses split successfully')} ✅")
     # If an error occurs, the except block is executed
@@ -107,35 +111,58 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
         logging.error(
             f"{color(1,'Courses not split')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
     # The function returns a list containing only the courses in separated_classes that have more than one element
-    return [course for course in separated_classes if len(course) > 1]
+    # add language to the end of each list
+
+    return [course + ['Español'] for course in separated_classes if len(course) > 1]
 
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
     subjectData: list[list[str]] = (
         splitListCourses(extractSubjectsFromTable(browser)))
-    print(map(lambda x: createSubject(**x), subjectData))
-    # print(cleanSubjectText())
+    for subjectElement in subjectData:
 
-    # create html file swith source code
+        subject = createSubject(subjectElement[0])
+        teacher = fetchTeachers(subjectElement)
+        group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
+            '-')[0], teacher=teacher.id, language=[-1], students=getStudentRoom(subjectElement),
+            modality="Presencial", description=subjectElement[-2])
 
-    # try:s
 
-    #     # Get the table
-    #     table = source_html.find('table', {'class': 'PSLEVEL3GRID'})
-    #     # Get the rows
-    #     rows = table.find_all('tr', {'class': 'PSLEVEL3'
-    #                                     'GRIDROW'})
-    #     # Get the columns
-    #     columns = [row.find_all('td') for row in rows]
-    #     # Get the data
-    #     data = [[column.text for column in row] for row in columns]
-    #     # Get the subjects
-    #     subjects = [getSubjectData(row) for row in data]
-    #     # Create the subjects
-    #     [createSubject(**subject) for subject in subjects]
-    #     return 'Subjects created'
-    # except Exception as e:
-    #     logging.critical(
-    #         f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
-    #     return 'Subjects not created'
+def getStudentRoom(data: list[list[str]]) -> str:
+    '''Gets the student room'''
+    for studentRoom in data:
+        if re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', studentRoom):
+            return studentRoom
+
+
+def fetchTeachers(data: list[list[str]]) -> Teacher:
+    '''Fetches the teachers from the lists'''
+    teachers = []
+    for teacher in data[::-1]:
+        if (
+            not teacher.startswith(('Clase', 'Sección', 'Notas', 'Sala', 'Salón', 'Se', 'Todas', '  Presencial', 'Personal', '  En')) and
+                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher)):
+            teachers.append(teacher)
+            break
+    for teacherData in list(set(teachers)):
+        teacher = createTeacher(teacherData)
+
+    return teacher
+
+
+def fetchLanguages(rows: str) -> str:
+    for row in rows:
+        languages = row.find_element(
+            By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${str(rows.index(row))}"]')
+        if languages:
+            match = re.search(
+                r'src="(.*?)"', languages.get_attribute('innerHTML'))
+            if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
+                language = 'Español'
+            elif match and match.group(1).split('/')[-1] == '/cs/CAMPUS/cache/PS_USA_COL_ESP_1.gif':
+                language = 'Inglés'
+            else:
+                language = 'No disponible'
+
+    return language

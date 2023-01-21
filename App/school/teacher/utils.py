@@ -20,10 +20,10 @@ def createTeacher(name: str) -> Teacher:
         else:
             # Raise an error if teacher already exists in database
             raise ValueError(
-                f'{color(3,"Teacher already exists in database")}')
+                f'{color(3,"Teacher already exists in database")}, {name}')
     except Exception as e:
         logging.error(
             f'{color(1,"Couldnt create teacher")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
-        teacher = None
+        teacher = Teacher.query.filter_by(name=name).first()
 
     return teacher

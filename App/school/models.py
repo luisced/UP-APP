@@ -62,6 +62,7 @@ class Group(db.Model):
         'Teacher.id'), nullable=False)
 
     # Secondary table
+    # todo: add students and days:hours
 
 
 @dataclass
