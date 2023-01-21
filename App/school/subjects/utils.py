@@ -125,6 +125,7 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
+        print(teacher)
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality="Presencial", description=subjectElement[-2])
@@ -140,13 +141,15 @@ def getStudentRoom(data: list[list[str]]) -> str:
 def fetchTeachers(data: list[list[str]]) -> Teacher:
     '''Fetches the teachers from the lists'''
     teachers = []
-    substrings = ('Clase', 'Sección', 'Notas:', 'Sala', 'Salón', 'Se', 'Todas',
-                  'Presencial', 'Personal', 'En', 'Español', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')
+    substrings = ('Clase', 'Sección', 'Notas:', 'Sala ', 'Salón', 'Se', 'Todas',
+                  'Presencial', 'Personal', 'En l', 'Español', 'Lun', 'Mart', 'Jue', 'Miérc', 'V', 'Sáb', 'Lab')
     for teacher in data[::-1]:
-        if any(substring in teacher for substring in substrings) or re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher):
-            break
+        if any(teacher.startswith(substring) for substring in substrings) or re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher) or re.search(r'\d', teacher):
+            pass
         else:
             teachers.append(teacher)
+            break
+
     for teacherData in list(set(teachers)):
         teacher = createTeacher(teacherData)
 
