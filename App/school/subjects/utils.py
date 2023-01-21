@@ -77,8 +77,8 @@ def splitListCourses(rows: list[str], languages) -> list[list[str]]:
         # The map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
         # In this case, the given function is the lambda function, which splits the text of each row using the new line character (\n) as a separator
         # The result of this is a list of lists, each sublist contains the text of each row
-        subjectData = [[line.strip() for line in row.text.splitlines()]
-                       for row in rows]
+        subjectData = [[line.strip() for line in row.text.splitlines() if line.strip() != '']
+                       for row in rows if rows != []]
         separated_classes = []
         current_group = []
         # The for loop iterates over each list in the subjectData list and stores the result of each iteration in the sub_list variable
@@ -121,7 +121,6 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
     languages: list[str] = fetchLanguages(extractedHTML)
     subjectData: list[list[str]] = splitListCourses(
         extractedHTML, languages)
-    print(subjectData, len(subjectData))
     for subjectElement in subjectData:
 
         subject = createSubject(subjectElement[0])
@@ -141,13 +140,15 @@ def getStudentRoom(data: list[list[str]]) -> str:
 def fetchTeachers(data: list[list[str]]) -> Teacher:
     '''Fetches the teachers from the lists'''
     teachers = []
+    print(data)
     for teacher in data[::-1]:
         if (
-            not teacher.startswith(('Clase', 'Sección', 'Notas', 'Sala', 'Salón', 'Se', 'Todas', 'Presencial', 'Personal', 'En', 'Español', '', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')) and
-                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher),
-                not teacher[0].isnumeric()):
+            not teacher.startswith(('Clase', 'Sección', 'Notas:', 'Sala', 'Salón', 'Se', 'Todas', 'Presencial', 'Personal', 'En', 'Español', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')) and
+                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher),):
             teachers.append(teacher)
             break
+        else:
+            continue
     for teacherData in list(set(teachers)):
         teacher = createTeacher(teacherData)
 
