@@ -140,15 +140,13 @@ def getStudentRoom(data: list[list[str]]) -> str:
 def fetchTeachers(data: list[list[str]]) -> Teacher:
     '''Fetches the teachers from the lists'''
     teachers = []
-    print(data)
+    substrings = ('Clase', 'Sección', 'Notas:', 'Sala', 'Salón', 'Se', 'Todas',
+                  'Presencial', 'Personal', 'En', 'Español', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')
     for teacher in data[::-1]:
-        if (
-            not teacher.startswith(('Clase', 'Sección', 'Notas:', 'Sala', 'Salón', 'Se', 'Todas', 'Presencial', 'Personal', 'En', 'Español', 'Lun', 'Mar', 'Jue', 'Miérc', 'V', 'Sáb')) and
-                not re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher),):
-            teachers.append(teacher)
+        if any(substring in teacher for substring in substrings) or re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher):
             break
         else:
-            continue
+            teachers.append(teacher)
     for teacherData in list(set(teachers)):
         teacher = createTeacher(teacherData)
 
