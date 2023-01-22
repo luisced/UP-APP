@@ -56,13 +56,19 @@ def extractSubjectsFromTable(browser: ChromeBrowser) -> list[str]:
     '''Once the html table was located, it scrappes the subjects out
        of it and returns a list of list, each list represents a subject '''
     try:
+        # var is used to iterate over the rows of the table
         rows = browser.find_elements(
-            By.XPATH, '//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
+            By.XPATH, f'//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
 
+        counter = 1
+        for element in elements:
+            browser.find_elements(
+                By.XPATH, f'//*[@id="ACE_SSR_CLSRSLT_WRK_GROUPBOX3{counter}"]/tbody')
+            counter += 1
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
         logging.info(
-            f"{color(4,f'{len(rows)} Subjects found')} 🔎")
+            f"{color(4,f' Subjects found')} 🔎")
     except NoSuchElementException:
         logging.error(
             f"{color(1,'Subjects content not found')} ❌")
@@ -70,7 +76,7 @@ def extractSubjectsFromTable(browser: ChromeBrowser) -> list[str]:
     return rows
 
 
-def splitListCourses(rows: list[str], languages) -> list[list[str]]:
+def splitListCourses(rows: list[str]) -> list[list[str]]:
     '''Given a list of courses, it splits them into a list of lists, each list represents a course'''
     # The try-except block is used to catch any errors that may occur and log them
     try:
@@ -118,57 +124,106 @@ def splitListCourses(rows: list[str], languages) -> list[list[str]]:
 def fetchSubjectData(browser: ChromeBrowser) -> str:
     '''Fetches the subject data from the html'''
     extractedHTML: list[str] = extractSubjectsFromTable(browser)
-    languages: list[str] = fetchLanguages(extractedHTML)
     subjectData: list[list[str]] = splitListCourses(
-        extractedHTML, languages)
+        extractedHTML)
+    languages: list[str] = fetchLanguages(extractedHTML, len(subjectData))
+
+    for i in enumerate(subjectData):
+        subjectData[i[0]].append(languages[i[0]])
+
     for subjectElement in subjectData:
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
-        print(teacher)
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
-            modality="Presencial", description=subjectElement[-2])
+            modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
 
 
 def getStudentRoom(data: list[list[str]]) -> str:
     '''Gets the student room'''
-    for studentRoom in data:
-        if re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', studentRoom):
-            return studentRoom
+    try:
+        for studentRoom in data:
+            if re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', studentRoom):
+                return studentRoom
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Student room not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return ''
+
+
+def fetchModality(data: list[list[str]]) -> str:
+    '''Fetches the modality from the lists'''
+    try:
+        for modality in data:
+            if modality.startswith('Pres') or modality.startswith('En l'):
+                return modality
+            else:
+                pass
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Modality not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return ''
+
+
+def fetchDescription(data: list[list[str]]) -> str:
+    '''Fetches the description from the lists'''
+    try:
+        for description in data:
+            if description.startswith('Notas:'):
+                return description
+            elif description.startswith('Se prevé'):
+                return description
+            else:
+                pass
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Description not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return ''
 
 
 def fetchTeachers(data: list[list[str]]) -> Teacher:
     '''Fetches the teachers from the lists'''
     teachers = []
-    substrings = ('Clase', 'Sección', 'Notas:', 'Sala ', 'Salón', 'Se', 'Todas',
+    substrings = ('Clase', 'Sección', 'Notas:', 'Sala ', 'Salón', 'Se prevé', 'Todas',
                   'Presencial', 'Personal', 'En l', 'Español', 'Lun', 'Mart', 'Jue', 'Miérc', 'V', 'Sáb', 'Lab')
-    for teacher in data[::-1]:
-        if any(teacher.startswith(substring) for substring in substrings) or re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher) or re.search(r'\d', teacher):
-            pass
-        else:
-            teachers.append(teacher)
-            break
+    try:
+        for teacher in data[::-1]:
+            if any(teacher.startswith(substring) for substring in substrings) or re.search(r'\d{2}/\d{2}|\d{1}/\d{1}|\d{1}/\d{2}', teacher) or re.search(r'\d', teacher):
+                pass
+            else:
+                teachers.append(teacher)
+                break
 
-    for teacherData in list(set(teachers)):
-        teacher = createTeacher(teacherData)
+        for teacherData in list(set(teachers)):
+            teacher = createTeacher(teacherData)
+        logging.info(
+            f"{color(2,'Teacher fetched successfully')} ✅")
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Teacher not fetched')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
 
     return teacher
 
 
-def fetchLanguages(rows: str) -> list[str]:
+def fetchLanguages(rows: list[str], subjects: int) -> list[str]:
     languagesList = []
-    for row in rows:
-        languages = row.find_element(
-            By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${str(rows.index(row))}"]')
-        if languages:
-            match = re.search(
-                r'src="(.*?)"', languages.get_attribute('innerHTML'))
-            if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
-                languagesList.append('Español')
-            elif match and match.group(1).split('/')[-1] == 'PS_USA_COL_ESP_1.gif':
-                languagesList.append('Inglés')
-            else:
-                languagesList.append('No especificado')
-
+    try:
+        print(subjects)
+        for i in range(subjects + 1):
+            print(i)
+            languages = rows[i].find_element(
+                By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${i}"]')
+            if languages:
+                match = re.search(
+                    r'src="(.*?)"', languages.get_attribute('innerHTML'))
+                if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
+                    languagesList.append('Español')
+                elif match and match.group(1).split('/')[-1] == 'PS_USA_COL_ESP_1.gif':
+                    languagesList.append('Inglés')
+                else:
+                    languagesList.append('No especificado')
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Languages not fetched')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
     return languagesList
