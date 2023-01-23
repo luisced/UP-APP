@@ -60,11 +60,6 @@ def extractSubjectsFromTable(browser: ChromeBrowser) -> list[str]:
         rows = browser.find_elements(
             By.XPATH, f'//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
 
-        counter = 1
-        for element in elements:
-            browser.find_elements(
-                By.XPATH, f'//*[@id="ACE_SSR_CLSRSLT_WRK_GROUPBOX3{counter}"]/tbody')
-            counter += 1
         logging.info(
             f"{color(2,'Subjects content found')} ✅")
         logging.info(
