@@ -104,6 +104,9 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
             # The current_group list is reset to an empty list
             current_group = []
 
+        cleanedSubjectData = [
+            classes for classes in separated_classes if len(classes) > 1]
+
         logging.info(
             f"{color(2,'Courses split successfully')} ✅")
     # If an error occurs, the except block is executed
@@ -113,7 +116,7 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
     # The function returns a list containing only the courses in separated_classes that have more than one element
     # add language to the end of each list
 
-    return [classes for classes in separated_classes if len(classes) > 1]
+    return cleanedSubjectData
 
 
 def fetchSubjectData(browser: ChromeBrowser) -> str:
@@ -121,12 +124,14 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
     extractedHTML: list[str] = extractSubjectsFromTable(browser)
     subjectData: list[list[str]] = splitListCourses(
         extractedHTML)
-    languages: list[str] = fetchLanguages(extractedHTML, len(subjectData))
+    print(subjectData)
+    languages: list[str] = fetchLanguages(browser, len(subjectData))
 
     for i in enumerate(subjectData):
         subjectData[i[0]].append(languages[i[0]])
 
     for subjectElement in subjectData:
+        print(getDateTime(subjectElement))
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
@@ -201,24 +206,33 @@ def fetchTeachers(data: list[list[str]]) -> Teacher:
     return teacher
 
 
-def fetchLanguages(rows: list[str], subjects: int) -> list[str]:
+def fetchLanguages(browser: ChromeBrowser, subjects: int) -> list[str]:
     languagesList = []
     try:
-        print(subjects)
-        for i in range(subjects + 1):
-            print(i)
-            languages = rows[i].find_element(
-                By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${i}"]')
-            if languages:
-                match = re.search(
-                    r'src="(.*?)"', languages.get_attribute('innerHTML'))
-                if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
-                    languagesList.append('Español')
-                elif match and match.group(1).split('/')[-1] == 'PS_USA_COL_ESP_1.gif':
-                    languagesList.append('Inglés')
-                else:
-                    languagesList.append('No especificado')
+        for subject in range(subjects):
+            languages = browser.find_element(
+                By.XPATH, f'//*[@id="win0divUP_DERIVED_IDM_UP_CLASS_LANG${subject}"]')
+            match = re.search(
+                r'src="(.*?)"', languages.get_attribute('innerHTML'))
+            if match and match.group(1).split('/')[-1] == 'PS_MEX_COL_ESP_1.gif':
+                languagesList.append('Español')
+            elif match and match.group(1).split('/')[-1] == 'PS_USA_COL_ESP_1.gif':
+                languagesList.append('Inglés')
+            else:
+                languagesList.append('No especificado')
     except Exception as e:
         logging.error(
             f"{color(1,'Languages not fetched')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
     return languagesList
+
+
+def getDateTime(data: list[list[str]]) -> str:
+    '''Gets the date and time from the lists'''
+    try:
+        dateTimeStrings = [
+            info for info in data if ":" in info and " - " in info]
+
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Date and time not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+    return dateTimeStrings
