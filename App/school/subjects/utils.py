@@ -124,7 +124,6 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
     extractedHTML: list[str] = extractSubjectsFromTable(browser)
     subjectData: list[list[str]] = splitListCourses(
         extractedHTML)
-    print(subjectData)
     languages: list[str] = fetchLanguages(browser, len(subjectData))
 
     for i in enumerate(subjectData):
@@ -235,4 +234,5 @@ def getDateTime(data: list[list[str]]) -> str:
     except Exception as e:
         logging.error(
             f"{color(1,'Date and time not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return ''
     return dateTimeStrings
