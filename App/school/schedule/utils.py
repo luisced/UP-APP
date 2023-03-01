@@ -6,9 +6,7 @@ from school.models import ChromeBrowser, Subject, Student
 # from school.relations import RelationStudentSubjectTable
 from school.student.utils import createStudentSubjectRelationship, getStudent
 from school.subjects.utils import getSubject, createSubject
-from school.days.utils import abreviatonToDay
 from school.classrooms.utils import createClassroom, createClassroomSubjectRelationship
-from flask import session
 from datetime import datetime
 import re
 import traceback

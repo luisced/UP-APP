@@ -158,3 +158,41 @@ class Teacher(db.Model):
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     # Relationships
+
+
+@dataclass
+class Days(db.Model):
+    '''Model to represent a day '''
+    __tablename__ = 'Days'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    day: str = db.Column(db.String(280), nullable=False)
+
+
+@dataclass
+class Hours(db.Model):
+    '''Model to represent a hour '''
+    __tablename__ = 'Hours'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    hour: str = db.Column(db.String(280), nullable=False)
+
+
+@dataclass
+class Schedule(db.Model):
+    '''Model to represent the junction table between groups and days and hours'''
+
+    __tablename__ = 'Schedule'
+    id: int = db.Column(db.Integer, primary_key=True,
+                        autoincrement=True, nullable=False)
+    groupID: int = db.Column(db.Integer, db.ForeignKey(
+        'Group.id'), nullable=False)
+    daysID: int = db.Column(db.Integer, db.ForeignKey(
+        'Days.id'), nullable=False)
+    hoursID: int = db.Column(db.Integer, db.ForeignKey(
+        'Hours.id'), nullable=False)
+    status: bool = db.Column(db.Boolean, nullable=False, default=True)
+    creationDate: datetime = db.Column(
+        db.Date, nullable=False, default=datetime.now)
+    lastupDate: str = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
