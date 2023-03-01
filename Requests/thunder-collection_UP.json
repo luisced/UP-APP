@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "UP",
-    "dateExported": "2023-03-01T01:21:54.702Z",
+    "dateExported": "2023-03-01T08:24:35.721Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -42,12 +42,12 @@
             "_id": "e6349c65-6251-4fb2-8d1a-3251459c38e6",
             "colId": "5fccd287-3b7d-4a65-bcdc-83381bde0cf1",
             "containerId": "",
-            "name": "Fetch UP4U schedule",
-            "url": "http://localhost:5555/getSchedule/0250009",
+            "name": "Login",
+            "url": "http://localhost:5555/login/0250009",
             "method": "GET",
             "sortNum": 30000,
             "created": "2023-02-01T01:28:01.886Z",
-            "modified": "2023-02-01T01:30:35.017Z",
+            "modified": "2023-03-01T07:42:55.078Z",
             "headers": [],
             "params": [],
             "body": {
