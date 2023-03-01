@@ -27,9 +27,9 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
                 browser.get("https://up4u.up.edu.mx/user/auth/login")
                 login(browser, studentId, password)
                 enterDashboard(browser)
-                fetchScheduleContent(browser)
-                scheduleContent = getStudentSubjects(Student.query.filter_by(studentID=session['student']['studentID']
-                                                                             ).first())
+                # fetchScheduleContent(browser)
+                # scheduleContent = getStudentSubjects(Student.query.filter_by(studentID=session['student']['studentID']
+                #                                                              ).first())
         except ScheduleExtractionError as e:
             logging.critical(e.message)
             scheduleContent = []

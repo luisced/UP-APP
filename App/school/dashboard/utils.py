@@ -22,9 +22,9 @@ def enterDashboard(browser: ChromeBrowser) -> str:
             logging.error(
                 f'{color(1,"Couldnt create student")} ❌ {traceback.format_exc().splitlines()[-3]}')
 
-        browser.find_element(By.LINK_TEXT, "Horarios").click()
-        time.sleep(3)
-        logging.info(f'{color(2,"Loading schedule...")} ✅')
+        # browser.find_element(By.LINK_TEXT, "Horarios").click()
+        # time.sleep(3)
+        # logging.info(f'{color(2,"Loading schedule...")} ✅')
     except NoSuchElementException:
         logging.error(f'{color(1,"Schedule link not found")} ❌')
 

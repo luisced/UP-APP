@@ -72,8 +72,14 @@ def createStudentSubjectRelationship(student: Student, subject: Subject) -> None
 def getStudent(student: Student) -> dict[str:str]:
     '''Returns a dictionary with the student's information'''
     # Create a dictionary with the student's information
-    students = Student.to_dict(Student.query.filter_by(id=student.id).first())
-    logging.info(f'{color(2,"Get Student Complete")} ✅')
+    try:
+        students = Student.to_dict(
+            Student.query.filter_by(id=student.studentID).first())
+        logging.info(f'{color(2,"Get Student Complete")} ✅')
+    except Exception as e:
+        logging.error(
+            f'{color(1,"Couldnt get student")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
+        students = None
     return formatDateObjsStudent(students)
 
 

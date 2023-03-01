@@ -7,7 +7,7 @@ import time
 scrapper = Blueprint('scrapper', __name__)
 
 
-@scrapper.route('/getSchedule/<string:studentID>', methods=['GET', 'POST'])
+@scrapper.route('/login/<string:studentID>', methods=['GET', 'POST'])
 def getStudentSchedule(studentID: str) -> dict[str, str]:
     '''
     This endpoint returns the schedule of a student in a json format
@@ -22,12 +22,14 @@ def getStudentSchedule(studentID: str) -> dict[str, str]:
         elif 'password' not in json_data:
             error, code = 'Missing fields', 2
         else:
-            data = extractUP4USchedule(studentID, json_data['password'])
+            extractUP4USchedule(studentID, json_data['password'])
+            data = Student.query.filter_by(
+                studentID=studentID).first()
             message, code = f'Data extracted', 1
     else:
         error, code = 'Invalid method', 4
 
-    response.update({'sucess': True, 'message': message, 'Schedule': data, 'status_code': 200, 'error': error, 'code': code} if data and data != [] and data != [None] else {
+    response.update({'sucess': True, 'message': message, 'Student': data, 'status_code': 200, 'error': error, 'code': code} if data and data != [] and data != [None] else {
         'sucess': False,  'message': 'Could not get content', 'status_code': 400, 'error': f'{error}', 'code': code})
     return jsonify(response)
 
