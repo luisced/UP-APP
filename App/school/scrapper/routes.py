@@ -1,8 +1,7 @@
 from school.models import Student
-from school.schedule.utils import getSubject, getStudentSubjects
+# from school.schedule.utils import getSubject, getStudentSubjects
 from flask import Blueprint, request, jsonify, render_template, session
 from school.scrapper.utils import *
-import time
 
 scrapper = Blueprint('scrapper', __name__)
 

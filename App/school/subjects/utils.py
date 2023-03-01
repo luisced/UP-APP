@@ -4,6 +4,7 @@ from school.tools.utils import color
 from school.groups.utils import createGroup
 from school.teacher.utils import createTeacher
 from school.classrooms.utils import createClassroom
+from school.schedule.utils import createSchedule
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import re
@@ -140,9 +141,16 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
         classrooms = [createClassroom(classroomObj)
                       for classroomObj in fetchClassroom(subjectElement)]
         dayshours = fetchDateTime(subjectElement)
+
+        for days in dayshours:
+            day = days.split(' ')[0]
+            hour = days.split(' ')[1]
+
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
+
+        # schedule = createSchedule(dayshours, classrooms, group.id)
 
 
 def getStudentRoom(data: list[list[str]]) -> str:
