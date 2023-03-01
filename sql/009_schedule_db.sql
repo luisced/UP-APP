@@ -27,7 +27,6 @@ CREATE TABLE
         `CreationDate` date NOT NULL,
         `LastUpdate` timestamp NOT NULL,
         PRIMARY KEY (`ID`),
-        KEY `GroupID` (`GroupID`),
         KEY `ClassroomID` (`ClassroomID`),
         KEY `DayID` (`DayID`),
         KEY `StartTime` (`StartTime`),

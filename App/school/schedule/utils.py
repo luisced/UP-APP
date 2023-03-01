@@ -14,7 +14,7 @@ import traceback
 import logging
 
 
-def createSchedule(daysHours: list[str], classroom: Classroom, group: Group) -> Schedule:
+def createSchedule(daysHours: list[str], classroom: list[Classroom], group: Group) -> Schedule:
     '''Creates a schedule taking the days and hours from the schedule content and the classroom and groups objects'''
     days = list[str]
     startTimes = list[str]

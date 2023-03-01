@@ -62,6 +62,10 @@ class Group(db.Model):
         'Teacher.id'), nullable=False)
 
     # Secondary table
+
+    schedule: list = db.relationship(
+        'Schedule', secondary=RelationGroupSchedule, backref=db.backref('groups', lazy='dynamic'))
+
     # todo: add students and days:hours
 
 

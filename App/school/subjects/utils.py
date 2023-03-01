@@ -1,8 +1,9 @@
 from school import db
-from school.models import Subject, ChromeBrowser, Teacher
+from school.models import Subject, ChromeBrowser, Teacher, Classroom
 from school.tools.utils import color
 from school.groups.utils import createGroup
 from school.teacher.utils import createTeacher
+from school.classrooms.utils import createClassroom
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import re
@@ -133,11 +134,12 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
 
     # add days and times to the end of each list
     for subjectElement in subjectData:
-        print(fetchDateTime(subjectElement))
-        print(fetchClassroom(subjectElement))
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
+        classrooms = [createClassroom(classroomObj)
+                      for classroomObj in fetchClassroom(subjectElement)]
+        dayshours = fetchDateTime(subjectElement)
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
@@ -229,7 +231,7 @@ def fetchLanguages(browser: ChromeBrowser, subjects: int) -> list[str]:
     return languagesList
 
 
-def fetchDateTime(data: list[list[str]]) -> str:
+def fetchDateTime(data: list[list[str]]) -> list[str]:
     '''Gets the date and time from the lists'''
     try:
         dateTimeStrings = [
