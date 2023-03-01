@@ -15,15 +15,15 @@ def getDays() -> list[Days]:
         return []
 
 
-def abreviatonToDay(abv: str) -> str:
-    """Given an abreviation, it returns the day in DB"""
+def abreviatonToDay(abv: str) -> int:
+    """Given an abbreviation, it returns the day name and its corresponding ID"""
     days = {
-        'Lun': 'Lunes',
-        'Mart': 'Martes',
-        'Miérc': 'Miércoles',
-        'Jue': 'Jueves',
-        'V': 'Viernes',
-        'S': 'Sábado',
-        'D': 'Domingo'
+        'Lun': 1,
+        'Mart': 2,
+        'Miérc': 3,
+        'Jue': 4,
+        'V': 5,
+        'S': 6,
+        'D':  7
     }
     return days[abv]

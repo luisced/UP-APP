@@ -2,15 +2,42 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from school import db
 from school.tools.utils import color
-from school.models import ChromeBrowser, Subject, Student
-# from school.relations import RelationStudentSubjectTable
+from school.models import ChromeBrowser, Group, Student, Schedule, Classroom, Days, Hours, Subject
 from school.student.utils import createStudentSubjectRelationship, getStudent
 from school.subjects.utils import getSubject, createSubject
 from school.classrooms.utils import createClassroom, createClassroomSubjectRelationship
+from school.days.utils import *
+from school.hours.utils import *
 from datetime import datetime
 import re
 import traceback
 import logging
+
+
+def createSchedule(daysHours: list[str], classroom: Classroom, group: Group) -> Schedule:
+    '''Creates a schedule taking the days and hours from the schedule content and the classroom and groups objects'''
+    days = list[str]
+    startTimes = list[str]
+    endTimes = list[str]
+    try:
+        for dayHour in daysHours:
+            # Split the string into day and time using whitespace as the separator
+            day, timeRange = dayHour.split(' ', 1)
+
+            dayID = abreviatonToDay(day)
+
+            # Split the time range into start and end time using the '-' character as the separator
+            startTime, endTime = timeRange.split(' - ')
+            # Append the day, start time and end time to their respective lists
+            days.append(dayID)
+            startTimes.append(startTime)
+            endTimes.append(endTime)
+
+        # Create the days, hours and schedule objects
+
+    except Exception as e:
+        logging.critical(
+            f'{color(5,"Schedule creation failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
 
 
 def findScheduleTable(browser):
@@ -34,23 +61,23 @@ def findScheduleSubjects(scheduleContent: str) -> list[str]:
         By.CSS_SELECTOR, 'div')] for row in rows]
 
 
-def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]:
-    '''Cleans the schedule data'''
+# def cleanScheduleData(subjectsList: list[list[Subject]]) -> list[dict[str, str]]:
+#     '''Cleans the schedule data'''
 
-    return [
-        {
-            'day': subjectData[1].strip(),
-            'start_time': subjectData[2].strip(),
-            'end_time': subjectData[3].strip(),
-            'subject': subjectData[4].strip(),
-            'teacher': subjectData[6].strip(),
-            'start_date': subjectData[7].strip(),
-            'end_date': subjectData[8].strip(),
-            'group': subjectData[9].strip(),
-            'classroom': re.compile(r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
-        }
-        for subjectData in subjectsList
-    ]
+#     return [
+#         {
+#             'day': subjectData[1].strip(),
+#             'start_time': subjectData[2].strip(),
+#             'end_time': subjectData[3].strip(),
+#             'subject': subjectData[4].strip(),
+#             'teacher': subjectData[6].strip(),
+#             'start_date': subjectData[7].strip(),
+#             'end_date': subjectData[8].strip(),
+#             'group': subjectData[9].strip(),
+#             'classroom': re.compile(r'([^/]*)$').search(re.sub(r'\n', '', subjectData[5].strip())).group(1).replace('Ver', '').lstrip()
+#         }
+#         for subjectData in subjectsList
+#     ]
 
 
 def loadScheduleData(scheduleSubjects: list[dict[str, str]]) -> None:

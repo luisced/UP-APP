@@ -187,9 +187,13 @@ class Schedule(db.Model):
                         autoincrement=True, nullable=False)
     groupID: int = db.Column(db.Integer, db.ForeignKey(
         'Group.id'), nullable=False)
+    classroomID: int = db.Column(db.Integer, db.ForeignKey(
+        'Classroom.id'), nullable=False)
     daysID: int = db.Column(db.Integer, db.ForeignKey(
         'Days.id'), nullable=False)
-    hoursID: int = db.Column(db.Integer, db.ForeignKey(
+    startTime: int = db.Column(db.Integer, db.ForeignKey(
+        'Hours.id'), nullable=False)
+    endTime: int = db.Column(db.Integer, db.ForeignKey(
         'Hours.id'), nullable=False)
     status: bool = db.Column(db.Boolean, nullable=False, default=True)
     creationDate: datetime = db.Column(

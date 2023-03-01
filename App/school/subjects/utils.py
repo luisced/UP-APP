@@ -124,13 +124,17 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
     extractedHTML: list[str] = extractSubjectsFromTable(browser)
     subjectData: list[list[str]] = splitListCourses(
         extractedHTML)
+    # print(subjectData)
     languages: list[str] = fetchLanguages(browser, len(subjectData))
 
+    # add language to the end of each list
     for i in enumerate(subjectData):
         subjectData[i[0]].append(languages[i[0]])
 
+    # add days and times to the end of each list
     for subjectElement in subjectData:
-        print(getDateTime(subjectElement))
+        print(fetchDateTime(subjectElement))
+        print(fetchClassroom(subjectElement))
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
@@ -225,7 +229,7 @@ def fetchLanguages(browser: ChromeBrowser, subjects: int) -> list[str]:
     return languagesList
 
 
-def getDateTime(data: list[list[str]]) -> str:
+def fetchDateTime(data: list[list[str]]) -> str:
     '''Gets the date and time from the lists'''
     try:
         dateTimeStrings = [
@@ -236,3 +240,15 @@ def getDateTime(data: list[list[str]]) -> str:
             f"{color(1,'Date and time not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
         return ''
     return dateTimeStrings
+
+
+def fetchClassroom(data: list[list[str]]) -> list[str]:
+    '''Gets the classroom from the lists'''
+    try:
+        classrooms = [
+            info for info in data if "Sala " in info or "Salón" in info or "Laboratorio" in info or "P/Asig" in info]
+    except Exception as e:
+        logging.error(
+            f"{color(1,'Classroom not found')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+        return ''
+    return classrooms

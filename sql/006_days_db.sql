@@ -1,3 +1,5 @@
+SET NAMES utf8;
+
 DROP TABLE IF EXISTS `Days`;
 
 CREATE TABLE
@@ -9,4 +11,4 @@ CREATE TABLE
 
 INSERT INTO
     `Days` (`ID`, `Day`)
-VALUES (1, 'Lunes'), (2, 'Martes'), (7, 'Miércoles'), (8, 'Jueves'), (9, 'Viernes'), (10, 'Sábado'), (11, 'Domingo');
+VALUES (1, 'Lunes'), (2, 'Martes'), (3, 'Miércoles'), (4, 'Jueves'), (5, 'Viernes'), (6, 'Sábado'), (7, 'Domingo');
