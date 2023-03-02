@@ -7,25 +7,30 @@ from school.classrooms.utils import createClassroom, createClassroomSubjectRelat
 from school.days.utils import *
 from school.hours.utils import *
 from datetime import datetime
-import re
 import traceback
 import logging
 
 
 def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Group) -> Schedule:
     '''Creates a schedule taking the days and hours from the schedule content and the classroom and groups objects'''
-    days = list[str]
-    startTimes = list[str]
-    endTimes = list[str]
     try:
-        for dayHour in daysHours:
-            print(dayHour)
 
+        schedule = Schedule(
+            dayID=1,  # Dia: str
+            startTime='14:00:00',  # Hora de inicio: datetime
+            endTime='14:00:00',  # Hora de Fin: datetime
+            classroomID=1,  # Salón: id -> int
+        )
+        db.session.add(schedule)
+        db.session.commit()
+        print(schedule)
         logging.info(f'{color(2,"Schedule created")} ✅')
-
     except Exception as e:
         logging.critical(
             f'{color(5,"Schedule creation failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+        schedule = None
+
+    return schedule
 
 
 # def findScheduleTable(browser):

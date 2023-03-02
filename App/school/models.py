@@ -189,11 +189,9 @@ class Schedule(db.Model):
     __tablename__ = 'Schedule'
     id: int = db.Column(db.Integer, primary_key=True,
                         autoincrement=True, nullable=False)
-    groupID: int = db.Column(db.Integer, db.ForeignKey(
-        'Group.id'), nullable=False)
     classroomID: int = db.Column(db.Integer, db.ForeignKey(
         'Classroom.id'), nullable=False)
-    daysID: int = db.Column(db.Integer, db.ForeignKey(
+    dayID: int = db.Column(db.Integer, db.ForeignKey(
         'Days.id'), nullable=False)
     startTime: int = db.Column(db.Integer, db.ForeignKey(
         'Hours.id'), nullable=False)

@@ -142,21 +142,11 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
                       for classroomObj in fetchClassroom(subjectElement)]
         dayshours = fetchDateTime(subjectElement)
 
-        day = dayshours[-3::-1]
-        print("test1", day)
-
-        for days in dayshours:
-            day = days.split(' ')[0]
-            hour = days.split(' ')[1]
-            hour2 = days.split(' ')[3]
-
-            print("test2", day, hour, hour2)
-
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
 
-        # schedule = createSchedule(dayshours, classrooms, group.id)
+        createSchedule(dayshours, classrooms, 1)
 
 
 def getStudentRoom(data: list[list[str]]) -> str:
