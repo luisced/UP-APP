@@ -39,6 +39,8 @@ def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Gro
                 db.session.add(schedule)
                 db.session.commit()
 
+                createScheduleGroupRelation(group, schedule)
+
         else:
             raise ValueError(
                 f'{color(1,"Schedule creation failed")} ❌'
@@ -50,6 +52,26 @@ def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Gro
         schedule = None
 
     return schedule
+
+
+def createScheduleGroupRelation(group: Group, schedule: Schedule) -> None:
+    '''Create a relation between schedule and group in DB'''
+    try:
+        if group and schedule:
+            if schedule not in group.schedule:
+                group.schedule.append(schedule)
+                db.session.commit()
+                logging.info(f'{color(4,"Schedule relation created")} ✅')
+            else:
+                logging.info(
+                    f'{color(4,"Schedule relation already exists")} ✅')
+        else:
+            raise ValueError(
+                f'{color(1,"Schedule relation creation failed")} ❌'
+            )
+    except Exception as e:
+        logging.critical(
+            f'{color(5,"Schedule relation creation failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
 
 
 # def findScheduleTable(browser):
