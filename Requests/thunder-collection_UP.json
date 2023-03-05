@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "UP",
-    "dateExported": "2023-03-01T08:24:35.721Z",
+    "dateExported": "2023-03-05T20:29:46.239Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -24,11 +24,11 @@
             "colId": "5fccd287-3b7d-4a65-bcdc-83381bde0cf1",
             "containerId": "",
             "name": "Get Subjects UP Site",
-            "url": "http://localhost:5555/getSubjectsUPSite/0250009",
-            "method": "GET",
+            "url": "http://localhost:5555/FetchGroupDataUPSite/0250009",
+            "method": "POST",
             "sortNum": 20000,
             "created": "2023-02-01T01:26:45.707Z",
-            "modified": "2023-02-01T01:46:33.974Z",
+            "modified": "2023-03-05T03:37:30.629Z",
             "headers": [],
             "params": [],
             "body": {
@@ -55,6 +55,20 @@
                 "raw": "{\n  \"password\": \"Lu57529564#\"\n}",
                 "form": []
             },
+            "tests": []
+        },
+        {
+            "_id": "71bbe38a-8bb4-4ca1-b7ca-d42c8678b89d",
+            "colId": "5fccd287-3b7d-4a65-bcdc-83381bde0cf1",
+            "containerId": "",
+            "name": "Get Groups",
+            "url": "http://localhost:5555/getGroup",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-03-05T03:38:14.998Z",
+            "modified": "2023-03-05T03:39:04.521Z",
+            "headers": [],
+            "params": [],
             "tests": []
         }
     ]

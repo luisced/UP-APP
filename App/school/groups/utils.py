@@ -77,5 +77,13 @@ def getGroup(groupID: int, type: int) -> Group:
     return groupData
 
 
-#  group['Schedules'] = list(map(
-#                 lambda schedule: getSchedule(schedule), schedules))
+# def filterGroups(filterGroup: str) -> list[dict]:
+#     '''Returns a list with the group data by passing an ID'''
+#     try:
+
+#     except Exception as e:
+#         logging.error(
+#             f'{color(1,"Couldnt get groups")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
+#         groupsData = None
+
+#     return groupsData
