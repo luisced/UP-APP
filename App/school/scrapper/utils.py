@@ -2,8 +2,9 @@ from school.models import ChromeBrowser
 from school.dashboard.utils import enterDashboard, enterDashboardUPSite
 from school.schedule.utils import *
 from school.login.utils import *
-from school.subjects.utils import fetchSubjectData
+from school.subjects.utils import fetchGroupData
 from school.tools.utils import color, StudentNotFoundError, ScheduleExtractionError
+from school.groups.utils import *
 import traceback
 import logging
 
@@ -36,7 +37,7 @@ def extractUP4USchedule(studentId: str, password: str) -> list[Subject]:
     return scheduleContent
 
 
-def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
+def extractUPSiteSchedule(studentId: str, password: str) -> list[Group]:
     '''Extracts the schedule of a student from the UP site'''
     try:
         # Start the browser
@@ -49,8 +50,15 @@ def extractUPSiteSchedule(studentId: str, password: str) -> list[Subject]:
             # Enter the dashboard
             enterDashboardUPSite(browser)
             # Get the schedule content
-            fetchSubjectData(browser)
+            groupData = fetchGroupData(browser)
+
+            # get all group info
+
+            data = [getGroup(group.id, 2) for group in groupData]
 
     except Exception as e:
         logging.critical(
             f'{color(5,"Schedule extraction failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+        data = []
+
+    return data

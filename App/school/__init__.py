@@ -7,12 +7,27 @@ from school.config import Config
 from flask_cors import CORS
 from flask_session import Session
 import logging
-
+import json
+from datetime import datetime
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
+
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        try:
+            if isinstance(obj, datetime):
+                return obj.isoformat()
+            iterable = iter(obj)
+        except TypeError:
+            pass
+        else:
+            return list(iterable)
+        return json.JSONEncoder.default(self, obj)
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,)
@@ -41,10 +56,12 @@ def create_app(config_class=Config):
     from school.scrapper.routes import scrapper
     from school.tools.routes import tools
     from school.student.routes import student
+    from school.groups.routes import groups
 
     app.config.from_object(Config)
     app.register_blueprint(scrapper)
     app.register_blueprint(tools)
     app.register_blueprint(student)
+    app.register_blueprint(groups)
 
     return app

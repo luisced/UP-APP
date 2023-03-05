@@ -73,6 +73,58 @@ def createScheduleGroupRelation(group: Group, schedule: Schedule) -> None:
         logging.critical(
             f'{color(5,"Schedule relation creation failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
 
+# def getStudentSubjects(student: Student) -> dict:
+#     '''Returns the student subjects as a dictionary with his subjects'''
+# #     try:
+
+# #         subjects = (
+# #             db.session.query(Subject)
+# #             .filter(Subject.id.in_((
+# #                 db.session.query(RelationStudentSubjectTable.c.subjectId)
+# #                 .filter(RelationStudentSubjectTable.c.studentId == student.id)
+# #                 .subquery()
+# #             )
+# #             ))
+# #             .all()
+# #         )
+# #         student = {'Student': getStudent(student)}
+# #         student['Student']['Subjects'] = list(map(
+# #             lambda subject: getSubject(subject), subjects))
+# #         logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
+# #     except Exception as e:
+# #         logging.error(
+# #             f"{color(1,'Get Student Subjects Failed')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
+# #         student = None
+# #     return student
+
+
+def getSchedule(Schedule: int) -> Schedule:
+    '''Returns a object of type schedule given an id'''
+    try:
+        schedule = Schedule.query.filter_by(id=Schedule.id).first().toDict()
+        if schedule:
+            logging.info(f'{color(4,"Schedule found")} ✅')
+        else:
+            logging.warning(f'{color(1,"Schedule not found")} ❌')
+    except Exception as e:
+        logging.critical(
+            f'{color(5,"Schedule not found")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
+        schedule = None
+
+    return formatDateObjsSchedule(schedule)
+
+
+def formatDateObjsSchedule(schedule: dict[str:str]) -> dict[str:str]:
+    '''Formats the date objects in the schedule dictionary'''
+    # Format the date objects in the dictionary
+    schedule['creationDate'] = schedule['creationDate'].strftime(
+        '%Y-%m-%d %H:%M:%S')
+    schedule['lastupDate'] = schedule['lastupDate'].strftime(
+        '%Y-%m-%d %H:%M:%S')
+    schedule['startTime'] = schedule['startTime'].strftime("%H:%M:%S")
+    schedule['endTime'] = schedule['endTime'].strftime("%H:%M:%S")
+    return schedule
+
 
 # def findScheduleTable(browser):
 #     try:
@@ -141,31 +193,6 @@ def createScheduleGroupRelation(group: Group, schedule: Schedule) -> None:
 
 #     # createStudentSubjectRelationship(Student.query.filter_by(
 #     #     studentID=session['student']['studentID']).first(), subject)
-
-
-# def getStudentSubjects(student: Student) -> dict:
-#     '''Returns the student subjects as a dictionary with his subjects'''
-# #     try:
-
-# #         subjects = (
-# #             db.session.query(Subject)
-# #             .filter(Subject.id.in_((
-# #                 db.session.query(RelationStudentSubjectTable.c.subjectId)
-# #                 .filter(RelationStudentSubjectTable.c.studentId == student.id)
-# #                 .subquery()
-# #             )
-# #             ))
-# #             .all()
-# #         )
-# #         student = {'Student': getStudent(student)}
-# #         student['Student']['Subjects'] = list(map(
-# #             lambda subject: getSubject(subject), subjects))
-# #         logging.info(f"{color(2,'Get Student Subjects Complete')} ✅")
-# #     except Exception as e:
-# #         logging.error(
-# #             f"{color(1,'Get Student Subjects Failed')} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}")
-# #         student = None
-# #     return student
 
 
 # def fetchScheduleContent(browser: ChromeBrowser) -> None:

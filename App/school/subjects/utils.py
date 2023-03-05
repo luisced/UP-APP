@@ -121,8 +121,9 @@ def splitListCourses(rows: list[str]) -> list[list[str]]:
     return cleanedSubjectData
 
 
-def fetchSubjectData(browser: ChromeBrowser) -> str:
+def fetchGroupData(browser: ChromeBrowser) -> list[str]:
     '''Fetches the subject data from the html'''
+    groups: list[str] = []
     extractedHTML: list[str] = extractSubjectsFromTable(browser)
     subjectData: list[list[str]] = splitListCourses(
         extractedHTML)
@@ -142,13 +143,16 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
             classroomObj) for classroomObj in fetchClassroom(subjectElement)) if classroom is not None]
 
         dayshours = fetchDateTime(subjectElement)
-        print(classrooms, dayshours)
 
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
 
         createSchedule(dayshours, classrooms, group)
+
+        groups.append(group)
+
+    return groups
 
 
 def getStudentRoom(data: list[list[str]]) -> str:

@@ -36,7 +36,7 @@ def getStudentSchedule(studentID: str) -> dict[str, str]:
 @scrapper.route('/createCompatibleSchedule/<string:studentID>', methods=['GET', 'POST'])
 def createStudentCompatibleSchedule(studentID: str) -> dict[str, str]:
     '''This endpoint returns a compatible schedule for a student'''
-    if request.method == 'GET':
+    if request.method == 'POST':
         data: list[dict[str, str]] = []
         response: dict[str, str] = {}
         error, code = None, None
@@ -54,12 +54,12 @@ def createStudentCompatibleSchedule(studentID: str) -> dict[str, str]:
     return jsonify(response)
 
 
-@scrapper.route('/getSubjectsUPSite/<string:studentID>', methods=['GET', 'POST'])
+@scrapper.route('/FetchGroupDataUPSite/<string:studentID>', methods=['GET', 'POST'])
 def fetchUPSite(studentID: str) -> dict[str, str]:
     '''
     This endpoint returns the schedule of a student in a json format
     '''
-    if request.method == 'GET':
+    if request.method == 'POST':
         json_data = request.get_json()
         data: list[dict[str, str]] = []
         response: dict[str, str] = {}

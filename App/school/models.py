@@ -66,7 +66,14 @@ class Group(db.Model):
     schedule: list = db.relationship(
         'Schedule', secondary=RelationGroupSchedule, backref=db.backref('groups', lazy='dynamic'))
 
-    # todo: add students and days:hours
+    def toDict(self) -> dict:
+        return {
+            column.name: getattr(self, column.name).strftime(
+                '%Y-%m-%d %H:%M:%S')
+            if isinstance(getattr(self, column.name), datetime)
+            else getattr(self, column.name)
+            for column in self.__table__.columns
+        }
 
 
 @dataclass
@@ -125,9 +132,14 @@ class Student(db.Model):
         '''Convert the student to a string'''
         return f'Student:{" ".join([f"{column.name}={getattr(self, column.name)}" for column in self.__table__.columns])}'
 
-    def to_dict(self) -> dict:
-        '''Convert the student to a dictionary'''
-        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+    def toDict(self) -> dict:
+        return {
+            column.name: getattr(self, column.name).strftime(
+                '%Y-%m-%d %H:%M:%S')
+            if isinstance(getattr(self, column.name), datetime)
+            else getattr(self, column.name)
+            for column in self.__table__.columns
+        }
 
 
 @dataclass
@@ -192,10 +204,13 @@ class Schedule(db.Model):
     classroomID: int = db.Column(db.Integer, db.ForeignKey(
         'Classroom.id'), nullable=False)
     day: str = db.Column(db.String(280), nullable=False)
-    startTime: str = db.Column(db.Time, nullable=False)
-    endTime: str = db.Column(db.Time, nullable=False)
+    startTime: datetime = db.Column(db.Time, nullable=False)
+    endTime: datetime = db.Column(db.Time, nullable=False)
     status: bool = db.Column(db.Boolean, nullable=False, default=True)
     creationDate: datetime = db.Column(
         db.Date, nullable=False, default=datetime.now)
-    lastupDate: str = db.Column(
+    lastupDate: datetime = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    def toDict(self) -> dict:
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
