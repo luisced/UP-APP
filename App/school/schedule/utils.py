@@ -16,7 +16,6 @@ def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Gro
     try:
 
         if len(daysHours) != 0 and group:
-
             for i in range(len(daysHours)):
 
                 schedule = Schedule(
@@ -33,15 +32,17 @@ def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Gro
                     f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00" \
                     if 'p' in daysHours[i][daysHours[i].index('-') + 1:] \
                     else f"{int(daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')])}:" \
-                    f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00",  # Hora de Fin: datetime
-
+                    f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00",
+                    classroomID=classrooms[i]
                 )
 
-            db.session.add(schedule)
-            db.session.commit()
-            logging.info(f'{color(2,"Schedule created")} ✅')
+                db.session.add(schedule)
+                db.session.commit()
+
         else:
-            logging.warning(f'{color(1,"Schedule not created")} ❌')
+            raise ValueError(
+                f'{color(1,"Schedule creation failed")} ❌'
+            )
 
     except Exception as e:
         logging.critical(

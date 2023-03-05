@@ -148,7 +148,7 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
 
-        # createSchedule(dayshours, classrooms, 1)
+        createSchedule(dayshours, classrooms, 1)
 
 
 def getStudentRoom(data: list[list[str]]) -> str:
