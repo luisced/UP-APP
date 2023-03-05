@@ -138,15 +138,17 @@ def fetchSubjectData(browser: ChromeBrowser) -> str:
 
         subject = createSubject(subjectElement[0])
         teacher = fetchTeachers(subjectElement)
-        classrooms = [createClassroom(classroomObj)
-                      for classroomObj in fetchClassroom(subjectElement)]
+        classrooms = [classroom.id for classroom in (createClassroom(
+            classroomObj) for classroomObj in fetchClassroom(subjectElement)) if classroom is not None]
+
         dayshours = fetchDateTime(subjectElement)
+        print(classrooms, dayshours)
 
         group = createGroup(subject=subject.id, classNumber=subjectElement[1], group=subjectElement[2].split(
             '-')[0], teacher=teacher.id, language=subjectElement[-1], students=getStudentRoom(subjectElement),
             modality=fetchModality(subjectElement), description=fetchDescription(subjectElement))
 
-        createSchedule(dayshours, classrooms, 1)
+        # createSchedule(dayshours, classrooms, 1)
 
 
 def getStudentRoom(data: list[list[str]]) -> str:

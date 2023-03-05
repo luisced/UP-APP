@@ -26,7 +26,7 @@ def createClassroom(name: str) -> Classroom:
     except Exception as e:
         logging.error(
             f'{color(1,"Couldnt create classroom")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
-        classroom = None
+        classroom = Classroom.query.filter_by(name=name).first()
 
     return classroom
 

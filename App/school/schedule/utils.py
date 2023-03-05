@@ -14,31 +14,35 @@ import logging
 def createSchedule(daysHours: list[str], classrooms: list[Classroom], group: Group) -> Schedule:
     '''Creates a schedule taking the days and hours from the schedule content and the classroom and groups objects'''
     try:
-        if len(daysHours) != 0:
+
+        if len(daysHours) != 0 and group:
+
             for i in range(len(daysHours)):
+
                 schedule = Schedule(
-                    day=daysHours[i][0:str(daysHours[i]).index(' ')],  # Dia: str
+                    # Dia: str
+                    day=daysHours[i][0:str(daysHours[i]).index(' ')],
                     startTime=f"{int(daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index(':')]) + 12 if int(daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index(':')]) != 12 else int(daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index(':')])}:" \
-                 f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1][-6:-4]}:00" \
-        if 'p' in daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1] \
-            
-        else f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index(':')]}:" \
-             f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1][-6:-4]}:00",  # Hora de inicio: datetime
-             
+                    f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1][-6:-4]}:00" \
+                    if 'p' in daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1] \
+
+                    else f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index(':')]}:" \
+                    f"{daysHours[i][daysHours[i].index(' ') + 1:daysHours[i].index('-') - 1][-6:-4]}:00",  # Hora de inicio: datetime
+
                     endTime=f"{int(daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')]) + 12 if int(daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')]) != 12 else daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')]}:" \
-               f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00" \
-        if 'p' in daysHours[i][daysHours[i].index('-') + 1:] \
-        else f"{int(daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')])}:" \
-             f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00",  # Hora de Fin: datetime
-                    
-                    classroomID=1,  # Salón: id -> int
+                    f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00" \
+                    if 'p' in daysHours[i][daysHours[i].index('-') + 1:] \
+                    else f"{int(daysHours[i][daysHours[i].index('-') + 1:daysHours[i].rindex(':')])}:" \
+                    f"{daysHours[i][daysHours[i].index('-') + 1:][-6:-4]}:00",  # Hora de Fin: datetime
+
                 )
 
-        db.session.add(schedule)
-        db.session.commit()
-        print(schedule)
-        logging.info(f'{color(2,"Schedule created")} ✅')
-        print('Test1', daysHours)
+            db.session.add(schedule)
+            db.session.commit()
+            logging.info(f'{color(2,"Schedule created")} ✅')
+        else:
+            logging.warning(f'{color(1,"Schedule not created")} ❌')
+
     except Exception as e:
         logging.critical(
             f'{color(5,"Schedule creation failed")} ❌: {e}\n{traceback.format_exc().splitlines()[-3]}')
