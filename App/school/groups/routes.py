@@ -15,7 +15,6 @@ def getGroupDB() -> dict[str, str]:
         response: dict[str, str] = {}
         error, code = None, None
         data = [getGroup(group.id, 2) for group in Group.query.all()]
-        print(data)
         message, code = f'Group found', 1
     else:
         error, code = 'Invalid method', 4
