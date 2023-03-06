@@ -7,7 +7,7 @@ CREATE TABLE
         `ID` int(11) NOT NULL AUTO_INCREMENT,
         `Name` text NOT NULL,
         `Status` tinyint(4) NOT NULL,
-        `CreationDate` datetime NOT NULL,
+        `CreationDate` date NOT NULL,
         `LastUpdate` timestamp NOT NULL,
         `Option` int(11) NOT NULL,
         PRIMARY KEY (`ID`)

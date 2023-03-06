@@ -53,8 +53,6 @@ class Group(db.Model):
     lastupDate: str = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.now, onupdate=datetime.now)
 
-    # Relationships
-
     # Backref
     subject: int = db.Column(db.Integer, db.ForeignKey(
         'Subject.id'), nullable=False)

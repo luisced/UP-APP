@@ -15,7 +15,7 @@ CREATE TABLE
         `EndDate` date DEFAULT NULL,
         `Options` int(11) NOT NULL,
         `Status` tinyint(4) NOT NULL,
-        `CreationDate` datetime NOT NULL,
+        `CreationDate` date NOT NULL,
         `LastUpdate` timestamp NOT NULL,
         PRIMARY KEY (`ID`),
         KEY `Teacher` (`Teacher`),

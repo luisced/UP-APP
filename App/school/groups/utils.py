@@ -1,5 +1,5 @@
 from school import db
-from school.models import Group, Schedule
+from school.models import Group, Schedule, Subject, Teacher
 from school.relations import RelationGroupSchedule
 from school.schedule.utils import getSchedule
 import datetime
@@ -61,6 +61,10 @@ def getGroup(groupID: int, type: int) -> Group:
                     groupData = group.toDict()
                     groupData['Schedules'] = list(map(
                         lambda schedule: getSchedule(schedule), group.schedules))
+                    groupData['subject'] = getattr(
+                        Subject.query.filter_by(id=group.subject).first(), 'name')
+                    groupData['teacher'] = getattr(
+                        Teacher.query.filter_by(id=group.teacher).first(), 'name')
                 case _:
                     raise Exception(f'{color(3,"Type not found")}')
 
@@ -77,13 +81,34 @@ def getGroup(groupID: int, type: int) -> Group:
     return groupData
 
 
-# def filterGroups(filterGroup: str) -> list[dict]:
-#     '''Returns a list with the group data by passing an ID'''
-#     try:
+def filterGroups(filterParams: str) -> list[dict]:
+    '''Returns a list with the group data by passing an ID'''
+    try:
+        filterMap = {
+            'id': Group.id,
+            'subject': Group.subject,
+            'language': Group.language,
+            'dateRange': Group.creationDate
+        }
 
-#     except Exception as e:
-#         logging.error(
-#             f'{color(1,"Couldnt get groups")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
-#         groupsData = None
+        if 'all' in filterParams:
+            groups = Group.query.all()
+        else:
+            for key, value in filterParams.items():
+                if key == 'dateRange':
+                    startDate, endDate = value.split(',')
+                    query = Group.query.filter(
+                        filterMap[key].between(startDate, endDate)
+                    )
 
-#     return groupsData
+                else:
+                    query = Group.query.filter(filterMap[key] == value)
+
+            groups = query.all()
+
+    except Exception as e:
+        logging.error(
+            f'{color(1,"Couldnt get groups")} ❌: {e} {traceback.format_exc().splitlines()[-3]}')
+        groups = None
+
+    return [getGroup(group.id, 2) for group in groups] if groups else None

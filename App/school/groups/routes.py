@@ -10,13 +10,20 @@ groups = Blueprint('groups', __name__)
 @groups.route('/getGroup', methods=['GET', 'POST'])
 def getGroupDB() -> dict[str, str]:
     '''This endpoint returns a group from the database'''
+
+    jsonData = request.get_json()
+    data: list[dict[str, str]] = []
+    response: dict[str, str] = {}
+    error, code = None, None
+    keys = ['filter']
     if request.method == 'GET':
-        data: list[dict[str, str]] = []
-        response: dict[str, str] = {}
-        error, code = None, None
-        data = [getGroup(group.id, 1) for group in Group.query.all()]
-        print(data)
-        message, code = f'Group found', 1
+        if not jsonData:
+            error, code = 'Empty Request', 400
+        elif not all(key in jsonData for key in keys):
+            error, code = f'Missing key: {", ".join(key for key in keys if key not in jsonData)}', 400
+        else:
+            data = filterGroups(jsonData['filter'])
+            message, code = f'Group found', 1
     else:
         error, code = 'Invalid method', 4
 
