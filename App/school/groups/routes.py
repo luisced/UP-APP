@@ -1,7 +1,6 @@
 from school.models import Group
 from flask import Blueprint, request, jsonify, render_template, session
 from school.groups.utils import *
-import json
 
 
 groups = Blueprint('groups', __name__)
